@@ -1,0 +1,33 @@
+<!--china_ghphpt/h5Map/details/detial.wxml-->
+
+<view>
+    <view class="banner">
+        <image src="../images/banner.jpg" alt=""></image>
+    </view>
+    <view class="dcont">
+        <text>{{addressinfo.name}}</text>
+        <image bindtap="gotoMap" src="../images/gotoHere.jpg" class="dh" alt=""></image>
+    </view>
+    <view class="js">
+        <view class="tit">功能介绍</view>
+        <view class="cont">
+            <view class="box" wx:for="{{addressinfo.blss}}" wx:key="id" wx:for-item="imgItem">
+                <image class="iconsImg" src="{{imgItem.icon}}" alt=""></image>
+                <view>{{imgItem.name}}</view>
+            </view>
+        </view>
+    </view>
+
+    <view class="btn-certified">
+        <button  style="background-color: #fb4b6b;" bindtap="openDoor" type="primary" formType="submit">立即开门</button>
+    </view>
+</view>
+
+<view class="tip" wx:if="{{tipShow}}" bindtap="cloneTip">
+    <view class="tip_con">
+        <view class="tip_title {{tipClass}}"><i></i></view>
+        <view class="tip_detail">
+            <text>{{tipCon}}</text>
+        </view>
+    </view>
+</view>

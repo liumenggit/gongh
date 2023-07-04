@@ -1,0 +1,66 @@
+<!--china_ghphpt/couponList/couponList.wxml-->
+<view class="container">
+    <view class="top">
+        <picker bindchange="bindPickerChange" value="{{array[index].id}}" range="{{array}}" range-key="{{'name'}}">
+            <view class="picker">
+                {{array[index].name}}
+            </view>
+        </picker>
+        <picker bindchange="bindPickerChange1" value="{{array1[index1].id}}" range="{{array1}}" range-key="{{'name'}}">
+            <view class="picker">
+                {{array1[index1].name}}
+            </view>
+        </picker>
+    </view>
+    <view class="couponListWrap">
+        <view class="couponWrap {{coupon_item.type  == 1 ? 'changqi' : 'xianshi'}}" wx:for="{{coupon}}" wx:for-item="coupon_item" wx:key="coupon_key" data-id="{{coupon_item.id}}" bindtap="couponDetail">
+            <view class="couponLeft">
+                <view class="couponL_price" wx:if="{{coupon_item.discount!=''}}">
+                    <b>{{coupon_item.discount}}</b>
+                    <i>折</i>
+                </view>
+                <view class="couponL_price" wx:else>
+                    <i>￥</i>
+                    <b>{{coupon_item.price}}</b>
+                </view>
+            </view>
+            <view class="couponRight">
+                <view class="couponL_new" wx:if="{{coupon_item.is_new==1}}"></view>
+                <view class="couponL_type">{{coupon_item.type_title}}</view>
+                <view class="couponL_title">{{coupon_item.title}}</view>
+                <view class="couponR_time" wx:if="{{coupon_item.rec_type == 1}}">有效期：领取后{{coupon_item.days}}天内</view>
+                <view class="couponR_time" wx:else>有效期：{{coupon_item.eff_time_start}}至{{coupon_item.eff_time_end}}</view>
+                <view class="getBtn">立即领取</view>
+            </view>
+        </view>
+        <view class="couponListNo {{coupon.length  == 0 ? 'nolist' : ''}}"></view>
+    </view>
+</view>
+
+<view class="footer">
+    <view class="" bindtap="goto_index">
+        <image src="{{setting.index_img_before}}"></image>
+        <!-- <image src="{{setting.index_img_after}}"></image> -->
+        <text>首页</text>
+    </view>
+    <view class="" bindtap="goto_businessList">
+        <image src="{{setting.sell_img_before}}"></image>
+        <!-- <image src="{{setting.sell_img_after}}"></image> -->
+        <text>商户中心</text>
+    </view>
+    <view class="" bindtap="goto_PointsMall">
+        <image src="{{setting.integral_img_before}}"></image>
+        <!-- <image src="{{setting.integral_img_after}}"></image> -->
+        <text>积分商城</text>
+    </view>
+    <view class="on">
+        <!-- <image src="{{setting.card_img_before}}"></image> -->
+        <image src="{{setting.card_img_after}}"></image>
+        <text>卡券列表</text>
+    </view>
+    <view class="" bindtap="goto_mine">
+        <image src="{{setting.user_img_before}}"></image>
+        <!-- <image src="{{setting.user_img_after}}"></image> -->
+        <text>个人中心</text>
+    </view>
+</view>

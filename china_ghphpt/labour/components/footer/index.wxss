@@ -1,0 +1,11 @@
+.footer{
+    width: 100%;
+    background: #ffffff;
+    display: flex;
+}
+.footer_bar{
+    flex: 1;
+}
+.footer_text{
+    color: #101010;
+}

@@ -1,0 +1,185 @@
+<view class="container">
+    <view wx:if="{{ platform !== 'windows' }}" class="topbox" catchtouchmove="true" style="padding-top:{{statusBarHeight}}px">
+        <view class="dingwei" bindtap="location_dw">{{location_name}}</view>
+        <view class="showtc" wx:if="{{is_show_location}}">
+            <view wx:for="{{ cityList }}" wx:key="id" class="dw-item ycyc" data-id="{{ item.id }}" data-cityname="{{ item.name }}" bindtap="chooese_city">{{ item.name }}</view>
+        </view>
+    </view>
+
+    <!-- <view>高度： {{ statusBarHeight }}</view> -->
+    <!-- <view>终端： {{ platform }}</view> -->
+    <view class='indexBg'>
+        <view class="hint">
+            <i class="signIn" bindtap="signIn"></i>
+            
+            <i wx:if="{{ is_birthday}}" class="birthdayCoupon" bindtap="birthdayCoupon"></i>
+            <view class="luckDraw" wx:if="{{activity_home.acti_home_img}}">
+                <image bindtap="gotoLuck" src="{{activity_home.acti_home_img}}"></image>
+            </view>
+        </view>
+
+        <!-- 顶部轮播图 -->
+        <view class="swiperWrap">
+            <view class="xuanfu" wx:if="{{ platform == 'windows' }}">
+
+                <view class="dingwei {{is_show_location?'btlr10':'ba10' }}" bindtap="location_dw">
+                    <image src="/resource/img/Locate.png" ></image>
+                    {{location_name}}
+                    <image src="/resource/img/rigrt.png"></image>
+                </view>
+
+                <view class="showtc" wx:if="{{is_show_location}}">
+                    <view wx:for="{{ cityList }}" wx:key="id" class="dw-item ycyc" data-id="{{ item.id }}" data-cityname="{{ item.name }}" bindtap="chooese_city">{{ item.name }}</view>
+                </view>
+            </view>
+            <swiper circular="true" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+                <block>
+                    <swiper-item wx:for="{{banner_1}}" wx:for-item="banner_1_item" wx:key="index">
+                        <image src="{{banner_1_item.img}}" class="slide-image" mode="aspectFill" />
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+        <!-- 分类列表 -->
+        <view class="categoryList">
+            <view wx:for="{{seller_type}}" wx:for-item="seller_type_item" data-id="{{index}}" bindtap="businessList" wx:key="index">
+                <image src="{{seller_type_item.img}}"></image>
+                <text>{{seller_type_item.name}}</text>
+            </view>
+        </view>
+        <!-- 通知滚动 -->
+        <view class="noticeWrap">
+            <view class="notice">通知</view>
+            <swiper circular="true" indicator-dots="{{indicatorDots1}}" autoplay="{{autoplay1}}" interval="{{interval1}}" duration="{{duration1}}" vertical="{{vertical1}}">
+                <block>
+                    <swiper-item wx:for="{{notice}}" wx:for-item="notice_item" wx:key="index">
+                        <navigator url="../messageDetail/messageDetail?id={{notice_item.id}}">
+                            <view bindtap="detail" data-id="{{notice_item.id}}">{{notice_item.title}}</view>
+                        </navigator>
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+        <!-- 平台信息 -->
+        <view class="infoWrap">
+            <view class="infoTitle">平台用户数量</view>
+            <view class="infoCon">{{member_count}}人</view>
+        </view>
+        <!-- 点击数量 -->
+        <view class="number_info_wrap">
+            <view class="number_info">
+                <view class="number_info_num">{{setting.total_click}}</view>
+                <view class="number_info_text">总点击量</view>
+            </view>
+            <view class="number_info_img"></view>
+            <view class="number_info">
+                <view class="number_info_num">{{setting.today_click}}</view>
+                <view class="number_info_text">当日点击量</view>
+            </view>
+        </view>
+        <!-- 广告位 -->
+        <view class="swiperWrap swiperWrap1" wx:if="{{banner_2.length>0}}">
+            <swiper circular="true" indicator-dots="{{indicatorDots2}}" autoplay="{{autoplay2}}" interval="{{interval2}}" duration="{{duration2}}">
+                <block>
+                    <swiper-item wx:for="{{banner_2}}" wx:for-item="banner_2_item" wx:key="index">
+                        <image src="{{banner_2_item.img}}" class="slide-image" />
+                    </swiper-item>
+                </block>
+            </swiper>
+        </view>
+        <!-- 推荐卡券 -->
+        <view class="couponListWrap">
+            <view class="couponWrap {{coupon_item.type  == 1 ? 'changqi' : 'xianshi'}}" wx:for="{{coupon}}" wx:key="index" wx:for-item="coupon_item" data-id="{{coupon_item.id}}" bindtap="couponDetail">
+                <view class="couponLeft">
+                    <view class="couponL_price" wx:if="{{coupon_item.discount!=''}}">
+                        <b>{{coupon_item.discount}}</b>
+                        <i>折</i>
+                    </view>
+                    <view class="couponL_price" wx:else>
+                        <i>￥</i>
+                        <b>{{coupon_item.price}}</b>
+                    </view>
+                </view>
+                <view class="couponRight">
+                    <view class="couponL_new" wx:if="{{coupon_item.is_new==1}}"></view>
+                    <view class="couponL_type">{{coupon_item.type_title}}</view>
+                    <view class="couponL_title">{{coupon_item.title}}</view>
+                    <view class="couponR_time" wx:if="{{coupon_item.rec_type == 1}}">有效期:领取后{{coupon_item.days}}天内</view>
+                    <view class="couponR_time" wx:else>有效期:{{coupon_item.eff_time_start}}~{{coupon_item.eff_time_end}}</view>
+                    <view class="getBtn">立即领取</view>
+                </view>
+            </view>
+        </view>
+        <!-- 商家列表 -->
+        <view class="businessListWrap">
+            <view class="businessList" wx:for="{{seller}}" wx:for-item="seller_item" wx:key="index" data-id="{{seller_item.id}}" bindtap="businessDetail">
+                <image class="businessLogo" src="{{seller_item.logo}}"></image>
+                <view class="businessName">{{seller_item.title}}</view>
+                <view class="businessAddr">{{seller_item.address}}</view>
+                <view class="businessTel">{{seller_item.phone}}</view>
+                <view class="businessBtn">点击进入</view>
+            </view>
+        </view>
+        <!-- 推荐积分商品 -->
+        <view class="businessListWrapTitle" wx:if="{{goods!=''}}">积分商品推荐</view>
+        <view class="businessListWrapList" wx:if="{{goods!=''}}">
+            <scroll-view class="scroll-y" scroll-y>
+                <view class="item" data-id="{{goods_item.id}}" bindtap="detail" wx:for="{{goods}}" wx:for-item="goods_item" wx:key="picers_key">
+                    <view class="img">
+                        <!-- 2021.1.14工会小程序【修改】积分商城列表图片居中裁剪 -->
+                        <image src="{{goods_item.img}}" mode="aspectFill"></image>
+                    </view>
+                    <view class="author-info">
+                        <view class="title">{{goods_item.title}}</view>
+                        <view class="price">
+                            <!-- lzy start -->
+                            <view class="stock" wx:if="{{goods_item.stock_status == 1}}">
+                                <view class="stock_title">库存</view>
+                                <view class="stock_num">{{goods_item.stock}}</view>
+                            </view>
+                            <!-- lzy end -->
+                            <image class="jiage" src="https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/icon.png"></image>
+                            <i>{{goods_item.integral}}</i>
+                            <i wx:if="{{goods_item.goods_state =='2'}}">+</i>
+                            <i wx:if="{{goods_item.goods_state =='2'}}">￥</i>
+                            <i wx:if="{{goods_item.goods_state =='2'}}" style="color:#999">{{goods_item.goods_money}}</i>
+                        </view>
+                    </view>
+                </view>
+                <view class="sellerListNo {{goods.length  == 0 ? 'nolist' : ''}}"></view>
+            </scroll-view>
+        </view>
+        <view class="footerTip">技术支持：内蒙古赤那网络科技有限公司</view>
+    </view>
+
+
+</view>
+
+
+<view class="footer">
+    <view class="on">
+        <!-- <image src="{{setting.index_img_before}}"></image> -->
+        <image src="{{setting.index_img_after}}"></image>
+        <text>首页</text>
+    </view>
+    <view class="" bindtap="goto_businessList">
+        <image src="{{setting.sell_img_before}}"></image>
+        <!-- <image src="{{setting.sell_img_after}}"></image> -->
+        <text>商户中心</text>
+    </view>
+    <view class="" bindtap="goto_PointsMall">
+        <image src="{{setting.integral_img_before}}"></image>
+        <!-- <image src="{{setting.integral_img_after}}"></image> -->
+        <text>积分商城</text>
+    </view>
+    <view class="" bindtap="goto_couponList">
+        <image src="{{setting.card_img_before}}"></image>
+        <!-- <image src="{{setting.card_img_after}}"></image> -->
+        <text>卡券列表</text>
+    </view>
+    <view class="" bindtap="goto_mine">
+        <image src="{{setting.user_img_before}}"></image>
+        <!-- <image src="{{setting.user_img_after}}"></image> -->
+        <text>个人中心</text>
+    </view>
+</view>

@@ -1,0 +1,118 @@
+{
+    "projectname": "ghphpt-master",
+    "setting": {
+        "compileHotReLoad": true
+    },
+    "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html",
+    "condition": {
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "china_ghphpt/businessDetail/businessDetail",
+                    "pathName": "china_ghphpt/businessDetail/businessDetail",
+                    "query": "id=33",
+                    "scene": null
+                },
+                {
+                    "name": "缴费",
+                    "pathName": "china_ghphpt/PaymentDetails/PaymentDetails",
+                    "query": "id=33&scene=123123",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "生日券",
+                    "pathName": "china_ghphpt/BirthdayCoupon/BirthdayCoupon",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "首页",
+                    "pathName": "china_ghphpt/index/index",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "个人中心",
+                    "pathName": "china_ghphpt/mine/mine",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "生日券列表",
+                    "pathName": "china_ghphpt/BirthdayList/BirthdayList",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "我的卡包",
+                    "pathName": "china_ghphpt/mineCouponList/mineCouponList",
+                    "query": "type=1",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "测试",
+                    "pathName": "china_ghphpt/useCoupon/useCoupon",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "卡券详情",
+                    "pathName": "china_ghphpt/couponDetail/couponDetail",
+                    "query": "id=288",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "积分商城",
+                    "pathName": "china_ghphpt/PointsMall/PointsMall",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "卡券列表",
+                    "pathName": "china_ghphpt/couponList/couponList",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "地图测试",
+                    "pathName": "china_ghphpt/h5Map/map",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "地图认证",
+                    "pathName": "china_ghphpt/h5Map/certified/certified",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "我的卡包",
+                    "pathName": "china_ghphpt/mineCouponList/mineCouponList",
+                    "query": "type=2",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "",
+                    "pathName": "china_ghphpt/couponDetail/couponDetail",
+                    "query": "id=1944",
+                    "launchMode": "default",
+                    "scene": null
+                }
+            ]
+        }
+    },
+    "libVersion": "2.29.2"
+}

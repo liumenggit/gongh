@@ -1,0 +1,18 @@
+<!--china_ghphpt/article/articleDetail.wxml-->
+<view class="contentBody">
+<view class="title">
+  <view class="title_text">{{results.title}}
+  </view>
+  <view class="source_from"> 来源：{{results.source}}</view>
+  <view class="source_time"> {{results.add_time}}</view>
+</view>
+
+<view class="box">
+ <image wx:if="{{results.share_img}}" src="{{results.share_img}}" data-src="{{results.share_img}}" bindtap="previewImage"></image>
+</view>
+<view class="detailes">
+ <rich-text nodes=" {{results.content}}"></rich-text>
+</view>
+
+</view>
+

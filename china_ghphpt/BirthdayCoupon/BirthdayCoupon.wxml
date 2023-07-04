@@ -1,0 +1,36 @@
+<wxs module="datec">
+    var date = function (date) {
+        var d = getDate(date);
+        // return d.toLocaleDateString();
+        return d.getFullYear() + "年" + (d.getUTCMonth() + 1) + "月" + (d.getUTCDate()) + "日";
+    }
+    module.exports = { date: date, }
+</wxs>
+<image class="fei" src="/resource/img/birthdayballoons.png" mode="scaleToFill"  ></image>
+<view class="container">
+    <view class="cont1 cbg">
+        <view class="cont1_top">
+            <view class="usertx">
+                <image src="{{ member.avatar }}" class="usertx_img">
+                </image>
+            </view>
+            <view class="huangguan">
+                <image src="https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/hg.png" class="huangguan_img">
+                </image>
+            </view>
+        </view>
+        <view class="cont1_mid">
+            <view class="line1">{{ member.name }}：</view>
+            <view class="line1 indent">您好!</view>
+            <view class="line1 indent">
+                <text class="t-red">公历{{ datec.date(member.birthday) }}</text>是您的生日。
+            </view>
+            <view class="line1 indent">祝您生日快乐，幸福安康！</view>
+        </view>
+        <view class="cont1_foot">
+            <image src="https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/cake.png" class="cake_img"></image>
+            <text class="">伊敏煤电公司工会</text>
+        </view>
+    </view>
+    <view class="cont2 cbg" bindtap="getBirthdayCoupon">领取生日券</view>
+</view>

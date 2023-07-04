@@ -1,0 +1,13 @@
+<!--china_ghphpt/clerkList/clerkList.wxml-->
+<view class="container">
+    <navigator url="../clerkAdd/clerkAdd">
+        <view class="addBtn">添加店员</view>
+    </navigator>
+    <view class="clerkList">
+        <view class="clerkWrap" wx:for="{{sell_user}}" wx:for-item="sell_user_item">
+            <view>{{sell_user_item.name}}</view>
+            <view>{{sell_user_item.phone}}</view>
+            <view class="delBtn" data-id="{{sell_user_item.id}}" bindtap="delBtn">删除</view>
+        </view>
+    </view>
+</view>

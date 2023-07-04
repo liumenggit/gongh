@@ -1,0 +1,45 @@
+<!--china_ghphpt/writeOff/writeOff.wxml-->
+<view class="container">
+    <view class="top">
+        <picker mode="date" value="{{date}}" start="2000-01-01" end="{{date2}}" bindchange="bindDateChange">
+            <view class="picker">
+                {{date}}
+            </view>
+        </picker>
+        <picker mode="date" value="{{date2}}" start="{{date}}" end="{{dateNow}}" bindchange="bindDateChange2">
+            <view class="picker">
+                {{date2}}
+            </view>
+        </picker>
+        <picker bindchange="bindPickerChange" value="{{array[index].id}}" range="{{array}}" range-key="{{'name'}}">
+            <view class="picker">
+                {{array[index].name}}
+            </view>
+        </picker>
+        <view class="searchBtn" bindtap="search">搜索</view>
+    </view>
+    <view class="info">
+        <view class="left">共计优惠
+            <b>{{coupon_record_count}}</b>单</view>
+        <view class="right">优惠总金额
+            <b>{{coupon_record_sum}}</b>元</view>
+    </view>
+    <view class="list">
+        <view class="wrap  {{coupon_record_item.type  == 1 ? 'changqi' : 'xianshi'}}" wx:for="{{coupon_record}}" wx:for-item="coupon_record_item">
+            <view class="couponLeft">
+                <view>{{coupon_record_item.serial_number}}</view>
+                <view>{{coupon_record_item.coupon_name}}</view>
+                <view wx:if="{{coupon_record_item.type == 1}}">长期优惠券</view>
+                <view wx:if="{{coupon_record_item.type == 2}}">限时折扣券</view>
+                <view class="time">{{coupon_record_item.add_time}}</view>
+                <view class="writeoff_name">核销人：{{coupon_record_item.writeoff_name}}</view>
+            </view>
+            <view class="couponRight couponL_price">
+                <i>￥</i>
+                <b>{{coupon_record_item.money}}</b>
+            </view>
+        </view>
+        <view class="listNo {{coupon_record.length  == 0 ? 'nolist' : ''}}"></view>
+    </view>
+
+</view>

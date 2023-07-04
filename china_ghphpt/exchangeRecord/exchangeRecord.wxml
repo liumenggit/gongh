@@ -1,0 +1,21 @@
+<view class="container">
+    <view class="list">
+        <view class="wrap changqi " wx:for="{{coupon_record}}" wx:for-item="coupon_record_item"
+            wx:key="coupon_record_key">
+            <view class="couponLeft">
+                <view>{{coupon_record_item.coupon_number}}</view>
+                <view>{{coupon_record_item.coupon_name}}</view>
+                <view class="time">核销时间：{{coupon_record_item.add_time}}</view>
+                <view class="writeoff_name">
+                    兑换人：{{coupon_record_item.writeoff_name}}
+                </view>
+            </view>
+            <view class="couponRight couponL_price" wx:if="{{coupon_record_item.money}}">
+                <i>￥</i>
+                <b>{{coupon_record_item.money}}</b>
+            </view>
+        </view>
+        <view wx:if="{{nomore == 1}}" class="nomore">没有更多了</view>
+        <view class="listNo {{coupon_record.length  == 0 ? 'nolist' : ''}}"></view>
+    </view>
+</view>

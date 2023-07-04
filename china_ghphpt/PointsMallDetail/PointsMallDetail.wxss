@@ -1,0 +1,183 @@
+/* china_ghphpt/PointsMallDetail/PointsMallDetail.wxss */
+
+.container {
+  margin: 0px auto;
+  background: #fff;
+  width: 100%;
+}
+
+.top .lunbo {
+  height: 300rpx;
+  margin: 30rpx 40rpx;
+}
+
+.top .lunbo image {
+  border-radius: 20rpx;
+}
+
+.icon {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.contertitle {
+  padding: 20rpx 0rpx;
+  border-bottom: 1px solid #f2f2f2;
+  /* height: 120rpx; */
+  overflow: hidden;
+}
+
+.titleleft {
+  float: left;
+  border-right: 1px solid #f2f2f2;
+  padding: 0px 10rpx 0rpx 40rpx;
+  width: 30%;
+}
+
+.titleleft images {
+  width: 24rpx;
+  height: 24rpx;
+}
+
+.titleleft view {
+  /* dislpay: table; */
+  color: red;
+  width: 260px;
+  overflow: hidden;
+}
+
+.titleleft i {
+  font-size: 28rpx;
+}
+
+
+.price {
+  text-decoration: line-through;
+  color: #999 !important;
+  font-size: 24rpx;
+  margin-top: 20rpx;
+}
+.titleleft .price_i{
+  font-size: 24rpx;
+}
+
+.titleright {
+  width: 41%;
+  float: left;
+  padding: 0px 20rpx;
+}
+
+.title {
+  font-size: 30rpx;
+  overflow: hidden;
+  color: #666;
+  height: 40rpx;
+}
+
+.description {
+  color: #666;
+  font-size: 24rpx;
+  margin-top: 10rpx;
+  overflow: hidden;
+  height: 60rpx;
+}
+
+.getBtn {
+  border-bottom: 1px solid #f2f2f2;
+  padding: 0px 40rpx;
+}
+
+.getBtn view {
+  background: #ff6b5f;
+  border-radius: 20rpx;
+  height: 84rpx;
+  line-height: 84rpx;
+  color: #fff;
+  width: 100%;
+  font-size: 26rpx;
+  margin: 20rpx auto;
+  text-align: center;
+}
+
+.getdate {
+  display: table;
+  border-bottom: 1px solid #f2f2f2;
+  padding: 20rpx;
+}
+
+.cont {
+  background: #fff;
+  width: 635rpx;
+  margin: 0rpx 0rpx 0rpx 50rpx;
+  border-radius: 20rpx;
+  position: relative;
+  padding: 6rpx;
+  font-size: 24rpx;
+}
+
+.btntitle {
+  color: #fb4b6b;
+  height: 40rpx;
+  line-height: 40rpx;
+}
+
+.cont::before {
+  content: " ";
+  width: 15rpx;
+  height: 15rpx;
+  border-radius: 15rpx;
+  position: absolute;
+  left: -30rpx;
+  top: 20rpx;
+  background: #f95863;
+}
+
+.sh {
+  border-bottom: 1px solid #f2f2f2;
+  padding: 20rpx 0px;
+  font-size: 30rpx;
+  overflow: hidden;
+  /* margin: 20rpx auto; */
+  color: #666;
+  text-align: center;
+}
+.pink{
+  color:#ff6b5f;
+}
+.getContent {
+  padding-bottom: 120rpx;
+}
+
+.content {
+  display: block;
+  word-break: break-all;
+  width: 680rpx;
+  margin: 0 auto;
+}
+
+.content image {
+  max-width: 100%;
+}
+/* lzy */
+.stock{
+  height:70rpx;
+  line-height:70rpx;
+  text-align:center;
+  color:#fb4b6b;
+  font-size: 30rpx;
+}
+/* .stock{
+  float: left;
+  padding-left: 20rpx;
+} */
+.stock_title{
+  float: right;
+  color: #666666
+}
+.stock_num{
+  float: right;
+  margin-left: 10rpx;
+}
+.modalcntNOstart{
+  
+}

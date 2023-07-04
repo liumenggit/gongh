@@ -1,0 +1,248 @@
+/**app.wxss**/
+page {
+    --imgurl:https://wx.shuidiwang.cn;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    background: #f9f9f9;
+    /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box; */
+}
+
+image {
+    width: 100%;
+    height: 100%;
+}
+
+.fll {
+    float: left;
+}
+
+.flr {
+    float: right;
+}
+
+/* 头部进度条 */
+
+.progressWrap {
+    width: 590rpx;
+    font-size: 26rpx;
+    margin: 20rpx auto;
+    display: block;
+    overflow: hidden;
+}
+
+.progressWrap view {
+    width: 120rpx;
+    height: 120rpx;
+    text-align: center;
+    line-height: 120rpx;
+    float: left;
+    color: #666;
+    border: 4rpx solid #666;
+    border-radius: 100rpx;
+    position: relative;
+    margin-right: 102rpx;
+}
+
+.progressWrap view:last-child {
+    margin-right: 0rpx;
+}
+
+.progressWrap view.on {
+    border: 4rpx solid #095ed4;
+    background: #095ed4;
+    color: #fff;
+}
+
+.progressWrap view::after {
+    content: " ";
+    width: 90rpx;
+    height: 6rpx;
+    background: #ccc;
+    position: absolute;
+    top: 60rpx;
+    left: 130rpx;
+}
+
+.progressWrap view.on::after {
+    background: #095ed4;
+}
+
+.progressWrap view:last-child::after {
+    width: 0rpx;
+}
+
+/* 表单 */
+
+.formWrap {
+    width: 700rpx;
+    margin: 0 auto;
+}
+
+.section {
+    width: 100%;
+    clear: both;
+    position: relative;
+    height: auto;
+    overflow: hidden;
+}
+
+.section_title {
+    width: 200rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 30rpx;
+    float: left;
+}
+
+.section_com {
+    width: 500rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 30rpx;
+    float: right;
+    color: #666;
+}
+
+.section input,
+.section picker {
+    width: 500rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 30rpx;
+    float: right;
+}
+
+.imgList {
+    /* 图片层 */
+    width: 100%;
+    overflow: hidden;
+}
+
+.imgWrap {
+    width: 300rpx;
+    height: 200rpx;
+    position: relative;
+    margin: 40rpx 0;
+    float: left;
+}
+
+.imgWrap:nth-child(2n) {
+    margin-left: 70rpx;
+}
+
+.choiseImg {
+    /* 上传图片按钮 */
+    padding: 5rpx 20rpx;
+    border: 2rpx solid #c00;
+    color: #c00;
+    border-radius: 30rpx;
+    float: left;
+    margin: 13rpx 10rpx 13rpx 0;
+}
+
+.removeBtn {
+    display: block;
+    width: 40rpx;
+    height: 40rpx;
+    position: absolute;
+    top: -20rpx;
+    right: -20rpx;
+    background: #ccc;
+    z-index: 2;
+    border-radius: 100rpx;
+    text-align: center;
+    line-height: 35rpx;
+}
+
+.btn-area {
+    margin: 20rpx auto 0;
+}
+
+.submitBtn {
+    width: 700rpx !important;
+    height: 80rpx;
+    background: #c00;
+    color: #fff;
+    margin-bottom: 40rpx;
+}
+
+/* 轮播图指示点样式 */
+
+.swiperWrap .wx-swiper-dots.wx-swiper-dots-horizontal {
+    margin-bottom: 2rpx;
+}
+
+.swiperWrap .wx-swiper-dot {
+    width: 10rpx;
+    display: inline-flex;
+    height: 10rpx;
+    margin-left: 4rpx;
+    justify-content: space-between;
+}
+
+.swiperWrap .wx-swiper-dot::before {
+    content: '';
+    flex-grow: 1;
+    background: #fff;
+    border-radius: 20rpx;
+}
+
+.swiperWrap .wx-swiper-dot-active {
+    width: 20rpx;
+}
+
+.swiperWrap .wx-swiper-dot-active::before {
+    background: #fb4b6b;
+    border-radius: 20rpx;
+}
+
+/* 底部导航 */
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 120rpx;
+    background: #fff;
+    font-size: 36rpx;
+    text-align: center;
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.footer view {
+    width: 20%;
+    height: 120rpx;
+}
+
+.footer image {
+    width: 50rpx;
+    height: 50rpx;
+    margin: 15rpx auto 0;
+}
+
+.footer text {
+    width: 100%;
+    height: 40rpx;
+    line-height: 40rpx;
+    font-size: 24rpx;
+    text-align: center;
+    float: left;
+    color: #989898;
+}
+
+.footer .on text {
+    color: #fb4b6b;
+}

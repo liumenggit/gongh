@@ -1,0 +1,157 @@
+/* china_ghphpt/luckDraw/luckDraw.wxss */
+page{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  /* background: #060606; */
+
+}
+.conentBody{
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  
+}
+#luckdraw_box{ 
+  width:620rpx;
+   height:620rpx; 
+   margin:0 auto;
+   position:relative; 
+   position: absolute;
+    top: 14%;
+    left: 50%;
+    margin-left: -310rpx;
+}
+
+#luckdraw_back{
+  width: 100%;
+  height: 100%;
+
+}   
+
+#luckdraw_back image{
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin:center center;
+}
+
+#luckdraw_pointer{ 
+    width:220rpx;
+    height:220rpx;
+    position:absolute;
+    left:50%;
+    top:190rpx;
+    margin-left: -110rpx;
+}
+
+#luckdraw_pointer image{
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+
+.luckMarker{
+ width: 100%;
+ height: 100%;
+ background: #333;
+ opacity: 0.4;
+ position: absolute;
+ left: 0;
+ top: 0;
+}
+.luckModel{
+  width: 600rpx;
+  height: 300rpx;
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  margin-left: -300rpx;
+}
+.luckModelBg{
+   width: 100%;
+   height: 100%;
+   position: absolute;
+   left: 0;
+   top: 0;
+   background-size: 100% 100%;
+}
+.luckModel_title{
+  color: #fff;
+  font-weight: 900;
+  text-align: center;
+  height: 60rpx;
+  line-height: 60rpx;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 25rpx;
+}
+.luckResult{
+  width: 527rpx;
+  /* height: 50rpx; */
+  line-height: 50rpx;
+  position: absolute;
+  left: 46rpx;
+  top: 150rpx;
+  font-size: 28rpx;
+  padding:0 30rpx 100rpx 30rpx;
+  border-radius: 20rpx;
+  background: #fff;
+  text-align: center;
+  box-sizing: border-box;
+}
+.sureBtn{
+  width: 100rpx;
+  text-align: center;
+  padding: 10rpx 20rpx;
+  position: absolute;
+  bottom: 20rpx;
+  left: 50%;
+  border-radius: 10rpx;
+  margin-left:-70rpx;
+  background: #fb4b6b;
+  color: #fff;
+}
+.text_box{
+  width: 400rpx;
+  height: 60rpx;
+  position: absolute;
+  left: 50%;
+  margin-left: -200rpx;
+  bottom: 280rpx;
+}
+.text_box_body{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.text_box_body{
+  float: left;
+  color: #f01;
+  overflow: hidden;
+  font-size: 28rpx;
+  line-height: 60rpx;
+}
+.text_list{
+  float: left;
+  width: 50%;
+}
+.text_right{
+text-align: right
+}
+.text_left{
+  text-align: left;
+  padding-left: 20rpx;
+  box-sizing: border-box;
+}
+.floatL{
+  float: left;
+  color: #666
+}
+.luckeyText{
+  width: 100%;
+  color: #fb4b6b;
+}

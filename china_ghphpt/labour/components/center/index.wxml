@@ -1,0 +1,57 @@
+<view class="container">
+    <image class="detial_bg" src="../../images/bg.png" alt=""/> 
+    <view class="content">
+        <view class="list" bindtap="gotoRerfect" data-id="{{listData.id}}">
+            <view class="list_header">
+                我的简历
+                <text class="list_time" wx:if="{{listData.update_time}}">更新时间：{{listData.update_time}}</text>
+            </view>
+        <view class="{{listData?'':'noData'}}">
+
+            <view class="list_message" wx:if="{{listData}}">
+                <view class="list_name">
+                    <text  class="list_name_text">{{listData.name}}</text>
+                    <text class="lsit_phone">{{listData.phone}}</text>
+                </view>
+            </view>
+            <view class="clear " wx:if="{{listData}}">
+                <text class="list_postion_text">{{listData.address_title}}</text>
+            </view>
+            <view class="clear">
+                <text class="wokeType">{{listData.desc}}</text>
+             
+            </view>
+            </view>
+              <view  class="wokeType_icon">
+                <image src="../../images/bianji.png"></image>
+              </view>
+        </view>
+        <view class="list marginTop">
+            <view class="list_header">
+                功能模块
+            </view>
+            <view class="gnBox">
+                <view class="gn_list" bindtap="gotoReadySend">
+                    <image src="../../images/gn-1.png"></image>
+                    <text class="gn_list_text">已投</text>
+                </view>
+                <view class="gn_list"  bindtap="gotoEnterprise">
+                    <image src="../../images/gn-2.png"></image>
+                    <text class="gn_list_text">企业认证</text>
+
+                </view>
+                <view   class="gn_list" bindtap="gotoReleses">
+                    <image src="../../images/gn-3.png"></image>
+                    <text class="gn_list_text">发布岗位</text>
+
+                </view>
+                <view   class="gn_list" bindtap="gotoReady">
+                    <image src="../../images/gn-4.png"></image>
+                    <text class="gn_list_text">已发布岗位   </text>
+
+                </view>
+            </view>
+        </view>
+        <footer></footer>
+    </view>
+</view>

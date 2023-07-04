@@ -1,0 +1,72 @@
+<view class="container">
+    <image class="detial_bg" src="../../images/bg.png" alt=""/> 
+    <view class="content">
+            <view class="list">
+                <view class="list_header">
+                    发布岗位
+                 </view>
+                 <view class="column">
+                  <view class="column_key">岗位名称</view>
+                  <input  class="column_val" bindchange="getTitle" type="text" placeholder="请输入岗位名称" value=""/>
+                 </view>
+    
+                  <view class="column">
+                  <view class="column_key">工作经验</view>
+                  <input  class="column_val" bindchange="getexperience" type="text" placeholder="请输入工作经验" value=""/>
+                 </view>
+                      <!-- <view class="column">
+                    <view class="column_key">个人电话</view>
+                    <input  class="column_val" bindchange="getPhone" type="text" placeholder="请输入电话" value=""/>
+                 </view> -->
+                 <view class="column">
+                    <view class="column_key">工作地点</view>
+                    <picker class="briPicker" bindchange="chosecity" value="{{adressIndex}}" range="{{adressArr}}">
+                      <view class="picker">
+                      {{adressArr[adressIndex]}}
+                      </view>
+                  </picker>
+                 </view>
+                 <view class="column">
+                    <view class="column_key">所属行业</view>
+                    <picker class="briPicker" bindchange="choseHy" value="{{hyIndex}}" range="{{hyarr}}">
+                      <view class="picker">
+                      {{hyarr[hyIndex]}}
+                      </view>
+                  </picker>
+                 </view>
+                 <view class="column">
+                    <view class="column_key">招聘人数</view>
+                       <input  class="column_val" bindchange="getNums" type="text" placeholder="请输入招聘人数" value=""/>
+                 </view>
+                 <view class="column">
+                    <view class="column_key">限制性别</view>
+                     <picker class="briPicker" bindchange="choseSex" value="{{sexIndex}}" range="{{sexArr}}">
+                      <view class="picker">
+                      {{sexArr[sexIndex]}}
+                      </view>
+                  </picker>
+                 </view>
+                 <view class="column">
+                    <view class="column_key">最低学历</view>
+                    <picker class="briPicker" bindchange="choseEdu" value="{{eduIndex}}" range="{{eduArr}}">
+                      <view class="picker">
+                      {{eduArr[eduIndex]}}
+                      </view>
+                  </picker>
+                 </view>
+                    <view class="column">
+                    <view class="column_key">待遇</view>
+                   <picker class="briPicker" bindchange="chosetreatment" value="{{treatmentIndex}}" range="{{treatment}}">
+                      <view class="picker">
+                      {{treatment[treatmentIndex]}}
+                      </view>
+                  </picker>
+                 </view>
+                 <view class="describe">
+                    <view class="describeTxt">岗位描述</view>
+                    <textarea bindinput="getDesc"  class="describe_input" name="remark" placeholder="请输入" auto-focus="true" />
+                 </view>
+            </view>
+            <view class="sendBtn" bindtap="sendFrom" >发布岗位</view>
+    </view>
+</view>

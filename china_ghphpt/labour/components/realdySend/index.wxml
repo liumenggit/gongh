@@ -1,0 +1,28 @@
+<view class="container {{listData.length>=1?'':'noData'}}" >
+    <view class="list" wx:for="{{listData}}" data-id="{{item.post_info.id}}"  bindtap="gotoDetial">
+                <view class="clear_">
+                    <view class="list_title">{{item.post_info.title}}</view>
+                    <view class="list_money">{{item.post_info.treatment_title}}</view>
+                </view>
+                <view class="clear_">
+                   <view class="list_ruls">
+                        <view class="ruls_list">{{item.post_info.address_title}}</view>
+                        <view class="line"></view>
+                    </view>
+                      <view class="list_ruls">
+                        <view class="ruls_list">{{item.post_info.experience_title}}</view>
+                        <view class="lin  e"></view>
+                    </view>
+                      <view class="list_ruls">
+                        <view class="ruls_list">{{item.post_info.edu_title}}</view>
+                        <view class="line"></view>
+                    </view>
+                </view>
+                <view class="list_from clear_">
+                    <image class="list_from_img" src="../../images/fromLogo.jpg"></image>
+                    <view class="list_from_text">{{item.business_info.title}}</view>
+                    <!-- <view class="repectBtn" bindtap="remove_list" data-id="{{item.id}}">撤销</view> -->
+                </view>
+            </view>
+            <footer></footer>
+</view>

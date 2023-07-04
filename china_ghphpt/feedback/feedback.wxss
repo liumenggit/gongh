@@ -1,0 +1,55 @@
+/* china_ghphpt/feedback/feedback.wxss */
+
+.container {
+    background: #f2f2f2;
+    overflow: hidden;
+}
+
+picker {
+    width: 90%;
+    margin: 20rpx auto;
+    padding: 0 2%;
+    height: 60rpx;
+    line-height: 60rpx;
+    font-size: 24rpx;
+    background: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/select.png') no-repeat;
+    background-size: 100% auto;
+}
+
+.textarea-bg {
+    background-color: #fff;
+    width: 90%;
+    margin: 20rpx auto;
+    padding: 2%;
+    border-radius: 20rpx;
+    font-size: 24rpx;
+    color: #989898;
+    height: 400rpx;
+}
+
+.tip {
+    color: #989898;
+    width: 94%;
+    margin: 10rpx auto;
+    text-align: right;
+    display: block;
+}
+
+.word {
+    position: absolute;
+    bottom: 30rpx;
+    right: 30rpx;
+}
+
+.btn{
+    width: 94%;
+    margin: 50rpx 3%;
+    line-height: 100rpx;
+    height: 100rpx;
+    font-size: 34rpx;
+    text-align: center;
+    color: #fff;
+    background: linear-gradient(70deg, #ff6c5f, #fb4b6b);
+    border-radius: 10rpx;
+    padding: 0;
+}

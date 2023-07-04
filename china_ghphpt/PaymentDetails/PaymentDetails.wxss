@@ -1,0 +1,69 @@
+.bg{
+    background: #f9f9f9 url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/signInBg.jpg') no-repeat;
+    background-size: 100% auto;
+}
+.top{
+    width:100%;display:flex;justify-content: space-between;align-items: center;
+}
+.top_left{
+    padding:20rpx;height:50rpx;display:flex;justify-content: flex-start;align-items: center;
+}
+.top_left_avatar{
+    width:50rpx;height:50rpx;border-radius:50%;vertical-align:middle
+}
+.top_left_name{
+    font-size:28rpx;color:#fff;margin-left:20rpx;
+}
+.top_right{
+    padding:20rpx;
+}
+.top_right_text{
+    background:#fff;color:#f30;font-size:24rpx;padding:6rpx 20rpx;border-radius:30rpx;
+}
+.mid{
+    padding:30rpx;display:flex;justify-content: center;align-items: center;flex-direction: column;
+}
+.mid_one{
+    color:yellow;font-size:40rpx;font-weight:bold;line-height:80rpx;
+}
+.mid_two{   
+    color:#fff;font-size:24rpx;margin-bottom:20rpx;
+}
+.mid_three{
+    width:280rpx;height:70rpx;line-height:70rpx;text-align:center;font-size:30rpx;color:#fff;
+    background:linear-gradient(90deg,#ff8071,#ff6157);border-radius:10rpx;
+    margin-top:30rpx;margin-bottom:30rpx;
+}
+.mid1, .mid2{
+    margin:30rpx;
+}
+.mid1_top{
+    height:80rpx;line-height:80rpx;text-align:center;background:#fae1e3;font-size:28rpx;color:#222;
+    border-top-left-radius: 10rpx;border-top-right-radius: 10rpx;
+}
+.mid1_center{
+    background:#fff;display:flex;justify-content: space-between;padding:60rpx;
+    font-size:28rpx;color:#222;border-bottom-left-radius: 10rpx;border-bottom-right-radius: 10rpx;
+}
+.mid1_c_left{
+    width:50%;
+}
+.t-red{
+    color:#f30;
+}
+.mr05{
+    margin-right:10rpx;
+}
+.cbg{
+    box-shadow: 0 2rpx 4rpx 2rpx rgba(0,0,0,0.05);
+}
+.mid2_top{
+    height:80rpx;line-height:80rpx;text-align:center;background:#fae1e3;font-size:28rpx;color:#222;
+    border-top-left-radius: 10rpx;border-top-right-radius: 10rpx;
+}
+.mid2{background:#fff url(https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/roleAfter.png) no-repeat;
+    background-size:100% auto;background-position:center bottom;padding-bottom:100rpx;background-position-y: 320rpx;}
+.mid2_center{
+    padding:20rpx;height:200rpx;overflow-y: scroll;
+    font-size:28rpx;color:#222;
+}

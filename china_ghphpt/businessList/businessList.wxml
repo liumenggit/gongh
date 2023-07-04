@@ -1,0 +1,64 @@
+<!--china_ghphpt/businessList/businessList.wxml-->
+<view class="container">
+    <!-- 定位信息 -->
+    <view class="adressWrap" bindtap="getUserLocation">{{address}}</view>
+    <!-- 搜索框 -->
+    <view class="searchWrap">
+        <view class="searchInput">
+            <input placeholder="搜索品质好店" placeholder-class="input_placeholder" bindinput="bindKeyInput" value="{{searchContent}}"></input>
+        </view>
+        <view class="searchBtn" bindtap="search">搜索</view>
+    </view>
+    <!-- 选项卡 -->
+    <view class="swiper-tab">
+        <swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" vertical="{{vertical}}" display-multiple-items="{{seller_type.length}}">
+            <block>
+                <swiper-item wx:for="{{seller_type}}" wx:for-item="seller_type_item" wx:key="seller_type_key" wx:for-index="seller_type_index" data-current="{{seller_type_index}}" catchtap="clickTab" class='{{curIdx == seller_type_index ? "active" : ""}}'>
+                    <view data-id="{{seller_type_item.id}}">{{seller_type_item.name}}</view>
+                </swiper-item>
+            </block>
+        </swiper>
+    </view>
+    <!-- 选项卡内容 -->
+    <view class="businessListWrap">
+        <scroll-view class="scroll-y" scroll-y style='height:{{scrollHeight}}px' bindscrolltolower="onReachBottom">
+            <view class="businessList" data-id="{{seller_item.id}}" wx:for="{{seller}}" wx:for-item="seller_item" wx:key="index" bindtap="detail">
+                <image class="businessLogo" src="{{seller_item.logo}}"></image>
+                <view class="businessName">{{seller_item.title}}</view>
+                <view class="businessAddr">{{seller_item.address}}</view>
+                <view class="businessTel">{{seller_item.phone}}</view>
+                <view class="businessRange">距您：{{seller_item.range}}千米</view>
+                <view class="businessBtn">点击进入</view>
+            </view>
+            <view class="sellerListNo {{seller.length  == 0 ? 'nolist' : ''}}"></view>
+        </scroll-view>
+    </view>
+</view>
+
+<view class="footer">
+    <view class="" bindtap="goto_index">
+        <image src="{{setting.index_img_before}}"></image>
+        <!-- <image src="{{setting.index_img_after}}"></image> -->
+        <text>首页</text>
+    </view>
+    <view class="on">
+        <!-- <image src="{{setting.sell_img_before}}"></image> -->
+        <image src="{{setting.sell_img_after}}"></image>
+        <text>商户中心</text>
+    </view>
+	<view class="" bindtap="goto_PointsMall">
+		<image src="{{setting.integral_img_before}}"></image>
+		<!-- <image src="{{setting.integral_img_after}}"></image> -->
+		<text>积分商城</text>
+	</view>
+    <view class="" bindtap="goto_couponList">
+        <image src="{{setting.card_img_before}}"></image>
+        <!-- <image src="{{setting.card_img_after}}"></image> -->
+        <text>卡券列表</text>
+    </view>
+    <view class="" bindtap="goto_mine">
+        <image src="{{setting.user_img_before}}"></image>
+        <!-- <image src="{{setting.user_img_after}}"></image> -->
+        <text>个人中心</text>
+    </view>
+</view>

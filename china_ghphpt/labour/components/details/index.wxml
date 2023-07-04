@@ -1,0 +1,84 @@
+<view class="detial_box">
+    <image class="detial_bg" src="../../images/bg.png" alt=""/> 
+    <view class="container_detial">
+    <view class="detial_top">
+        <view class="list">
+                <view class="clear_">
+                    <view class="list_title">{{laodData.title}}</view>
+                    <view class="list_money">{{laodData.treatment_title}}</view>
+                </view>
+                <view class="clear_">
+                    <view class="list_ruls">
+                        <image src="../../images/DW.png" ></image>
+                        <view class="ruls_list">{{laodData.address_title}}</view>
+                    </view>
+                      <view class="list_ruls">
+                        <view class="ruls_list">{{laodData.experience_title}}</view>
+                        <view class="line"></view>
+                    </view>
+                      <view class="list_ruls">
+                        <view class="ruls_list">{{laodData.edu_title}}</view>
+                        <view class="line"></view>
+                    </view>
+                </view>
+                <view class="list_from clear_">
+                    <view class="list_detial_status">更新:{{laodData.update_time}}</view>
+                    <view class="list_detial_status">浏览:{{laodData.visit_times}}</view>
+                    <view class="list_detial_status">投递:{{laodData.post_times}}</view>
+                </view>
+                <view class="line_"></view>
+                <view class="clear_">
+                    <view class="list_title">职位详情</view>
+                </view>
+                <view class="requirement"> 
+                    <text class="requirement_list">招{{laodData.nums}}人</text>
+                    <text class="requirement_list" wx:if="{{laodData.sex == 1}}">限男性</text>
+                    <text class="requirement_list" wx:if="{{laodData.sex == 2}}" >限女性</text>
+                    <text class="requirement_list" wx:if="{{laodData.sex == 3}}">不限性别</text>
+
+                </view>
+                <view class="jd_text">
+                      <rich-text nodes="{{desc}}"></rich-text>
+                </view>
+        </view>
+            <view class="tjTitle">
+            推荐岗位
+            </view>   
+            <view wx:for="{{laodData.tj}}" wx:for-item="items">
+            <view class="list" data-id="{{items.id}}"  bindtap="updateDetials">
+                <view class="clear_">
+                    <view class="list_title">{{items.title}}</view>
+                    <view class="list_money">{{items.treatment_title}}</view>
+                </view>
+                 <view class="clear_">
+                    <view class="list_ruls">
+                        <image src="../../images/DW.png" ></image>
+                        <view class="ruls_list">{{items.address_title}}</view>
+                    </view>
+                      <view class="list_ruls">
+                        <view class="ruls_list">{{items.experience_title}}</view>
+                        <view class="line"></view>
+                    </view>
+                      <view class="list_ruls">
+                        <view class="ruls_list">{{items.edu_title}}</view>
+                        <view class="line"></view>
+                    </view>
+                </view>
+                <view class="list_from clear_">
+                    <image class="list_from_img" src="../../images/fromLogo.jpg"></image>
+                    <view class="list_from_text">{{items.business_title}}</view>
+                    <!-- <view class="list_from_status">置顶</view> -->
+                </view>
+            </view>
+        </view>
+        </view>
+    </view>
+    <view class="bottom">
+        <view class="have_phone" bindtap="callPhone" data-phone="{{laodData.business.phone}}">
+            <image src="../../images/have-phone.png"></image>
+        </view>
+        <view class="send_jl" bindtap="sendJl" data-id="{{laodData.id}}">
+            投递简历
+        </view>
+    </view>
+</view>

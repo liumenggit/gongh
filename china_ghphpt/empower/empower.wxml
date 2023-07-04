@@ -1,0 +1,5 @@
+<!--china_ghphpt/empower/empower.wxml-->
+<view class="container" id="mjltest">
+  <view class="title">工会会员服务</view>
+    <button class="loginBtn" type="primary" open-type="getUserInfo" bindgetuserinfo="onGotUserInfoBefor" >确认授权</button>
+</view>

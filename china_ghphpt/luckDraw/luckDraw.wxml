@@ -1,0 +1,28 @@
+<!--china_ghphpt/luckDraw/luckDraw.wxml-->
+<view class="conentBody">
+<image src="{{result.activity_detail.acti_back_img}}"></image>
+  <view id="luckdraw_box" >
+    <view id="luckdraw_back" >
+      <image style='transform:rotate({{ change_angle}}deg)' mode="scaleToFill" src="{{result.activity_detail.acti_disk_img}}"></image>
+    </view>
+    <view id="luckdraw_pointer" bindtap='luckDrawStart'>
+      <image mode="scaleToFill" src="{{result.activity_detail.acti_pointer_img}}"></image>
+    </view>
+  </view>
+  <view class="text_box">
+  <rich-text nodes=" {{result.activity_detail.acti_content}}"></rich-text>
+  </view>
+  <view class="luckMarker" wx:if="{{luckDrawResultIfshow}}">
+
+  </view>
+    <view class="luckModel" wx:if="{{luckDrawResultIfshow}}" >
+     <image class="luckModelBg" src="images/drawlogBg.png"></image>
+     <view class="luckModel_title">恭喜你</view>
+      <view class="luckResult">
+      <!-- <view class="floatL">{{luckResultText}}</view> -->
+      <view class="floatL luckeyText">{{luckDrawResult}}</view>
+      <view class="sureBtn" bindtap="closeModel">确定</view>
+
+      </view>
+     </view>
+</view>

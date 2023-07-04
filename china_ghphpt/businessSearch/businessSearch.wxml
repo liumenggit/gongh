@@ -1,0 +1,51 @@
+<!--china_ghphpt/businessSearch/businessSearch.wxml-->
+<view class="container">
+    <!-- 搜索框 -->
+    <view class="searchWrap">
+        <view class="searchInput">
+            <input placeholder="搜索品质好店" placeholder-class="input_placeholder" value="{{title}}" bindinput="bindKeyInput"></input>
+        </view>
+        <view class="searchBtn" bindtap="search">搜索</view>
+    </view>
+
+    <!-- 内容 -->
+    <view class="businessListWrap">
+        <view class="businessList" data-id="{{item.id}}" wx:for="{{seller}}" wx:key="{{index}}" bindtap="detail">
+            <image class="businessLogo" src="{{item.logo}}"></image>
+            <view class="businessName">{{item.title}}</view>
+            <view class="businessAddr">{{item.address}}</view>
+            <view class="businessTel">{{item.phone}}</view>
+            <!-- <view class="businessRange">距您：{{item.range}}</view> -->
+            <view class="businessBtn" bindtap="detail">点击进入</view>
+        </view>
+        <view class="sellerListNo {{seller.length  == 0 ? 'nolist' : ''}}"></view>
+    </view>
+</view>
+
+<view class="footer">
+    <view class="" bindtap="goto_index">
+        <image src="{{setting.index_img_before}}"></image>
+        <!-- <image src="{{setting.index_img_after}}"></image> -->
+        <text>首页</text>
+    </view>
+    <view class="on" bindtap="goto_businessList">
+        <!-- <image src="{{setting.sell_img_before}}"></image> -->
+        <image src="{{setting.sell_img_after}}"></image>
+        <text>商户中心</text>
+    </view>
+	<view class="" bindtap="goto_PointsMall">
+		<image src="{{setting.integral_img_before}}"></image>
+		<!-- <image src="{{setting.integral_img_after}}"></image> -->
+		<text>积分商城</text>
+	</view>
+    <view class="" bindtap="goto_couponList">
+        <image src="{{setting.card_img_before}}"></image>
+        <!-- <image src="{{setting.card_img_after}}"></image> -->
+        <text>卡券列表</text>
+    </view>
+    <view class="" bindtap="goto_mine">
+        <image src="{{setting.user_img_before}}"></image>
+        <!-- <image src="{{setting.user_img_after}}"></image> -->
+        <text>个人中心</text>
+    </view>
+</view>

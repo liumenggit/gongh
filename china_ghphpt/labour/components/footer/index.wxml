@@ -1,0 +1,14 @@
+<view class="footer">
+    <view class="footer_bar" bindtap="goToIndex">
+        <image src="../../images/findwork.png"></image>
+        <text class="footer_text">求职</text>
+    </view>
+    <view class="footer_bar" bindtap="goToFb">
+        <image src="../../images/fabu1.png"></image>
+        <text class="footer_text">发布简历</text>
+    </view>
+    <view class="footer_bar" bindtap="gotoCenter">
+        <image src="../../images/my.png"></image>
+        <text class="footer_text">我的</text>
+    </view>
+</view>

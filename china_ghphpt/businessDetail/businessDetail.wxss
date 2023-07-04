@@ -1,0 +1,410 @@
+/* china_ghphpt/businessDetail/businessDetail.wxss */
+
+page,
+.container {
+	background: #f9f9f9;
+}
+
+.swiperWrap swiper {
+	width: 100%;
+	height: 400rpx;
+}
+
+.info {
+	width: 100%;
+	overflow: hidden;
+}
+
+.name {
+	width: 400rpx;
+	line-height: 40rpx;
+	font-size: 30rpx;
+	margin: 20rpx;
+	float: left;
+}
+
+.range {
+	float: right;
+	width: 200rpx;
+	height: 40rpx;
+	font-size: 24rpx;
+	margin: 24rpx 20rpx 0 0;
+	text-align: right;
+}
+
+.share {
+	float: right;
+	width: 50rpx;
+	height: 50rpx;
+	background: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/share.png') no-repeat;
+	background-size: 100% auto;
+	margin: 15rpx 10rpx 0 0;
+}
+
+.address,
+.tel {
+	width: 675rpx;
+	height: auto;
+	line-height: 40rpx;
+	font-size: 24rpx;
+	color: #323642;
+	text-align: left;
+	margin-left: 20rpx;
+	float: left;
+}
+
+.address i,
+.tel i {
+    padding: 5rpx 10rpx 5rpx 30rpx;
+    border: 2rpx solid #fb4b6b;
+    border-radius: 10rpx;
+    color: #fb4b6b;
+    font-size: 18rpx;
+    margin-right: 10rpx;
+}
+
+.address i {
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAVCAYAAACg/AXsAAAB/UlEQVQ4jXXUSahIYRQH8N97PJRMG2VhSIZSSkpW9BZkyLDSW5AxxNtQFhZsFEWxQKadkrLAy1CU4ZEyhJKnWJhKD8lYlOnRqXN1333Xqdu5fd/5/t85/+9/TsP3lpX+Y/0wBn3xHi/xpy60sWZtGs7jEx7iLp7jDfZgaPVA79J/3HgQK9CFm7iPLxiGZmzEakzB4ypIL5zDDFxDKx5VLmzAQqzD17pMtifAcSzDr5oyg4+2/MKm4i1eBCejsAEPspQywBCMr5RdWIAdLYhdmnxswY8M6IMjeJe1d2JRBeQUpmN0gMzFB1wsBexIAu/gQF4WpU4qxZxMP7sxtfAEP0sBq9CRz92aWURJy0sxHenHNuZmme14hYEprt+59iz9oFJccaapMUU0vPIKNzALazEZ+3LveiluZPrOALmKcRWgKOEzDuEe5uMCjpViZqZvD5ATWcLmSr0Tc20vFidQwVsT1odGcCv4aMelTP1M6ZVeY6eeFhfuz+xDHl1FA4bIPuazNdccLNturMHporwC5BXm5X9bSrrOtmUTBsFLitFQHgW3sSDVexYTKiCbsDVHQ8R9Kzaq8+QKWjA4uRmR65H+riQ8FB4v98/qhlKQG8qMGXI5Wz+k/xRzsp+6WV13hkWfDMghFQDBWYgvfA/7H0jYYfTPMREZFNLvbvgLlQNxip4F/z8AAAAASUVORK5CYII=') no-repeat left 5rpx center;
+	background-size: 18rpx auto;
+}
+
+.tel i {
+	background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAVCAYAAABG1c6oAAAB40lEQVQ4jZ3US4hPYRgG8N/MuObWsLKSWCA0jEIxK7mksJBJCVGWLDULStnYqFFIsZAFUcpCRJRS7pds5LIh5ZJLSEyZGb15j07Hv/yPp77Od873nef73vd9nrelr3uLEoZjNvrxCD/VRGtp+za8xm3cwyus+1/CzTiS814cxEicwso6hBFya95mKObhRa5NxV28zDQ0fcNpmIizJbLAc5zDLLTXIWzJ+YcG64P5HKhD+CnnYytrk7AG9/G5DuEb/MCU/DYOezJ/o9HTLFlBGOE8xPx8X4LdeUjc8FJdwsCVTHwXLuN73vx8HbIy4cl8bsUXHE0J1RZ22XpXsRgz8BGPMSxT8aTy3yh0oC/T9ceiZetF3tpwIAk3ZVEupFalxHbiHa7jTmp3dUHStmvmnGIejpiMtSmTE+mgDdiYPl+KfXiLQ7iJhbnnWpBXu82YlEtIaD3OpJePY0Lp4I6SfsOWt7KhLCqHHPiaBO+zUNuz0tMzFd+wv0Qm21yoZEFEXCWUHu7K3PSmn6Pz7MD4/PZXcdOmg40IA0/RidNYle+HMbdSyALRqUIlA9UcNsJy7M0DAlHhyNezVMWxDDvQP+RfbLiYI6rZndZchhW5Hkp4UGxuhrDAjRyBEdmNwqJR9d/AL51idIAe75D2AAAAAElFTkSuQmCC') no-repeat left 5rpx center;
+	background-size: 18rpx auto;
+}
+
+/* 选项卡 */
+
+.title {
+	width: 100%;
+	height: 88rpx;
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+	margin-top: 20rpx;
+}
+
+.titleSel {
+	width: 50%;
+	padding-top: 20rpx;
+	height: 68rpx;
+	color: #989898;
+	font-size: 28rpx;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background: #f2f2f2;
+}
+
+.titleSel.on {
+	color: #fb4b6b;
+	background: #fff;
+}
+
+.headerLineSel {
+	background: #fb4b6b;
+	height: 4rpx;
+	width: 30rpx;
+	position: relative;
+	margin-top: 10rpx;
+}
+
+.headerLineUnsel {
+	background: #f2f2f2;
+	height: 4rpx;
+	width: 30rpx;
+	position: relative;
+	margin-top: 10rpx;
+}
+
+.swiper {
+	width: 100%;
+	flex: 1;
+	height: calc(100vh - 200rpx);
+	overflow: scroll;
+	padding-bottom: 120rpx;
+}
+
+/* 卡券列表 */
+
+.couponWrap {
+	width: 94%;
+	height: 200rpx;
+	margin: 10rpx auto;
+	display: block;
+	position: relative;
+	overflow: hidden;
+}
+
+.xianshi {
+	background: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/xianshin.png') no-repeat;
+	background-size: 100% auto;
+}
+
+.changqi {
+	background: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/changqin.png') no-repeat;
+	background-size: 100% auto;
+}
+
+.weixincard {
+	background: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/weixincard.png') no-repeat;
+	background-size: 100% auto;
+}
+
+.couponLeft {
+	width: 23%;
+	float: left;
+}
+
+.couponL_price {
+	text-align: center;
+	color: #fff;
+	font-size: 28rpx;
+	line-height: 200rpx;
+	overflow: hidden;
+}
+
+.couponL_price b {
+	font-size: 58rpx;
+	width: 100rpx;
+	overflow: hidden;
+	/* font-weight: bold; */
+}
+
+.couponRight {
+	width: 76%;
+	float: right;
+}
+
+.couponL_new {
+	width: 100rpx;
+	height: 70rpx;
+	position: absolute;
+	top: 0;
+	right: 20rpx;
+	background: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/new.png') no-repeat;
+	background-size: 100% auto;
+}
+
+.couponL_type {
+	font-size: 44rpx;
+	line-height: 50rpx;
+	height: 45rpx;
+	overflow: hidden;
+	font-weight: bold;
+	color: #666;
+	padding: 20rpx 20rpx 10rpx 20rpx;
+}
+
+.couponL_title {
+	color: #666;
+	font-size: 24rpx;
+	padding: 0 20rpx;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	height: 30rpx;
+	line-height: 30rpx;
+	width: 90%;
+}
+
+.couponR_time {
+	color: #666;
+	font-size: 18rpx;
+	height: 30rpx;
+	line-height: 30rpx;
+	padding: 30rpx 20rpx 0rpx 20rpx;
+	width: 330rpx;
+}
+
+.weixincard .couponR_time {
+	padding-top: 60rpx;
+}
+
+.getBtn {
+	text-align: center;
+	color: #fff;
+	background: linear-gradient(70deg, #ff6c5f, #fb4b6b);
+	border-radius: 10rpx;
+	position: absolute;
+	bottom: 25rpx;
+	right: 20rpx;
+	width: 110rpx;
+	height: 40rpx;
+	line-height: 40rpx;
+	font-size: 20rpx;
+}
+
+.couponListNo {
+	display: none;
+	width: 100%;
+	height: 70vh;
+	background: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/noData.png') no-repeat center;
+	background-size: 400rpx auto;
+}
+
+.nolist {
+	display: block;
+}
+
+/* 地图 */
+
+.mapWrap {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1111;
+	display: none;
+}
+
+.show {
+	display: block;
+}
+
+.close {
+	position: fixed;
+	z-index: 100000;
+	width: 30rpx;
+	height: 30rpx;
+	background: url('data: image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAA20lEQVQokY3RQS4EQRQG4G+a2FlYOYSYOxDOMMTOEZzBAdyBsHAE7C0kw2YkToAFCTZIRJ68TkqrHvOSWlR1fV2v/hq8j3ZhAR9mq0W8NljGFbZnYKu4w07AzxyH/+BAFxhgHPAJm7iZglv0hXVMmvwQeKPAW9NQLM4XG54Tn+Mo1yY5D7SG23ZzCWv4JdP+haIafyvwHuawhIMu6oNDnOIB19jv3Lna6rC4UwRxj7NsO57hpHZiF0UwvU/VwhJFED+RZ1VxtLrSF3kFR9uB3+LEx/xbH+riY1x+A2piRkhPtjJLAAAAAElFTkSuQmCC') no-repeat center;
+	top: 40rpx;
+	left: 40rpx;
+	background-size: 100% auto;
+}
+
+.seller_code {
+	width: 300rpx;
+	height: 300rpx;
+	margin: 20rpx auto;
+	display: block;
+}
+
+.wx_code_id {
+	width: 400rpx;
+	height: 300rpx;
+	position: absolute;
+	top: 20rpx;
+	left: 180rpx;
+}
+
+.content {
+	width: 96%;
+	margin: 0 auto;
+	display: block;
+	word-break: boeak-all;
+}
+
+/* 分享 */
+
+.shareWrap {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 1111;
+	display: none;
+	background: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/shareBg.png') no-repeat center;
+	background-size: 100% auto;
+}
+
+.shareWrap.show {
+	display: block;
+}
+
+.close1 {
+	position: absolute;
+	z-index: 100000;
+	width: 30rpx;
+	height: 30rpx;
+	background: url('data: image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAA20lEQVQokY3RQS4EQRQG4G+a2FlYOYSYOxDOMMTOEZzBAdyBsHAE7C0kw2YkToAFCTZIRJ68TkqrHvOSWlR1fV2v/hq8j3ZhAR9mq0W8NljGFbZnYKu4w07AzxyH/+BAFxhgHPAJm7iZglv0hXVMmvwQeKPAW9NQLM4XG54Tn+Mo1yY5D7SG23ZzCWv4JdP+haIafyvwHuawhIMu6oNDnOIB19jv3Lna6rC4UwRxj7NsO57hpHZiF0UwvU/VwhJFED+RZ1VxtLrSF3kFR9uB3+LEx/xbH+riY1x+A2piRkhPtjJLAAAAAElFTkSuQmCC') no-repeat center;
+	top: 40rpx;
+	left: 40rpx;
+	background-size: 100% auto;
+}
+
+.shareCon {
+	width: 94%;
+	height: 1100rpx;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	background: #fff;
+	border-radius: 20rpx;
+}
+
+.shareDetail {
+	width: 520rpx;
+	height: 800rpx;
+	background: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/shareCBg.png') no-repeat center;
+	background-size: 100% auto;
+	margin: 80rpx auto 0;
+	overflow: hidden;
+}
+
+.codeImg {
+	width: 350rpx;
+	height: 350rpx;
+	display: block;
+	margin: 100rpx auto;
+	background: #ccc;
+}
+
+.codeTitle,
+.codePhone,
+.codeAddress {
+	width: 90%;
+	height: 50rpx;
+	line-height: 50rpx;
+	margin: 0 auto;
+	text-align: center;
+	color: #666;
+	font-size: 23rpx;
+}
+
+.saveBtn {
+	width: 530rpx;
+	height: 120rpx;
+	display: block;
+	text-align: center;
+	line-height: 110rpx;
+	color: #fff;
+	font-size: 38rpx;
+	background: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/signInBtn.png') no-repeat;
+	background-size: 100% 100%;
+	margin: 30rpx auto 0;
+}
+
+.saveTip {
+	width: 530rpx;
+	margin: 10rpx auto;
+	height: 30rpx;
+	color: #999;
+	font-size: 24rpx;
+	text-align: center;
+}
+
+.shareImg {
+	width: 520rpx;
+	height: 800rpx;
+	overflow: hidden;
+	position: absolute;
+	top: 200rpx;
+	left: 100rpx;
+	z-index: 100;
+}
+
+canvas {
+	width: 520rpx;
+	height: 820rpx;
+	position: absolute;
+	top: 0;
+	left: 200%;
+	display: block;
+	overflow: hidden;
+}

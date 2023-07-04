@@ -1,0 +1,28 @@
+<!--china_ghphpt/couponDetail/couponDetail.wxml-->
+<view class="container">
+    <view class="con">
+        <view class="type {{coupon.type  == 1 ? 'changqi' : 'xianshi'}}">{{coupon.type_title}}</view>
+        <view class="title">{{coupon.title}}</view>
+        <view class="price" wx:if="{{coupon.discount!=''}}">{{coupon.discount}}折</view>
+        <view class="price" wx:else>金额{{coupon.price}}元</view>
+        <view class="getBtn" data-id="{{coupon.id}}" bindtap="getCoupon">立即领取</view>
+        <view class="sellerName">{{coupon.seller_name}}</view>
+        <!-- <view class="time" wx:if="{{coupon.type == 1}}">此券有效期为长期，核销后可继续使用</view> -->
+        <view class="time" wx:if="{{coupon.type != 1 && coupon.rec_type == 1}}">有效期：领取后{{coupon.days}}天</view>
+        <view class="time" wx:if="{{coupon.type != 1 && coupon.rec_type != 1}}">有效期：{{coupon.eff_time_start}}至{{coupon.eff_time_end}}</view>
+        <view class="remark">
+            <view class="remark_title">优惠券说明</view>
+            <view class="remark_con">{{coupon.remark}}</view>
+        </view>
+        <view class="goBusiness" data-seller-id="{{coupon.seller_id}}" bindtap="goBusiness"></view>
+    </view>
+</view>
+<view class="tip" wx:if="{{tipShow}}">
+    <view class="tip_con">
+        <view class="tip_title"><i></i></view>
+        <view class="tip_detail">
+            <text>{{tipCon}}</text>
+            <view class="successBtn" bindtap="goMine">确定</view>
+        </view>
+    </view>
+</view>
