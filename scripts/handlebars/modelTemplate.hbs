@@ -1,0 +1,40 @@
+{{#if requestBody}}
+    /**
+    * {{summary}} Params
+    */
+    declare interface {{translationPath url}}Params{
+    {{#each requestBody}}
+        {{#each this.schema.properties}}
+            // {{this.description}}
+            {{@key}}: {{translationType this.type}};
+        {{/each}}
+    {{/each}}
+    }
+{{else}}
+    /**
+    * {{summary}} Params
+    */
+    declare interface {{translationPath url}}Params{
+    {{#each parameters}}
+        // {{this.description}}
+        {{this.name}} :{{translationType this.schema.type}};
+    {{/each}}
+    }
+
+{{/if}}
+
+
+{{#if responses}}
+    /**
+    * {{summary}} Res
+    */
+    declare interface {{translationPath url}}Res{
+    {{#each responses}}
+        {{@key}}: {{translationType this.type}};
+    {{/each}}
+    }
+{{else}}
+{{/if}}
+
+
+

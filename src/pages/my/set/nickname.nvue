@@ -1,0 +1,41 @@
+<template>
+    <tm-app ref="app">
+        <tm-form @submit="confirm" ref="form" v-model="nickNameFrom" :label-width="190" layout="vertical">
+            <tm-form-item required label="昵称" :rules="[{required:true,message:'请输入昵称'}]" field="userName"
+                          :border="false" showTopErrorGap>
+                <tm-input placeholder="请输入昵称" v-model.lazy="nickNameFrom.userName" type="nickname"
+                          :showBottomBotder="false" @blur="handleNickNameChange"
+                          prefix="td-user"></tm-input>
+            </tm-form-item>
+            <tm-form-item :border="false">
+                <tm-button form-type="submit" label="修改昵称" block></tm-button>
+            </tm-form-item>
+        </tm-form>
+        <tm-message ref="msg"></tm-message>
+    </tm-app>
+</template>
+<script lang="ts" setup>
+import {getCurrentInstance, ref} from "vue";
+import {useUserStore} from "@/state/modules/user";
+
+const proxy = getCurrentInstance()?.proxy ?? null;
+const nickNameFrom = ref({
+    userName: useUserStore().nickname
+})
+const handleNickNameChange = (e: any) => {
+    nickNameFrom.value.userName = e.detail.value;
+};
+
+const confirm = (e: any) => {
+    if (e.validate) {
+        useUserStore().setNickName(e.data.userName).then(() => {
+            setTimeout(() => {
+                uni.navigateBack()
+            }, 1300);
+        })
+    }
+}
+</script>
+
+<style>
+</style>

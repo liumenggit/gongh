@@ -1,0 +1,73 @@
+<template>
+  <tm-app ref="app" bg-img="https://picsum.photos/750/1448">
+    <tm-navbar title="" transprent>
+      <template v-slot:right>
+        <tm-icon _class="px-32" name="tmicon-plus"></tm-icon>
+      </template>
+    </tm-navbar>
+    <tm-sheet transprent>
+      <tm-text label="TMUI3.0" font-size="40"></tm-text>
+      <tm-text label="欢迎您登录，使用TMUI3.0登录模板" parent-class="my-20"></tm-text>
+      <tm-input v-model="user" placeholder="输入用户名" height="80" round="25" color="rgba(255, 255, 255, 0.5)"
+                prefix="td-user" prefixColor="white" showClear></tm-input>
+      <tm-input v-model="passwd" placeholder="输入密码" height="80" round="25" color="rgba(255, 255, 255, 0.5)"
+                prefix="td-lock" prefixColor="white" showClear class="mt-50" password></tm-input>
+      <tm-button @click="login" :loading="loading" block label="登录" icon="apple" round="25"></tm-button>
+      <tm-row :column="2">
+        <tm-col transprent align="start">
+          <tm-text label="验证码登录 | 一键登录" color="white"></tm-text>
+        </tm-col>
+        <tm-col transprent align="end">
+          <tm-text label="忘记密码？" color="white"></tm-text>
+        </tm-col>
+      </tm-row>
+    </tm-sheet>
+    <tm-sheet transprent class="fixed b-10 fulled">
+      <tm-text label="其他方式登录" color="white"></tm-text>
+      <view class="flex-row flex-item-top-start py-30">
+        <tm-icon customicon name="td-QQ-circle-fill" :font-size="70"></tm-icon>
+        <tm-icon customicon name="td-weibo-circle-fill" :font-size="70"></tm-icon>
+      </view>
+      <view class="flex-row flex-row-center-start">
+        <tm-popover :show="test" label="请阅读隐私协议" position="tl" color="primary" text>
+          <tm-checkbox v-model="policy" :round="10" :size="32" label="我已经阅读并同意" style="margin-left: -10rpx"/>
+        </tm-popover>
+        <tm-text label="《用户隐私政策》" color="orange" @click="showWin = true"></tm-text>
+      </view>
+    </tm-sheet>
+    <tm-drawer ref="calendarView" placement="bottom" v-model:show="showWin" :height="1200">
+      <tm-html :content="rx" class="ma-20"></tm-html>
+    </tm-drawer>
+  </tm-app>
+</template>
+<script lang="ts" setup>
+import {ref, getCurrentInstance, nextTick} from "vue"
+import store from "@/store"
+import {toast} from "@/tmui/tool/function/util";
+
+const showWin = ref(false)
+const policy = ref(false)
+const rx = `<div class="content_area" id="content_area">
+             <!--repaste.body.begin--><p><strong>　　央视网消息：</strong>在安徽中稻迎来了丰收季。在肥东县相邻的两块地景象大不相同，农机作业的进度和效率也不同。<br></p><p style="text-align: center;" class="photo_img_20190808"><img src="//p4.img.cctvpic.com/photoworkspace/contentimg/2022/10/14/2022101414244666208.jpg" alt=""></p><p style="text-align: center;" class="photo_img_20190808"><img src="//p5.img.cctvpic.com/photoworkspace/contentimg/2022/10/14/2022101414244671910.jpg" alt=""></p><p>　　<strong>总台记者 吴俊：</strong>这里是肥东县古城镇，今天天气晴好，收割机已经进入高标准农田作业。去年秋季，肥东县有7.8万亩田地进行高标准农田改造。改造后的农田，可以说是田成方、林成网、渠相通、路相连。这里一路之隔，一侧是改造过的农田，不仅有了机耕路，农机可以直接到田边，而且修建了标准的灌渠，灌溉和排涝不愁。而路的一侧是还没改造的地块，只有窄窄的杂草丛生的田埂，灌渠也是这种土渠。另外从航拍画面对比来看，改造过的农田，通过小田变大田，打破了田埂，非常适合农机作业。而没有改造过的，田块大小不均、高低不平，农机也没办法下田作业。<br></p><p style="text-align: center;" class="photo_img_20190808"><img src="//p3.img.cctvpic.com/photoworkspace/contentimg/2022/10/14/2022101414250079300.jpg" alt=""></p><p style="text-align: center;" class="photo_img_20190808"><img src="//p3.img.cctvpic.com/photoworkspace/contentimg/2022/10/14/2022101414250072259.jpg" alt=""></p><p>　　改造后的高标准农田，配套了机械深耕、增施有机肥和土壤调理等综合措施，改善了土壤板结度、有机质含量以及酸碱平衡，这为眼前的好收成打下了基础。稻谷颗粒非常饱满，尽管今年水稻在抽穗扬花期遭遇了持续高温，但是高标准农田改造后，能够及时引水灌溉，而且今年当地还种植了抗病新品种，应用了绿色防控等新技术，水稻产量不仅没受太大影响，比去年每亩还高了100斤左右。<br></p><!--repaste.body.end-->
+            </div>`
+const user = ref(null)
+const passwd = ref(null)
+let test = ref(false)
+const loading = ref(false)
+
+function login() {
+  if (policy.value) {
+    loading.value = true
+    store.useUserInfo().login('code').then((res) => {
+      console.log(res.data.userInfo)
+      loading.value = false
+      uni.navigateBack()
+    })
+
+  } else {
+    toast('请同意隐私政策后登录')
+  }
+}
+
+
+</script>

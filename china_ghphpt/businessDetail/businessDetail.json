@@ -1,6 +1,0 @@
-{
-    "navigationBarTitleText": "商户中心",
-    "usingComponents": {
-        "send-coupon": "plugin://sendCoupon/send-coupon"
-    }
-}

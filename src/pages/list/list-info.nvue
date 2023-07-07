@@ -1,0 +1,253 @@
+<template>
+    <tm-app ref="app">
+        <view v-if="loading">
+            <tm-skeleton-line :height="50"></tm-skeleton-line>
+            <tm-skeleton model="line" :height="50"></tm-skeleton>
+            <tm-skeleton model="card" :height="50"></tm-skeleton>
+            <tm-skeleton model="rect" :height="50"></tm-skeleton>
+            <tm-skeleton model="chat" :height="50"></tm-skeleton>
+        </view>
+        <tm-sticky :offset="offset">
+            <template v-slot:sticky>
+                <tm-sheet :margin="[0,0]" transprent>
+                    <tm-text :font-size="36" _class="text-weight-b" label="订单已完成" suffix-icon="tmicon-angle-right"
+                             icon-size="20"></tm-text>
+                </tm-sheet>
+            </template>
+            <tm-sheet :margin="[0,0]" color="grey-4">
+                <tm-sheet :round="3" :margin="[0,12]">
+                    <tm-text label="感谢您对美团外卖的信任" font-size="22"></tm-text>
+                    <tm-text label="微信提示：请理性解决" font-size="22" color="grey"></tm-text>
+                    <tm-divider></tm-divider>
+                    <tm-grid :width="620" :col="5">
+                        <tm-grid-item v-for="(item,index) in 8" :key="index">
+                            <tm-icon name="tmicon-user-fill" :font-size="32"></tm-icon>
+                            <tm-text _class="pt-10" :font-size="22" label="宫格文本"></tm-text>
+                        </tm-grid-item>
+                    </tm-grid>
+                </tm-sheet>
+                <tm-cell :margin="[0,12]" :round="3" title="放心吃理赔申请" label="如餐品编著或食物中有异物"></tm-cell>
+                <tm-sheet :margin="[0,12]" :round="3">
+                    <tm-text label="更多优惠推荐"></tm-text>
+                    <tm-scrollx :width="620" :height="200">
+                        <tm-grid :col="8" :width="1340">
+                            <tm-grid-item v-for="(item,index) in list" :key="index" :height="200" :count="item.count">
+                                <tm-image :width="120" :height="90" :src="item.path"></tm-image>
+                                <view style="white-space: normal;">
+                                    <tm-text _class="text-overflow-1" :font-size="24" :label="item.title"></tm-text>
+                                </view>
+                            </tm-grid-item>
+                        </tm-grid>
+                    </tm-scrollx>
+                </tm-sheet>
+                <tm-card :margin="[0,12]" title="营养快餐" :round="3">
+                    <template v-slot:content>
+                        <tm-more open-label="点击收起" close-label="剩余商品" :height="280">
+                            <tm-cell :margin="[0, 0]" :padding="[0,8]" :titleFontSize="30" title="头像 Avatar"
+                                     label="X1" showAvatar
+                                     avatar="https://ask.dcloud.net.cn/uploads/avatar/001/58/76/08_avatar_max.jpg"
+                                     :avatarSize="80"
+                                     :avatarRound="0">
+                                <template v-slot:right>
+                                    <tm-text label="¥7" font-size="22"></tm-text>
+                                </template>
+                            </tm-cell>
+                            <tm-cell :margin="[0, 0]" :padding="[0,8]" :titleFontSize="30" title="头像 Avatar"
+                                     label="X1" showAvatar
+                                     avatar="https://ask.dcloud.net.cn/uploads/avatar/001/58/76/08_avatar_max.jpg"
+                                     :avatarSize="80"
+                                     :avatarRound="0">
+                                <template v-slot:right>
+                                    <tm-text label="¥7" font-size="22"></tm-text>
+                                </template>
+                            </tm-cell>
+                            <tm-cell :margin="[0, 0]" :padding="[0,8]" :titleFontSize="30" title="头像 Avatar"
+                                     label="X1" showAvatar
+                                     avatar="https://ask.dcloud.net.cn/uploads/avatar/001/58/76/08_avatar_max.jpg"
+                                     :avatarSize="80"
+                                     :avatarRound="0">
+                                <template v-slot:right>
+                                    <tm-text label="¥7" font-size="22"></tm-text>
+                                </template>
+                            </tm-cell>
+                        </tm-more>
+                        <tm-divider></tm-divider>
+                        <tm-cell :margin="[0,0]" :padding="[0,8]" title="打包费" rightColor="black">
+                            <template v-slot:right>
+                                <tm-text label="¥7" font-size="22"></tm-text>
+                            </template>
+                        </tm-cell>
+                        <tm-cell :margin="[0,0]" :padding="[0,8]" title="打包费" rightColor="black">
+                            <template v-slot:rightText>
+                                <tm-text label="¥3" color="grey" font-size="20" class="pr-10 text-delete"></tm-text>
+                            </template>
+                            <template v-slot:right>
+                                <tm-text label="¥7" font-size="22"></tm-text>
+                            </template>
+                        </tm-cell>
+                        <tm-cell :margin="[0,0]" :padding="[0,8]" title="打包费" rightColor="black">
+                            <template v-slot:right>
+                                <tm-text label="¥7" font-size="22"></tm-text>
+                            </template>
+                        </tm-cell>
+                        <tm-divider></tm-divider>
+                        <tm-cell title="美团红包" :margin="[0,0]" :padding="[0,8]" showAvatar
+                                 avatar="https://ask.dcloud.net.cn/uploads/avatar/001/58/76/08_avatar_max.jpg"
+                                 :avatarSize="36"
+                                 :avatarRound="2">
+                            <template v-slot:right>
+                                <tm-text label="-¥7" color="red" font-size="22"></tm-text>
+                            </template>
+                        </tm-cell>
+                        <tm-cell title="美团红包" :margin="[0,0]" :padding="[0,8]" showAvatar
+                                 right-text="享店铺满减优惠"
+                                 :rightTextSize="20"
+                                 avatar="https://ask.dcloud.net.cn/uploads/avatar/001/58/76/08_avatar_max.jpg"
+                                 :avatarSize="36"
+                                 :avatarRound="2">
+                            <template v-slot:right>
+                                <tm-text label="-¥7" color="red" font-size="22"></tm-text>
+                            </template>
+                        </tm-cell>
+                    </template>
+                    <template v-slot:action>
+                        <view class="flex flex-row flex-row-center-end flex-1">
+                            <tm-text label="已经优惠" font-size="22"></tm-text>
+                            <tm-text label="¥11" color="red" font-size="22"></tm-text>
+                            <tm-text label="合计" font-size="22" class="mx-20"></tm-text>
+                            <tm-text label="¥15.9" font-size="26"></tm-text>
+                        </view>
+                    </template>
+                </tm-card>
+                <tm-sheet :margin="[0,12]" :round="3">
+                    <tm-cell :margin="[0,0]" :padding="[0,6]" title="期望时间" titleColor="grey" :titleFontSize="22"
+                             rightColor="black">
+                        <template v-slot:right>
+                            <tm-text label="立即配送" font-size="22"></tm-text>
+                        </template>
+                    </tm-cell>
+                    <!--          _style="background-color:red;align-items: flex-start !important;"-->
+                    <tm-cell :margin="[0,0]" :padding="[0,4]" title="配送地址" label="" titleColor="grey"
+                             :titleFontSize="22"
+                             rightColor="black">
+                        <template v-slot:right>
+                            <tm-text class="pl-20"
+                                     label="立即配送立即配送立即配送立即配送立即配送立即配送立即配送立即配送立即配送立即配送立即配送立即配送"
+                                     font-size="22"></tm-text>
+                        </template>
+                    </tm-cell>
+                    <tm-cell :margin="[0,0]" :padding="[0,6]" title="配送单号" titleColor="grey"
+                             :right-text="orderInfo.no"
+                             :rightTextSize="20" :titleFontSize="22" rightColor="black">
+                        <template v-slot:right>
+                            <tm-button size="mini" color="grey" outlined>复制</tm-button>
+                        </template>
+                    </tm-cell>
+                    <!--          <tm-descriptions :width="620" :column="2" transprent :round="3" text>-->
+                    <!--            <tm-descriptions-item :font-size="24" v-for="(item,index) in list2" :key="index" :label="item.label"-->
+                    <!--                                  :value="item.value">-->
+                    <!--            </tm-descriptions-item>-->
+                    <!--          </tm-descriptions>-->
+                </tm-sheet>
+                <tm-text label="到底了~" color="grey" font-size="22" class="text-align-center"></tm-text>
+            </tm-sheet>
+        </tm-sticky>
+    </tm-app>
+</template>
+<script lang="ts" setup>
+import {
+    ref
+} from "vue";
+import {useRequest} from "alova";
+import {getOrderInfo} from "@/services/api/order";
+import {useRoute, useRouter} from "@/hooks/router";
+
+const text = '英国广播公司（BBC）24日再次“爆料”，称黑客从新疆警方电存数据，其中包括“存数据，其中包括“存数据，其中包括“存数据，其中包括“脑服务器中获取了大量缓存数据，其中包括“再教育中心”“囚犯”照片。该报道刚刚发出，美国国务院和英国外交部就一齐上阵，夸张地表示“震惊”和“愤慨”。不得不说，在编造涉疆谎言方面，美西方舆论和政客的相互配合，已经熟练到“肌肉记忆”的程度。'
+const list = ref([
+    {
+        path: "https://gw.alicdn.com/imgextra/i4/O1CN01XCiY1B1px9ivHkDGm_!!6000000005426-2-tps-183-144.png_q90.jpg",
+        title: "天猫新品",
+        count: "热销"
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i3/O1CN01FgQFp81spmBXqQMtA_!!6000000005816-2-tps-183-144.png_q90.jpg",
+        title: "今日爆款今日爆款今日爆款",
+        count: 0
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i1/O1CN01tsk5OY1q0MUo5PJga_!!6000000005433-2-tps-183-144.png_q90.jpg",
+        title: "天猫国际",
+        count: 0
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i2/O1CN01yK3Cxn1sTnAx1fOjq_!!6000000005768-2-tps-183-144.png_q90.jpg",
+        title: "飞猪旅行",
+        count: 0
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i1/O1CN01iZIGkz1URSOUdRHqS_!!6000000002514-2-tps-183-144.png_q90.jpg",
+        title: "天猫超市",
+        count: 0
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i4/O1CN01VuRfwH1muSbsJFxoM_!!6000000005014-2-tps-183-144.png_q90.jpg_.webp",
+        title: "冬奥公益",
+        count: 0
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i2/O1CN01yK3Cxn1sTnAx1fOjq_!!6000000005768-2-tps-183-144.png_q90.jpg",
+        title: "飞猪旅行",
+        count: 99
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i1/O1CN01iZIGkz1URSOUdRHqS_!!6000000002514-2-tps-183-144.png_q90.jpg",
+        title: "天猫超市",
+        count: 0
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i4/O1CN01VuRfwH1muSbsJFxoM_!!6000000005014-2-tps-183-144.png_q90.jpg_.webp",
+        title: "冬奥公益",
+        count: 0
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i4/O1CN01XCiY1B1px9ivHkDGm_!!6000000005426-2-tps-183-144.png_q90.jpg",
+        title: "天猫新品",
+        count: 6
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i3/O1CN01FgQFp81spmBXqQMtA_!!6000000005816-2-tps-183-144.png_q90.jpg",
+        title: "今日爆款",
+        count: 0
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i1/O1CN01tsk5OY1q0MUo5PJga_!!6000000005433-2-tps-183-144.png_q90.jpg",
+        title: "天猫国际",
+        count: 0
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i2/O1CN01yK3Cxn1sTnAx1fOjq_!!6000000005768-2-tps-183-144.png_q90.jpg",
+        title: "飞猪旅行",
+        count: 0
+    },
+    {
+        path: "https://gw.alicdn.com/imgextra/i1/O1CN01iZIGkz1URSOUdRHqS_!!6000000002514-2-tps-183-144.png_q90.jpg",
+        title: "天猫超市",
+        count: 0
+    },
+
+])
+const offset = ref(0);
+// #ifdef H5
+offset.value = uni.$tm.u.torpx(44);
+// #endif
+const id = ref(1)
+console.log(useRoute().query?.id)
+const {
+    loading,
+    data: orderInfo,
+} = useRequest(() => getOrderInfo(Number(useRoute().query.id)), {
+    initialData: {},
+    immediate: true,
+});
+
+</script>

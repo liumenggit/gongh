@@ -1,0 +1,6 @@
+/**
+ * {{summary}}
+ */
+export function {{type}}{{translationPath url}}({{#if parameters}}{{translationParams url}}Params:{{translationPath url}}Params{{else}}{{/if}}{{#if requestBody}}{{translationParams url}}Params:{{translationPath url}}Params{{else}}{{/if}}) {
+    return request.{{camelCase type}}<{{#if responses}}{{translationPath url}}Res{{else}}{{translationPath url}}Res{{/if}}>('{{url}}'{{#if parameters}},{params:{{{translationParams url}}} }{{else}}{{/if}}{{#if requestBody}},{{translationParams url}}Params{{else}}{{/if}});
+}

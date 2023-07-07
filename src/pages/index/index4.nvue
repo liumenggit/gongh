@@ -1,0 +1,55 @@
+<template>
+    <tm-app>
+<!--        {{ countryList }}-->
+        <view v-for="item in sanji.one">
+            <tm-text :label="item.text" @click="test('two',item.id)"/>
+        </view>
+
+        <view v-for="item in sanji.two">
+            <tm-text :label="item.text" @click="test('three',item.id)"/>
+        </view>
+        <view v-for="item in sanji.three">
+            <tm-text :label="item.text"/>
+        </view>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+import {useRequest} from "alova";
+import {getCity} from "@/services/api/city";
+import {ref} from "vue";
+import {onLoad, onShow} from "@dcloudio/uni-app";
+
+const cityId = ref(55)
+const {
+    loading,
+    data: countryList,
+    send
+} = useRequest((cityId) => getCity(cityId), {
+    initialData: [],
+    immediate: false,
+});
+const sanji = ref({
+    one: [],
+    two: [],
+    three: []
+})
+const itemList = ref([])
+onLoad(() => {
+    test()
+})
+
+const test = (value?: any, city?: number) => {
+    value = value || 'one'
+    console.log('value', value)
+    send(city).then((res) => {
+        console.log('res', res)
+        sanji.value[value] = res
+    })
+}
+
+</script>
+
+<style scoped>
+
+</style>

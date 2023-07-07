@@ -1,0 +1,33 @@
+<template>
+    <tm-app>
+        <td-carousel autoplay :margin="[0,16]" :round="3" :width="686" :height="300" :list="listvedio"></td-carousel>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+
+
+import TdCarousel from '@/components/td-carousel/td-carousel.vue';
+import {ref, Ref} from 'vue';
+import {listItem} from '@/components/td-carousel/interface';
+
+const listvedio: Ref<[listItem]> = ref([{
+    type: 'community',
+    title: '9999999',
+    url: 'https://picsum.photos/200/300?id=43335',
+    avate: 'https://picsum.photos/200/300?id=43335',
+},{
+    type: 'community',
+    title: '2222222222222',
+    url: 'https://picsum.photos/200/300?id=43335',
+    avate: 'https://picsum.photos/200/300?id=4335',
+},{
+    type: 'img',
+    url: 'https://picsum.photos/200/300?id=43385',
+    avate: 'https://picsum.photos/200/300?id=4335',
+}]);
+</script>
+
+<style scoped>
+
+</style>

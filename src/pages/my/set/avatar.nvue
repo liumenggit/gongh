@@ -1,0 +1,37 @@
+<template>
+    <tm-app ref="app">
+        <button class="pa-0 flex-row-center-center pt-50" open-type="chooseAvatar" @chooseavatar="setAvatar"
+                style="background-color: transparent">
+            <tm-image :src="userAvatar" extra model="aspectFit" :round="4" :width="200" :height="200">
+                <template v-slot:extra>
+                    <tm-sheet :width="200" :margin="[0, 0]" :padding="[12, 10]" _class="flex-row flex-row-bottom-end"
+                              parenClass="opacity-6">
+                        <tm-icon :font-size="24" name="tmicon-edit" class="pr-20"></tm-icon>
+                    </tm-sheet>
+                </template>
+            </tm-image>
+        </button>
+        <tm-message ref="msg"></tm-message>
+    </tm-app>
+</template>
+<script lang="ts" setup>
+import {getCurrentInstance, ref} from "vue";
+import {useUserStore} from "@/state/modules/user";
+
+const proxy = getCurrentInstance()?.proxy ?? null;
+const userAvatar = ref(useUserStore().avatar)
+
+const setAvatar = (e: any) => {
+    useUserStore().setAvatar(e.detail.avatarUrl).then((res) => {
+        setTimeout(() => {
+            uni.navigateBack()
+        }, 1300);
+    })
+}
+</script>
+
+<style>
+button::after {
+    border: none;
+}
+</style>

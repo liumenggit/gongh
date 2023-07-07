@@ -1,0 +1,73 @@
+<template>
+    <tm-app>
+        {{ isLastPage }}
+        <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
+                    translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
+            <tm-cell :title="bespeakItem.title" :margin="[0,0]"
+                     v-for="(bespeakItem,bespeakIndex) in dataList" bottomBorder>
+            </tm-cell>
+        </tm-scrolly>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+import {getCurrentInstance, ref, watchEffect} from 'vue';
+import {usePagination} from '@alova/scene-vue';
+import {onReady, onShow} from '@dcloudio/uni-app';
+import {getWindow, torpx} from '@/tmui/tool/function/util';
+import {createAlova} from 'alova';
+import {createAlovaMockAdapter} from '@alova/mock';
+import {queryStudents} from '@/services/api/page';
+import {detectSourceFormat} from 'echarts/types/src/data/Source';
+
+const pull = ref(false);
+const mostatus = ref('');
+const scrollHeight = ref(400);
+const proxy = getCurrentInstance()?.proxy ?? null;
+onReady(() => {
+    const query = uni.createSelectorQuery().in(proxy);
+    query.select('.hei').boundingClientRect((result: any) => {
+        scrollHeight.value = torpx(getWindow().height - result.top);
+    }).exec();
+});
+
+
+const getBespeakList = () => {
+    console.log('getBespeakList');
+};
+const studentName = ref('');
+const clsName = ref(null);
+
+const {
+    loading,
+    data: dataList,
+    isLastPage,
+    pageSize,
+    page,
+    reload,
+    onSuccess
+} = usePagination(
+    (page: number, pageSize: number) =>
+        queryStudents(page, pageSize, studentName.value || '', clsName.value || ''),
+    {
+        watchingStates: [studentName, clsName],
+        preloadPreviousPage: false, // 关闭预加载上一页数据
+        preloadNextPage: false,
+        append: true,
+        debounce: [500],
+        data: (res) => res.list,
+    }
+);
+onSuccess(() => {
+    console.log('onSuccess');
+    pull.value = false;
+});
+
+onShow(() => {
+    reload()
+})
+</script>
+
+<style scoped>
+
+</style>

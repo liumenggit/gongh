@@ -1,0 +1,15 @@
+# 忽略目录
+/dist
+/build
+/public
+/node_modules
+/src/static
+/src/tmui
+
+# 忽略文件
+**/*.min.js
+**/*-min.css
+**/*.min.css
+/src/manifest.json
+.eslintcache
+pnpm-lock.yaml

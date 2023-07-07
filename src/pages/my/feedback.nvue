@@ -1,0 +1,176 @@
+<template>
+    <tm-app ref="app">
+        <tm-segtab :width="750" :list="segList" :defaultValue="segDefaultValue"
+                   v-model:model-value="segDefaultValue"></tm-segtab>
+        <tm-form @submit="confirm" ref="form" v-model="formData" :label-width="190" :border="false" layout="vertical">
+            <tm-form-item label="反馈类别" required field="types">
+                <view class="flex-row flex flex-wrap">
+                    <tm-tag v-for="(typeItem,typeIndex) in formData.types" checkable color="primary" size="n"
+                            :label="typeItem.label" :checked="typeItem.is"/>
+                </view>
+            </tm-form-item>
+            <tm-form-item label="地区选择" field="citydate">
+                <tm-cell @click="showCitySelect = true" :margin="[0,0]" title="请选择所在区域"
+                         :right-text="cityStr || '请选择'"></tm-cell>
+            </tm-form-item>
+            <tm-city-picker v-model:show="showCitySelect" v-model="formData.citydate"
+                            v-model:model-str="cityStr"></tm-city-picker>
+            <tm-form-item label="反馈内容" desc="你可以点击提交表单来验证" required field="content"
+                          :rules="[{required:true,message:'请输入反馈内容',validator:(val)=>isChina(val)}]">
+                <tm-input placeholder="文本域，输入自动增高。" confirm-hold confirm-type="换行"
+                          :height="200" showCharNumber :maxlength="100" :border="1" color="grey-5" type="textarea"
+                          :inputPadding="[12,0]" v-model.lazy="formData.content" :showBottomBotder="false"></tm-input>
+            </tm-form-item>
+            <tm-form-item required label="添加反馈图片（选填）" field="images"
+            >
+                <tm-upload :rows="4" :width="636" :defaultValue="formData.images"
+                           v-model:model-value="formData.images"
+                           :url="getBaseUrl() + getUploadUrl()"
+                           :form-data="{platform_id: getPlatformId()}"
+                           :on-success-after="isUploadSuccess"
+                ></tm-upload>
+            </tm-form-item>
+            <tm-form-item label="联系人信息" field="username"
+                          :rules="[{required:true,message:'请输入姓名',validator:(val)=>isChina(val)}]"
+                          :required="!!segDefaultValue"
+                          v-if="segDefaultValue"
+            >
+                <tm-input prefixLabel="联系姓名" placeholder="请输入内容" :inputPadding="[12,0]"
+                          v-model.lazy="formData.username"
+                          :showBottomBotder="false"></tm-input>
+            </tm-form-item>
+            <tm-form-item field="phone" :rules="[{required:true,message:'请输入手机号',validator:(val)=>isPhone(val)}]"
+                          :required="!!segDefaultValue"
+                          v-if="segDefaultValue"
+            >
+                <tm-input prefixLabel="手机号码" placeholder="请输入内容" :inputPadding="[12,0]"
+                          v-model.lazy="formData.phone"
+                          :showBottomBotder="false"></tm-input>
+            </tm-form-item>
+            <tm-form-item label="签名" required field="signature" :border="false" showTopErrorGap v-if="segDefaultValue"
+            >
+                <tm-sign-board class="border" :lineWidth="3" lineColor="#4ec752" ref="board" :width="638"
+                               :height="400"></tm-sign-board>
+                <view class="flex-row-center-end flex-wrap">
+                    <tm-button size="mini" label="清空" color="red" :margin="[0,0,40,0]"
+                               @click="proxy.$refs.board.clear()"/>
+                    <tm-button size="mini" label="保存" @click="saveSign"/>
+                </view>
+            </tm-form-item>
+            <tm-form-item :border="false">
+                <view class="flex-row flex-row-center-center">
+                    <tm-checkbox v-model="policy" :round="10" :size="32" label="我已经阅读并同意"
+                                 style="margin-left: -10rpx"/>
+                    <tm-text label="《用户隐私政策》" color="orange" @click="showWin = true"></tm-text>
+                </view>
+                <tm-button form-type="submit" label="提交表单" block></tm-button>
+            </tm-form-item>
+        </tm-form>
+        <tm-drawer ref="calendarView" placement="bottom" v-model:show="showWin" :height="1200">
+            <tm-html :content="rx" class="ma-20"></tm-html>
+        </tm-drawer>
+    </tm-app>
+</template>
+<script lang="ts" setup>
+import {
+    ref,
+    nextTick,
+    getCurrentInstance,
+    computed
+} from "vue";
+import {isChina, isPhone, toast} from "@/tmui/tool/function/util";
+import {uploadOssFile} from "@/services/api/common";
+import {getBaseUrl, getPlatformId, getUploadUrl} from "@/utils/env";
+import {isUploadSuccess} from "@/utils/common/upload-file";
+import {base64ToFile} from "@/utils/common/base64-to-file";
+import tmSignBoard from "@/tmui/components/tm-sign-board/tm-sign-board.vue";
+// 政策阅读
+const policy = ref(false);
+// 政策显示隐藏
+const showWin = ref(false);
+// 政策内容
+const rx = `<div class="content_area" id="content_area">
+             <!--repaste.body.begin--><p><strong>　　央视网消息：</strong>在安徽中稻迎来了丰收季。在肥东县相邻的两块地景象大不相同，农机作业的进度和效率也不同。<br></p><p style="text-align: center;" class="photo_img_20190808"><img src="//p4.img.cctvpic.com/photoworkspace/contentimg/2022/10/14/2022101414244666208.jpg" alt=""></p><p style="text-align: center;" class="photo_img_20190808"><img src="//p5.img.cctvpic.com/photoworkspace/contentimg/2022/10/14/2022101414244671910.jpg" alt=""></p><p>　　<strong>总台记者 吴俊：</strong>这里是肥东县古城镇，今天天气晴好，收割机已经进入高标准农田作业。去年秋季，肥东县有7.8万亩田地进行高标准农田改造。改造后的农田，可以说是田成方、林成网、渠相通、路相连。这里一路之隔，一侧是改造过的农田，不仅有了机耕路，农机可以直接到田边，而且修建了标准的灌渠，灌溉和排涝不愁。而路的一侧是还没改造的地块，只有窄窄的杂草丛生的田埂，灌渠也是这种土渠。另外从航拍画面对比来看，改造过的农田，通过小田变大田，打破了田埂，非常适合农机作业。而没有改造过的，田块大小不均、高低不平，农机也没办法下田作业。<br></p><p style="text-align: center;" class="photo_img_20190808"><img src="//p3.img.cctvpic.com/photoworkspace/contentimg/2022/10/14/2022101414250079300.jpg" alt=""></p><p style="text-align: center;" class="photo_img_20190808"><img src="//p3.img.cctvpic.com/photoworkspace/contentimg/2022/10/14/2022101414250072259.jpg" alt=""></p><p>　　改造后的高标准农田，配套了机械深耕、增施有机肥和土壤调理等综合措施，改善了土壤板结度、有机质含量以及酸碱平衡，这为眼前的好收成打下了基础。稻谷颗粒非常饱满，尽管今年水稻在抽穗扬花期遭遇了持续高温，但是高标准农田改造后，能够及时引水灌溉，而且今年当地还种植了抗病新品种，应用了绿色防控等新技术，水稻产量不仅没受太大影响，比去年每亩还高了100斤左右。<br></p><!--repaste.body.end-->
+            </div>`;
+const board = ref<InstanceType<typeof tmSignBoard> | null>(null);
+const {proxy} = getCurrentInstance();
+const segDefaultValue = ref(0);
+const segList = ref([
+    {text: '匿名反馈', id: 0},
+    {text: '实名反馈', id: 1},
+]);
+const cityStr = ref('')
+const showCitySelect = ref(false)
+const formData = ref({
+    username: null,
+    phone: null,
+    content: null,
+    images: [],
+    citydate: [],
+    signature: null,
+    types: [
+        {
+            id: 1,
+            label: '选项',
+            is: true
+        },
+        {
+            id: 2,
+            label: '选项一',
+            is: true
+        },
+        {
+            id: 3,
+            label: '选项一',
+            is: true
+        },
+        {
+            id: 4,
+            label: '选项一',
+            is: true
+        },
+        {
+            id: 4,
+            label: '选项一',
+            is: true
+        },
+        {
+            id: 4,
+            label: '选项一',
+            is: true
+        },
+        {
+            id: 4,
+            label: '选项一',
+            is: true
+        }, {
+            id: 4,
+            label: '选项一',
+            is: true
+        }
+    ]
+})
+const saveSign = async () => {
+    const base64Data = await board.value?.save();
+    const file = base64ToFile(base64Data);
+    uploadOssFile(file).then((signUrl) => {
+        console.log('签名链接', signUrl);
+        toast('保存成功');
+        formData.value.signature = signUrl;
+    }).catch((err) => {
+        toast('保存失败');
+        console.log('err', err);
+    });
+};
+
+const confirm = (e: any) => {
+    if (e.validate) {
+        if (!policy.value) {
+            toast('请阅读并同意用户隐私政策');
+            return;
+        }
+        toast('已经提交')
+        console.log('confirm', e)
+    }
+}
+</script>

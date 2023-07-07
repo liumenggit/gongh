@@ -1,0 +1,73 @@
+<template>
+    <tm-app ref="app">
+        <view class="mx-32 mt-32 round-3 overflow">
+            <tm-cell title="头像" url="/pages/my/set/avatar" :margin="[0, 0]" :titleFontSize="30" bottomBorder>
+                <template v-slot:rightText>
+                    <tm-avatar :img="useUserInfo.avatar" :size="75" :round="4" class="pr-10"></tm-avatar>
+                </template>
+            </tm-cell>
+            <tm-cell title="昵称" url="/pages/my/set/nickname" :right-text="useUserInfo.nickname"
+                     :margin="[0, 0]"
+                     :titleFontSize="30" bottomBorder/>
+            <tm-cell title="手机号" url="/pages/my/set/phone" :right-text="useUserInfo.phone as string"
+                     :margin="[0, 0]"
+                     :titleFontSize="30"/>
+        </view>
+        <view class="mx-32 mt-32">
+            <tm-cell title="实名认证" url="/pages/my/set/card" showAvatar
+                     :margin="[0, 0]" :round="3" :titleFontSize="30" class="mt-20">
+                <template v-slot:avatar>
+                    <tm-icon customicon name="td-shield_check" :font-size="60"></tm-icon>
+                </template>
+                <template v-slot:right>
+                    <tm-button :label="useUserInfo.auth.card?.cardId?'修改':'认证'"
+                               :color="useUserInfo.auth.card?.cardId?'green':'primary'" size="small"
+                               :padding="[0,0]"
+                               :margin="[0,0]"></tm-button>
+                </template>
+            </tm-cell>
+            <tm-cell title="微信" showAvatar
+                     :margin="[0, 0]" :round="3" :titleFontSize="30" class="mt-20">
+                <template v-slot:avatar>
+                    <tm-icon customicon name="td-shield_check" :font-size="60"></tm-icon>
+                </template>
+                <template v-slot:right>
+                    <tm-button label="绑定" size="small" :padding="[0,0]" :margin="[0,0]"></tm-button>
+                </template>
+            </tm-cell>
+            <tm-cell title="QQ" showAvatar
+                     :margin="[0, 0]" :round="3" :titleFontSize="30" class="mt-20">
+                <template v-slot:avatar>
+                    <tm-icon customicon name="td-shield_check" :font-size="60"></tm-icon>
+                </template>
+                <template v-slot:right>
+                    <tm-button label="绑定" size="small" :padding="[0,0]" :margin="[0,0]"></tm-button>
+                </template>
+            </tm-cell>
+        </view>
+        <view class="mx-32 mt-32 round-3 overflow">
+            <tm-cell title="安全中心" label="账号挂失、解限、举报等安全服务" :margin="[0, 0]"
+                     :titleFontSize="30" bottomBorder/>
+        </view>
+        <tm-alert :shadow="2" :content="alertContent" :height="80"></tm-alert>
+    </tm-app>
+</template>
+<script lang="ts" setup>
+import {getCurrentInstance, ref} from "vue";
+import {useUserStore} from "@/state/modules/user";
+import {onLoad} from "@dcloudio/uni-app";
+
+const proxy = getCurrentInstance()?.proxy ?? null;
+const useUserInfo = useUserStore()
+const alertContent = ref([
+    {
+        icon: 'tmicon-alert',
+        content: "这是一条新闻这是一条新闻这是一条新闻这是一条新闻这是一条新闻这是一条新闻22这是一条新闻这是一条新闻这是一条新闻"
+    }
+])
+onLoad(() => {
+    useUserStore().updateUserInfo()
+})
+</script>
+<style>
+</style>

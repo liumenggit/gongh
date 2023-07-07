@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <trees>
+     <tree path="/src/services/api/common.ts" title="公共api" extension="" presentableText="" tooltipTitle="" icon=""
+           textColor="" backgroundColor=""/>
+     <tree path="/src/utils/common" title="公共方法"/>
+     <tree path="/src/utils/common/send-code.ts" title="发送验证码"/>
+     <tree path="/src/settings/tmui.config.ts" title="UI主题设置"/>
+     <tree path="/src/state" title="公共状态"/>
+     <tree path="/src/static" title="静态文件"/>
+     <tree path="/src/tmui" title="TMUI"/>
+     <tree path="/src/utils" title="工具"/>
+     <tree path="/src/utils/cache" title="缓存"/>
+     <tree path="/src/utils/http" title="请求"/>
+    <tree path="/src/utils/router" title="路由"/>
+    <tree path="/src/settings" title="设置"/>
+    <tree path="/src/services/model" title="数据模型"/>
+    <tree path="/src/services/api" title="API请求"/>
+    <tree path="/src/pages" title="页面"/>
+    <tree path="/src/pages/booking" title="预约"/>
+    <tree path="/src/pages/business" title="业务查询" extension="" presentableText="" tooltipTitle="" icon=""
+          textColor="" backgroundColor=""/>
+    <tree path="/src/pages/feedback" title="意见建议"/>
+    <tree path="/src/pages/index" title="首页"/>
+    <tree path="/src/pages/login" title="登录授权"/>
+    <tree path="/src/pages/message" title="消息"/>
+    <tree path="/src/pages/my" title="个人中心"/>
+    <tree path="/src/pages/notFound" title="404"/>
+    <tree path="/src/pages/notice" title="通知"/>
+    <tree path="/src/pages/outlets" title="网点"/>
+    <tree path="/src/mock" title="模拟数据"/>
+    <tree path="/src/enums" title="枚举类"/>
+    <tree path="/src/components" title="自定义组件"/>
+    <tree path="/src/utils/common/base64-to-file.ts" title="Base64转文件类型"/>
+    <tree path="/src/utils/common/date-format.ts" title="时间格式化"/>
+    <tree path="/src/utils/common/string-length-limit.ts" title="文字截断"/>
+    <tree path="/src/utils/common/upload-file.ts" title="自定义判断上传状态"/>
+    <tree path="/src/hooks" title="挂钩"/>
+    <tree path="/src/pages/account" title="账户"/>
+    <tree path="/src/static/icon" title="阿里图标"/>
+    <tree path="/src/enums/cacheEnum.ts" title="缓存"/>
+    <tree path="/src/enums/httpEnum.ts" title="请求"/>
+    <tree path="/src/enums/routerEnum.ts" title="路由"/>
+    <tree path="/src/enums/toastEnum.ts" title="消息"/>
+    <tree path="/src/goods" title="商城"/>
+    <tree path="/src/pages/goods" title="商城"/>
+    <tree path="/src/pages/article" title="文章"/>
+    <tree path="/src/enums/verifyEnum.ts" title="验证"/>
+    <tree path="/src/pages/cart" title="购物车"/>
+    <tree path="/src/pages/shop" title="商店"/>
+    <tree path="/src/pages/location" title="定位"/>
+</trees>

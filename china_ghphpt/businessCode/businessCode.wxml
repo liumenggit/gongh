@@ -1,3 +1,0 @@
-<!--china_ghphpt/businessCode/businessCode.wxml-->
-<!-- <web-view src="https://wx.shuidiwang.cn/app/index.php?i=214&c=entry&do=code&m=china_ghphpt&id={{id}}"></web-view> -->
-<web-view src="{{id}}"></web-view>

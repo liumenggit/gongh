@@ -1,0 +1,14 @@
+<template>
+    <tm-app>
+        <tm-result @click="useRouter().back()" color="red" :subTitle="subTitle" status="error" showBtn btnText="返回"></tm-result>
+    </tm-app>
+</template>
+
+<script lang="ts" setup>
+import {ref} from 'vue';
+import {useRouter} from '@/hooks/router';
+
+const subTitle = ref('页面走丢了！！！');
+</script>
+<style>
+</style>

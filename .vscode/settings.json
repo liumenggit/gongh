@@ -1,0 +1,57 @@
+{
+  "eslint.format.enable": true,
+  // "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact", "vue"],
+  // "prettier.enable": false,
+  "editor.formatOnSave": false,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true,
+  },
+  "[vue]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+
+  // "快速创建uniapp视图与组件!"，默认scss
+  "create-uniapp-view.template": "vue3",
+  "create-uniapp-view.style": "scss",
+  "create-uniapp-view.typescript": true,
+  "create-uniapp-view.directory": true,
+  "create-uniapp-view.name": "index",
+
+  // 文件映射，json文件写注释
+  "files.associations": {
+    "pages.json": "jsonc",
+    "manifest.json": "jsonc",
+    "uniapp.pack.json.local": "jsonc"
+  },
+
+  // 条件编译注释颜色
+  "better-comments.tags": [
+    {
+      "tag": "#",
+      "color": "#18b566",
+      "strikethrough": false,
+      "underline": false,
+      "backgroundColor": "transparent",
+      "bold": false,
+      "italic": false
+    }
+  ],
+
+  // 排除的搜索目录
+  "search.exclude": {
+    "dist": true,
+    "tmui": true,
+  }
+}

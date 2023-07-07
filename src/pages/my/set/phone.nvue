@@ -1,0 +1,92 @@
+<template>
+    <tm-app ref="app">
+        <tm-form @submit="confirm" ref="form" v-model="phoneFrom" :label-width="190" layout="vertical">
+            <tm-form-item required label="手机号" :rules="[{required:true,message:'请输入手机号'}]" field="phone"
+                          :border="false" showTopErrorGap>
+                <tm-input placeholder="请输入手机号" v-model.lazy="phoneFrom.phone" :showBottomBotder="false"
+                          prefix="td-phone"></tm-input>
+            </tm-form-item>
+            <tm-form-item required label="验证码"
+                          :rules="[{required:true,message:'请输入验证码',validator:(val)=>{return val && val.length === VERIFY_CODE_LENGTH}}]"
+                          field="code"
+                          :border="false" showTopErrorGap
+            >
+                <tm-input placeholder="请输入验证码" type="number" v-model.lazy="phoneFrom.code"
+                          :showBottomBotder="false"
+                          :input-padding="[24,0,0,0]"
+                          prefix="tmicon-ios-finger-print"
+                >
+                    <template v-slot:right>
+                        <tm-button @click="sendPhoneCode(phoneFrom.phone as number, sendCodes)"
+                                   :loading="sendCodeLoading" size="small" :width="150" :round="4"
+                                   :disabled="codeButtonState"
+                                   :label="codeButtonLabel"
+                        ></tm-button>
+                    </template>
+                </tm-input>
+            </tm-form-item>
+            <tm-form-item required label="验证码" :rules="[{required:true,message:'请输入验证码'}]" field="code"
+                          :border="false" showTopErrorGap>
+                <tm-input placeholder="请输入验证码" @search="sendCode" v-model.lazy="phoneFrom.code"
+                          :showBottomBotder="false"
+                          prefix="td-number" searchLabel="获取验证码"/>
+            </tm-form-item>
+            <tm-form-item :border="false">
+                <tm-button form-type="submit" label="绑定手机号" block></tm-button>
+            </tm-form-item>
+        </tm-form>
+        <tm-message ref="msg"></tm-message>
+    </tm-app>
+</template>
+<script lang="ts" setup>
+import {getCurrentInstance, ref} from "vue";
+import {isPhone, toast} from "@/tmui/tool/function/util";
+import {useRequest} from "alova";
+import {sendCode} from "@/services/api/common";
+import {VERIFY_CODE_TEXT, VERIFY_CODE_TIME, VERIFY_CODE_TIME_TEXT} from "@/enums/verifyEnum";
+import {sendPhoneCode} from "@/utils/common/send-code";
+import {useUserStore} from "@/state/modules/user";
+
+let codeButtonState = ref(false);
+const proxy = getCurrentInstance()?.proxy ?? null;
+const phoneFrom = ref({
+    phone: null,
+    code: null
+})
+const {
+    send: sendCodes,
+    loading: sendCodeLoading,
+    onSuccess: sendCodeSuccess
+} = useRequest(phone => sendCode(phone), {immediate: false});
+
+let codeButtonLabel = ref(VERIFY_CODE_TEXT);
+sendCodeSuccess(() => {
+    codeButtonState.value = true;
+    let countDown = VERIFY_CODE_TIME;
+    const timer = setInterval(function () {
+        countDown--;
+        if (countDown <= 0) {
+            clearInterval(timer);
+            codeButtonLabel.value = VERIFY_CODE_TEXT;
+            codeButtonState.value = false;
+        } else {
+            codeButtonLabel.value = countDown + VERIFY_CODE_TIME_TEXT;
+        }
+    }, 1000);
+});
+
+const confirm = (e: any) => {
+    if (e.validate) {
+        useUserStore().setPhone(e.data).then(() => {
+            setTimeout(() => {
+                uni.navigateBack()
+            }, 1300);
+        }).catch(() => {
+            toast('设置失败')
+        })
+    }
+}
+</script>
+
+<style>
+</style>
