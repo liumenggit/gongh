@@ -1,31 +1,55 @@
 <template>
     <tm-app>
-        <tm-carousel autoplay :margin="[0,0]" :round="0" :width="750" :height="300" :list="carouselList"></tm-carousel>
-        <tm-grid :width="750" :col="4">
+        <tm-navbar title="标题导航栏" color="primary" hideHome>
+            <template v-slot:left>
+                <tm-dropdown class="ml-10" position="bl" color="grey-darken-4" :width="220"  :list="list">
+                    <tm-text label="显示菜单"></tm-text>
+                </tm-dropdown>
+            </template>
+        </tm-navbar>
+<!--        <tm-drawer ref="calendarView" :mask="false" placement="left" v-model:show="showWin" :width="200" :height="300" :round="0" hideHeader>-->
+
+<!--        </tm-drawer>-->
+        <td-carousel  autoplay :margin="[32,32,32,0]" :round="3" :width="686" :height="200"
+                     :list="homeData.carousel_list"></td-carousel>
+        <tm-grid :width="700" :col="4" class="ma-25">
             <tm-grid-item v-for="(gridItem,gridIndex) in gridList" :key="gridIndex" :url="gridItem.url" :height="120"
                           dot>
                 <tm-icon :name="gridItem.icon" :font-size="42"></tm-icon>
                 <tm-text :label="gridItem.title" _class="pt-10" :font-size="22"></tm-text>
             </tm-grid-item>
         </tm-grid>
-        <tm-card :title="gridItem.title" :status="gridItem.status" v-for="(gridItem,gridIndex) in gridList"
-                 :key="gridIndex" :margin="[10,12,10,0]"
-                 :round="3" @click="useRouter().go(gridItem.url)">
-            <template v-slot:content>
-                <view class="flex-row flex-row-top-start flex-wrap">
-                    <tm-tag :label="tag" v-for="(tag,index) in gridItem.tag" :key="index"></tm-tag>
+        <tm-roll-notice :list="homeData.notice_list.map((item)=>{return item.title})"/>
+        <tm-sheet>
+            <view class="flex-row flex-row-center-between">
+                <view>
+                    <tm-text :label="homeData.all_click_num"/>
+                    <tm-text label="总点击量"/>
                 </view>
-            </template>
-        </tm-card>
+                <tm-icon name="td-bug"/>
+                <view>
+                    <tm-text :label="homeData.today_click_num"/>
+                    <tm-text label="当日点击量"/>
+                </view>
+            </view>
+        </tm-sheet>
+        <td-carousel autoplay :margin="[32,0,32,0]" :round="3" :width="686" :height="200"
+                     :list="homeData.adv_list"></td-carousel>
     </tm-app>
 </template>
 
 <script setup lang="ts">
-import {useRequest} from "alova";
-import {getCarouselList} from "@/services/api/page";
-import {ref} from "vue";
-import {useRouter} from "@/hooks/router";
-
+import {useRequest} from 'alova';
+import {getCarouselList} from '@/services/api/page';
+import {ref} from 'vue';
+import {useRouter} from '@/hooks/router';
+import {getHome} from '@/services/api/home';
+const showWin = ref(true)
+const list = ref([
+    { text: '苹果', id: '1' ,icon:"tmicon-collection"},
+    { text: '菠萝', id: '2' ,icon:"tmicon-account-plus"},
+    { text: '电话', id: '3' ,icon:"tmicon-phone"},
+])
 const gridList = ref([
     {
         title: '定位',
@@ -62,12 +86,12 @@ const gridList = ref([
         status: '完成',
         tag: ['宫格', '左滑', '预加载', '金额']
     }
-])
+]);
 const {
     loading,
-    data: carouselList,
-} = useRequest(() => getCarouselList(), {
-    initialData: [],
+    data: homeData,
+} = useRequest(() => getHome(), {
+    initialData: {},
     immediate: true,
 });
 

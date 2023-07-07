@@ -36,7 +36,7 @@
                         :userInteractionEnabled="false"
                         :showLoad="props.showLoad"
                         v-if="item.type == listItemType.img"
-                        :src="item.url"
+                        :src="item.img"
                         :width="props.width"
                         :height="props.height"
                     >

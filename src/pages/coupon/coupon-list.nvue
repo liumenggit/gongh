@@ -1,0 +1,172 @@
+<template>
+    <tm-app>
+        <tm-filterMenu :fixed="true" ref="filter">
+            <tm-filterMenu-item :footerHeight="100" :title="businessTypeText">
+                <tm-radio-group direction='customCol' v-model="businessType" :default-value="businessType">
+                    <tm-radio :value="businessTypeItem.id"
+                              v-for="(businessTypeItem, businessTypeIndex) in businessAllType" :key="businessTypeIndex"
+                              :custom="false">
+                        <template v-slot:default="{ checked }">
+                            <view :userInteractionEnabled="false" hover-class="opactiy-7"
+                                  class="flex-1 flex-row flex flex-row-center-between" style="height: 76rpx;">
+                                <tm-text :color="checked.checked ? 'primary' : ''"
+                                         :label="businessTypeItem.text"></tm-text>
+                                <tm-icon :font-size="24" color="primary" v-if="checked.checked"
+                                         name="tmicon-check"></tm-icon>
+                            </view>
+                        </template>
+                    </tm-radio>
+                </tm-radio-group>
+                <template v-slot:footer>
+                    <view class="flex flex-row flex-row-between ">
+                        <view class="pl-24 pr-12 flex-1">
+                            <tm-button @click="filter.close()" :shadow="0" text :outlined="true" block
+                                       label="取消"></tm-button>
+                        </view>
+                        <view class="pr-24 pl-12 flex-1">
+                            <tm-button @click="filter.close()" block :border="1" label="确认"></tm-button>
+                        </view>
+                    </view>
+                </template>
+            </tm-filterMenu-item>
+            <tm-filterMenu-item :footerHeight="100" :title="couponTypeText">
+                <tm-radio-group direction='customCol' v-model="couponType" :default-value="couponType">
+                    <tm-radio :value="couponTypeItem.id"
+                              v-for="(couponTypeItem, couponTypeIndex) in couponAllType" :key="couponTypeIndex"
+                              :custom="false">
+                        <template v-slot:default="{ checked }">
+                            <view :userInteractionEnabled="false" hover-class="opactiy-7"
+                                  class="flex-1 flex-row flex flex-row-center-between" style="height: 76rpx;">
+                                <tm-text :color="checked.checked ? 'primary' : ''"
+                                         :label="couponTypeItem.text"></tm-text>
+                                <tm-icon :font-size="24" color="primary" v-if="checked.checked"
+                                         name="tmicon-check"></tm-icon>
+                            </view>
+                        </template>
+                    </tm-radio>
+                </tm-radio-group>
+                <template v-slot:footer>
+                    <view class="flex flex-row flex-row-between ">
+                        <view class="pl-24 pr-12 flex-1">
+                            <tm-button @click="filter.close()" :shadow="0" text :outlined="true" block
+                                       label="取消"></tm-button>
+                        </view>
+                        <view class="pr-24 pl-12 flex-1">
+                            <tm-button @click="filter.close()" block :border="1" label="确认"></tm-button>
+                        </view>
+                    </view>
+                </template>
+            </tm-filterMenu-item>
+        </tm-filterMenu>
+        <!--        <tm-tabs :list="tabsTitle" :width="750" :default-name="tabsActice" v-model:active-name="tabsActice"></tm-tabs>-->
+        <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
+                    translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
+            <tm-result v-if="pageList.length === 0 && loading === false" status="empty" :show-btn="false"></tm-result>
+            <tm-sheet v-for="pageListItem in pageList" url="/pages/list/list-info"
+                      :key="pageListItem" border-direction="bottom"
+                      :padding="[24,24]" :margin="[0]" :border="1" :width="0" :height="0">
+                <tm-row :height="160" :width="0">
+                    <tm-col :height="0" :col="3" align="start">
+                        <tm-image :width="160" :height="150" :src="pageListItem.image" :round="4"/>
+                    </tm-col>
+                    <tm-col :height="160" :col="9" align="start">
+                        <tm-text _class="text-overflow-2 text-align-left" :label="pageListItem.title"/>
+                        <tm-text :label="pageListItem.mail" color="grey"/>
+                        <tm-text :label="pageListItem.phone" color="grey"/>
+                        <tm-text :label="pageListItem.date" color="grey"/>
+                    </tm-col>
+                </tm-row>
+            </tm-sheet>
+            <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
+        </tm-scrolly>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+import {computed, getCurrentInstance, Ref, ref} from 'vue';
+import {usePagination} from '@alova/scene-vue';
+import {onReady} from '@dcloudio/uni-app';
+import {getWindow, torpx} from '@/tmui/tool/function/util';
+import {getPageList} from '@/services/api/page';
+import tmFilterMenu from '@/tmui/components/tm-filterMenu/tm-filterMenu.vue';
+
+import _ from 'lodash';
+
+const filter = ref<InstanceType<typeof tmFilterMenu | null>>(null);
+const businessType: Ref<string | number> = ref(1);
+const businessAllType = ref([
+    {text: '所有', id: 1},
+    {text: 'radio12-1', id: 2},
+    {text: 'radio13-1', id: 3},
+    {text: 'radio14-1', id: 4},
+    {text: 'radio15-1', id: 5},
+]);
+const businessTypeText = computed(() => {
+    return _.find(businessAllType.value, {id: businessType.value}).text;
+});
+
+
+const couponType: Ref<string | number> = ref(1);
+const couponAllType = ref([
+    {text: '所有', id: 1},
+    {text: 'radio12-1', id: 2},
+    {text: 'radio13-1', id: 3},
+    {text: 'radio14-1', id: 4},
+    {text: 'radio15-1', id: 5},
+]);
+const couponTypeText = computed(() => {
+    return _.find(couponAllType.value, {id: couponType.value}).text;
+});
+
+const tabsTitle = ref([
+    {key: '1', title: '选项1', icon: 'tmicon-ios-leaf'},
+    {key: 'all', title: '所有', icon: 'tmicon-ios-umbrella'},
+    {key: '3', title: '选项3', dot: true, dotColor: 'yellow', icon: 'tmicon-ios-rocket'},
+    {key: '4', title: '选项4', dot: false, count: '3', icon: 'tmicon-ios-partly-sunny'},
+]);
+
+const tabsActice = ref('all');
+
+const pull = ref(false);
+const scrollHeight = ref(400);
+const proxy = getCurrentInstance()?.proxy ?? null;
+onReady(() => {
+    const query = uni.createSelectorQuery().in(proxy);
+    query.select('.hei').boundingClientRect((result: any) => {
+        scrollHeight.value = torpx(getWindow().height - result.top);
+    }).exec();
+});
+
+const clsName = ref(null);
+
+const {
+    loading,
+    data: pageList,
+    isLastPage,
+    pageSize: limit,
+    page,
+    reload,
+    onSuccess
+} = usePagination(
+    (page: number, limit: number) =>
+        getPageList({page, limit, type: tabsActice.value}),
+    {
+        watchingStates: [tabsActice, clsName],
+        preloadPreviousPage: false,
+        preloadNextPage: false,
+        append: true,
+        debounce: [500],
+        data: (res) => res.list,
+        initialPageSize: 10
+    }
+);
+onSuccess(() => {
+    console.log('onSuccess');
+    pull.value = false;
+});
+
+</script>
+
+<style scoped>
+
+</style>

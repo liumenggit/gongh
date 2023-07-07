@@ -1,16 +1,16 @@
 import {UserInfoState} from '@/services/model/userModel';
 import {request} from '@/utils/http';
 
-const LOGIN = '/user_wxlogin';
+const LOGIN = '/wxLogin';
 const LOGIN_OUT = '/logout';
 const REFRESH_TOKEN = '/refresh/token';
 
 /**
  * 登录
- * @param params
+ * @param code
  */
-export function userWxlogin(params: WxLoginParams) {
-    return request.Post<UserInfoState>(LOGIN, params);
+export function userWxlogin(code: WxLoginParams) {
+    return request.Post<UserInfoState>(LOGIN, {code: code});
 }
 
 export function userPhonelogin(params: PhoneLoginParams) {

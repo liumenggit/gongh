@@ -6,7 +6,7 @@ export enum ResultEnum {
      * 通用成功
      * @type {ResultEnum.SUCCESS}
      */
-    SUCCESS = 200001,
+    SUCCESS = 1,
     /**
      * 通用错误
      * @type {ResultEnum.ERROR}

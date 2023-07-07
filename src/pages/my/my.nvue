@@ -1,10 +1,10 @@
 <template>
-    <tm-app ref="app">
-        <tm-sheet :margin="[0,0,0,20]" :padding="[0,0]" color="primary">
+    <tm-app ref="app" bg-img="https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/mineBg.jpg">
+        <tm-sheet :margin="[0,0,0,20]" :padding="[0,0]" transprent>
             <tm-cell url="/pages/my/revise" showAvatar transprent :round="3" :avatarSize="80" :margin="[24,0]"
                      :label="useUserInfo.phone as string" labelColor="grey-2">
                 <template v-slot:avatar>
-                    <tm-image :src="useUserInfo.avatar" :width="100" :height="100" :round="2"></tm-image>
+                    <tm-image :src="useUserInfo.avatar" :width="100" :height="100" :round="20"></tm-image>
                 </template>
                 <template v-slot:title>
                     <view class="flex-row flex-row-center-start nowrap">
@@ -14,56 +14,126 @@
                     </view>
                 </template>
                 <template v-slot:right>
-                    <tm-icon name="td-color_palette" color="white" font-size="36"></tm-icon>
+                    <view class="flex-row flex-row-center-between nowrap flex-wrap">
+                        <tm-icon name="td-color_palette" color="white" font-size="36"></tm-icon>
+                        <tm-text label="扫一扫"/>
+                    </view>
                 </template>
             </tm-cell>
         </tm-sheet>
-        <tm-card status="全部订单" title="我的订单" :round="3" statusColor="grey">
+        <tm-card title="我的卡包" :round="3">
             <template v-slot:content>
-                <tm-grid :width="638" :col="4">
+                <tm-grid :width="638" :col="3">
                     <tm-grid-item :height="120" dot>
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
-                        <tm-text _class="pt-10" :font-size="22" label="代付款"></tm-text>
+                        <view class="flex-row flex-row-center-between">
+                            <tm-text _class="pt-10" :font-size="22" label="已核销"></tm-text>
+                            <tm-text _class="pt-10" :font-size="22" label="张" color="red"></tm-text>
+                        </view>
                     </tm-grid-item>
                     <tm-grid-item color="red" :height="120" :count="1">
                         <tm-icon name="td-box" :font-size="60"></tm-icon>
-                        <tm-text _class="pt-10" :font-size="22" label="待收货"></tm-text>
+                        <view class="flex-row flex-row-center-between">
+                            <tm-text _class="pt-10" :font-size="22" label="已核销"></tm-text>
+                            <tm-text _class="pt-10" :font-size="22" label="张" color="red"></tm-text>
+                        </view>
                     </tm-grid-item>
                     <tm-grid-item :height="120" dot>
                         <tm-icon name="td-clipboard" :font-size="60"></tm-icon>
-                        <tm-text _class="pt-10" :font-size="22" label="待评价"></tm-text>
-                    </tm-grid-item>
-                    <tm-grid-item :height="120">
-                        <tm-icon name="td-event_scheduled" :font-size="60"></tm-icon>
-                        <tm-text _class="pt-10" :font-size="22" label="预订"></tm-text>
+                        <view class="flex-row flex-row-center-between">
+                            <tm-text _class="pt-10" :font-size="22" label="已核销"></tm-text>
+                            <tm-text _class="pt-10" :font-size="22" label="张" color="red"></tm-text>
+                        </view>
                     </tm-grid-item>
                 </tm-grid>
             </template>
         </tm-card>
-        <tm-card title="我的服务" :round="3" statusColor="grey">
+        <tm-card title="我的积分" :round="3">
             <template v-slot:content>
-                <tm-cell title="反馈" url="/pages/my/feedback" :margin="[0, 0]"
-                         :padding="[0,24]"
-                         :titleFontSize="30" showAvatar bottomBorder>
-                    <template v-slot:avatar>
-                        <tm-icon name="td-bug" :font-size="50"></tm-icon>
-                    </template>
-                </tm-cell>
-                <tm-cell title="预约" url="/pages/my/bespeak/bespeak" :margin="[0, 0]"
-                         :padding="[0,24]"
-                         :titleFontSize="30" showAvatar bottomBorder>
-                    <template v-slot:avatar>
-                        <tm-icon name="td-event_scheduled" :font-size="50"></tm-icon>
-                    </template>
-                </tm-cell>
-                <tm-cell title="收货地址" :margin="[0, 0]" :padding="[0,24]"
-                         :titleFontSize="30" showAvatar>
-                    <template v-slot:avatar>
-                        <tm-icon name="td-map" :font-size="50"></tm-icon>
-                    </template>
-                </tm-cell>
+                <tm-grid :width="638" :col="4">
+                    <tm-grid-item :height="120" dot>
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="抽奖礼品"></tm-text>
+                    </tm-grid-item>
+                    <tm-grid-item :height="120" dot>
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="签到得积分"></tm-text>
+                    </tm-grid-item>
+                    <tm-grid-item :height="120" dot>
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="积分明细"></tm-text>
+                    </tm-grid-item>
+                    <tm-grid-item :height="120" dot>
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="积分礼品"></tm-text>
+                    </tm-grid-item>
+                </tm-grid>
             </template>
         </tm-card>
+        <tm-card title="常用工具" :round="3">
+            <template v-slot:content>
+                <tm-grid :width="638" :col="4">
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="劳动就业"></tm-text>
+                    </tm-grid-item>
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="意见反馈"></tm-text>
+                    </tm-grid-item>
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="消息通知"></tm-text>
+                    </tm-grid-item>
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="个人设置"></tm-text>
+                    </tm-grid-item>
+                </tm-grid>
+            </template>
+        </tm-card>
+        <tm-card title="特色功能" :round="3">
+            <template v-slot:content>
+                <tm-grid :width="638" :col="4">
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="在线缴费"></tm-text>
+                    </tm-grid-item>
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="户外驿站"></tm-text>
+                    </tm-grid-item>
+                </tm-grid>
+            </template>
+        </tm-card>
+        <tm-card title="管理员" :round="3">
+            <template v-slot:content>
+                <tm-grid :width="638" :col="4">
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="店员添加"></tm-text>
+                    </tm-grid-item>
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="核销记录"></tm-text>
+                    </tm-grid-item>
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="店员列表"></tm-text>
+                    </tm-grid-item>
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
+                        <tm-text _class="pt-10" :font-size="22" label="兑换记录"></tm-text>
+                    </tm-grid-item>
+                </tm-grid>
+            </template>
+        </tm-card>
+        <tm-image :margin="[24,24]"
+                  src="http://w720190822.oss-cn-qingdao.aliyuncs.com/ghphpt/images/83e1fffdd3f8c36b8e2e5ba81b16ed9e.png"
+                  :width="702" :round="4"/>
+        <view class="fulled flex-row flex-row-center-between">
+            <tm-text :label="'版本号：'"/>
+        </view>
         <view class="mx-32 round-3 overflow">
         </view>
     </tm-app>
@@ -72,14 +142,15 @@
 import {
     onShow,
     onLoad,
-} from "@dcloudio/uni-app";
-import {useUserStore} from "@/state/modules/user";
+} from '@dcloudio/uni-app';
+import {useUserStore} from '@/state/modules/user';
+import {useRouter} from '@/hooks/router';
 
-const useUserInfo = useUserStore()
+const useUserInfo = useUserStore();
 
 onLoad(() => {
-})
+});
 onShow(() => {
-})
+});
 
 </script>

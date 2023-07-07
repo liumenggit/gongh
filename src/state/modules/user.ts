@@ -5,6 +5,7 @@ import {getUserInfo, setUserAvatar, setUserNickName, setUserPhone, verifyUserCar
 import {UserCardVerifyParams, UserInfoState} from '@/services/model/userModel';
 import {toast} from '@/tmui/tool/function/util';
 import {uploadFileOss} from '@/utils/common/upload-file';
+import {userWxlogin} from '@/services/api/auth';
 
 export const useUserStore = defineStore('userInfo', {
     state: (): UserInfoState => (getCache<UserInfoState>(USER_INFO_KEY) || {
@@ -19,6 +20,21 @@ export const useUserStore = defineStore('userInfo', {
     }),
     getters: {},
     actions: {
+        login() {
+            return new Promise((resolve, reject) => {
+                uni.login({
+                    provider: 'weixin', // 使用微信登录
+                    success(loginRes) {
+                        console.log('loginRes',loginRes);
+                        // userWxlogin(loginRes.code).send().then((res) => {
+                        //     console.log('e', res);
+                        // }).catch((err) => {
+                        //     console.error(err);
+                        // });
+                    },
+                });
+            });
+        },
         /**
          * 更新用户信息
          * @returns {Promise<void>}

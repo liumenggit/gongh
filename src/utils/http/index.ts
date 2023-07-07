@@ -3,13 +3,15 @@ import {toast} from '@/tmui/tool/function/util';
 import {createAlova} from 'alova';
 import AdapterUniapp from '@alova/adapter-uniapp';
 import {assign} from 'lodash-es';
-import {getBaseUrl, getPlatformId,isDevMode} from '@/utils/env';
+import {getBaseUrl, getPlatformId, isDevMode} from '@/utils/env';
 import {checkStatus} from '@/utils/http/checkStatus';
 import {ContentTypeEnum, ResultEnum} from '@/enums/httpEnum';
 import type {API} from '@/services/model/baseModel';
 import {Token} from '@/services/model/userModel';
 import {mockAdapter} from '@/mock';
 import {useAuthStore} from '@/state/modules/auth';
+import {useSettingStore} from '@/state/modules/setting';
+
 const BASE_URL = getBaseUrl();
 const PLATFORM_ID = getPlatformId();
 
@@ -32,6 +34,7 @@ const alovaInstance = createAlova({
     beforeRequest: (method) => {
         const authStore = useAuthStore();
         method.config.headers = assign(method.config.headers, HEADER, authStore.getAuthorization);
+        method.config.params = assign(method.config.params,useSettingStore().getArea);
     },
     responsed: {
         /**
@@ -52,8 +55,8 @@ const alovaInstance = createAlova({
                 data: rawData,
             } = response;
             const {
-                code,
-                message,
+                state,
+                msg,
                 data,
                 error
             } = rawData as API;
@@ -64,14 +67,14 @@ const alovaInstance = createAlova({
                 }
                 if (enableUpload) {
                     // 上传处理
-                    if (code === ResultEnum.UPLOAD_ERROR)
+                    if (state === ResultEnum.UPLOAD_ERROR)
                         return Promise.reject(rawData);
                     return rawData;
                 }
-                if (code === ResultEnum.SUCCESS) {
+                if (state === ResultEnum.SUCCESS) {
                     return data;
                 }
-                if (code === ResultEnum.UPDATE_TOKEN) {
+                if (state === ResultEnum.UPDATE_TOKEN) {
                     const access = alovaInstance.Get<Token>('/user_access_to_token', {
                         params: {
                             access: useUserStore()._token.access
@@ -88,7 +91,7 @@ const alovaInstance = createAlova({
                 error && toast(error);
                 return Promise.reject(rawData);
             }
-            checkStatus(statusCode, message || '');
+            checkStatus(statusCode, msg || '');
             return Promise.reject(rawData);
         },
 

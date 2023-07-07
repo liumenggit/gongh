@@ -8,7 +8,26 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "首页"
+        "navigationBarTitleText": "首页",
+        "navigationStyle":"custom"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/my/login",
+      "style": {
+        "navigationBarTitleText": "登录"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/coupon/coupon-list",
+      "style": {
+        "navigationBarTitleText": "卡券列表"
       },
       "meta": {
         "ignoreAuth": true
@@ -142,9 +161,9 @@
     }
   ],
   "globalStyle": {
-    "navigationBarTextStyle": "black",
+    "navigationBarTextStyle": "white",
     "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F2F2F2",
+    "navigationBarBackgroundColor": "#fb4b6b",
     "backgroundColor": "#F2F2F2",
     "navigationStyle": "default",
     "renderingMode": "seperated",
@@ -163,10 +182,10 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/notFound/404",
+        "pagePath": "pages/coupon/coupon-list",
         "iconPath": "static/tabar/compass-of.png",
         "selectedIconPath": "static/tabar/compass-on.png",
-        "text": "404"
+        "text": "卡券列表"
       },
       {
         "pagePath": "pages/my/my",
