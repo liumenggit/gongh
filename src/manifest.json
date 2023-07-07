@@ -1,5 +1,5 @@
 {
-  "name": "脚手架DEMO",
+  "name": "工会",
   "appid": "__UNI__D0B7835",
   "description": "uniapp Vue3 TypeScript 快速开发框架",
   "versionName": "1.0.0",
@@ -115,7 +115,7 @@
   /* 小程序特有相关 */
   "mp-weixin": {
     // "libVersion" : "2.29.1",
-    "appid": "wxb2005e633c1d2fb7",
+    "appid": "wx06a0e3f056eb32f7",
     "setting": {
       "urlCheck": false,
       // 检查安全域名和TLS版本
