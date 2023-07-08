@@ -91,6 +91,7 @@ import {getPageList} from '@/services/api/page';
 import tmFilterMenu from '@/tmui/components/tm-filterMenu/tm-filterMenu.vue';
 
 import _ from 'lodash';
+import {getCouponList} from '@/services/api/coupon';
 
 const filter = ref<InstanceType<typeof tmFilterMenu | null>>(null);
 const businessType: Ref<string | number> = ref(1);
@@ -149,7 +150,7 @@ const {
     onSuccess
 } = usePagination(
     (page: number, limit: number) =>
-        getPageList({page, limit, type: tabsActice.value}),
+        getCouponList({page, limit, business_hy: tabsActice.value}),
     {
         watchingStates: [tabsActice, clsName],
         preloadPreviousPage: false,

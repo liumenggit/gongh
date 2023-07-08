@@ -1,0 +1,72 @@
+<template>
+  <!--    color="white" :linear-color="['#ea3c2d','#ff9d14']" linear="top" linear-deep="light"-->
+    <tm-app>
+        <tm-card :margin="[32,32,32,0]" :round="3">
+            <template v-slot:title>
+                <tm-text label="商家名称" color="decolor"/>
+            </template>
+            <template v-slot:content>
+                <tm-text label="1232sdad士大夫地方"/>
+            </template>
+        </tm-card>
+        <tm-cell :round="3" :margin="[32,12,32,0]" right-text="选择" :shadow="2">
+            <template v-slot:title>
+                <tm-text label="查看可用优惠券" color="decolor"/>
+            </template>
+        </tm-cell>
+        <tm-cell :round="3" :margin="[32,12,32,0]" right-text="选择" :shadow="2">
+            <template v-slot:title>
+                <tm-text label="查看可用核销积分商品" color="decolor"/>
+            </template>
+        </tm-cell>
+        <tm-card :margin="[32,12,32,0]" :round="3">
+            <template v-slot:title>
+                <view class="flex-row flex-row-center-start">
+                    <tm-text label="可用余额" color="decolor" class="mr-20"/>
+                    <tm-text label="￥20.00"/>
+                    <!--                    <tm-statistic prefix="￥" :start-val="0" :end-val="20" :decimals="2"></tm-statistic>-->
+                </view>
+            </template>
+            <template v-slot:content>
+                <view class="flex-col flex-col-center-center flex-wrap fulled pa-20">
+                    <tm-input placeholder="请输入付款金额" type="number" :fontSize="48" align="center" class="fulled"
+                              :height="120"/>
+                    <tm-text label="实际支付￥0.00" color="decolor" class="mt-40"/>
+                </view>
+            </template>
+        </tm-card>
+        <tm-button label="支付" block :margin="[32,32]"></tm-button>
+        <tm-drawer ref="calendarView" placement="bottom" v-model:show="showWin" :height="800">
+            <tm-scrolly :width="0">
+                <tm-sheet v-for="(item,index) in 30" :key="index" :margin="[12,0]">
+                    <view class="flex-row flex-row-center-between">
+                        <tm-image src="https://cdn.tmui.design/gds2023628-2024628.jpg" :width="200" :height="130"
+                                  :round="3"></tm-image>
+                        <view class="flex-col flex-col-top-start flex-wrap flex-1 ml-20">
+                            <tm-text label="123123123" class="fulled" :font-size="32"/>
+                            <view class="fulled flex-row flex-row-center-start my-10">
+                                <tm-icon name="td-bug" class="mr-10"/>
+                                <tm-text label="50积分" color="decolor"/>
+                            </view>
+                            <view class="fulled flex-row flex-row-center-start">
+                                <tm-text label="有效期:" color="decolor" class="mr-10"/>
+                                <tm-text label="2045-5-4" color="grey"/>
+                            </view>
+                        </view>
+                    </view>
+                </tm-sheet>
+            </tm-scrolly>
+        </tm-drawer>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+import {ref} from 'vue';
+import TdText from '../../components/td-text/td-text.vue';
+
+const showWin = ref(false);
+</script>
+
+<style scoped>
+
+</style>

@@ -19,7 +19,7 @@ export declare interface UserInfoState {
             cardId: string
             name: string
         }
-    }
+    };
 }
 
 /**
@@ -53,4 +53,9 @@ declare interface Token {
 declare interface UserCardVerifyParams {
     name: string,
     cardId: string,
+}
+
+
+declare interface UserRefine {
+    name: string;
 }

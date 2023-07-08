@@ -2,17 +2,39 @@
     <tm-app>
         <tm-navbar title="标题导航栏" color="primary" hideHome>
             <template v-slot:left>
-                <tm-dropdown class="ml-10" position="bl" color="grey-darken-4" :width="220"  :list="list">
-                    <tm-text label="显示菜单"></tm-text>
-                </tm-dropdown>
+                <view class="flex-row flex-row-center-center">
+                    <td-text prefix-icon="td-bug" :label="useSettingStore().area.name" @click="showWin = !showWin"
+                             class="ml-20"
+                             color="white"></td-text>
+                    <view class="pa-20"
+                          style="width: 60vw;height: 20vh;background-color: white;position: absolute;top: 88px;left: 0px"
+                          v-if="showWin">
+                        <tm-text label="旗县" color="declolr"/>
+                        <view class="fulled flex-row flex-row-center-start flex-wrap">
+                            <tm-text v-for="(areaItem,areaIndex) in _.filter(homeData.block, {type: 'area'})"
+                                     :label="areaItem.name"
+                                     :font-size="32" class="mr-20"
+                                     :color="useSettingStore().area.id === areaItem.id && useSettingStore().area.type === areaItem.type?'red':''"
+                                     @click="checkArea(areaItem)"
+                                     :key="areaIndex"/>
+                        </view>
+                        <tm-text label="企业" color="declolr"/>
+                        <view class="fulled flex-row flex-row-center-start flex-wrap">
+                            <tm-text v-for="(areaItem,areaIndex) in _.filter(homeData.block, {type: 'company'})"
+                                     :label="areaItem.name"
+                                     :font-size="32" class="mr-20"
+                                     :color="useSettingStore().area.id === areaItem.id && useSettingStore().area.type === areaItem.type?'red':''"
+                                     @click="checkArea(areaItem)"
+                                     :key="areaIndex"/>
+                        </view>
+                    </view>
+                </view>
+
             </template>
         </tm-navbar>
-<!--        <tm-drawer ref="calendarView" :mask="false" placement="left" v-model:show="showWin" :width="200" :height="300" :round="0" hideHeader>-->
-
-<!--        </tm-drawer>-->
-        <td-carousel  autoplay :margin="[32,32,32,0]" :round="3" :width="686" :height="200"
+        <td-carousel autoplay :margin="[32,32]" :round="3" :width="686" :height="200"
                      :list="homeData.carousel_list"></td-carousel>
-        <tm-grid :width="700" :col="4" class="ma-25">
+        <tm-grid :width="700" :col="4" class="ml-32 mr-32">
             <tm-grid-item v-for="(gridItem,gridIndex) in gridList" :key="gridIndex" :url="gridItem.url" :height="120"
                           dot>
                 <tm-icon :name="gridItem.icon" :font-size="42"></tm-icon>
@@ -20,7 +42,7 @@
             </tm-grid-item>
         </tm-grid>
         <tm-roll-notice :list="homeData.notice_list.map((item)=>{return item.title})"/>
-        <tm-sheet>
+        <tm-sheet :margin="[32,0,32,32]">
             <view class="flex-row flex-row-center-between">
                 <view>
                     <tm-text :label="homeData.all_click_num"/>
@@ -44,56 +66,80 @@ import {getCarouselList} from '@/services/api/page';
 import {ref} from 'vue';
 import {useRouter} from '@/hooks/router';
 import {getHome} from '@/services/api/home';
-const showWin = ref(true)
+import {useLocationStore} from '@/state/modules/location';
+import {useSettingStore} from '@/state/modules/setting';
+import _ from 'lodash';
+
+const showWin = ref(false);
 const list = ref([
-    { text: '苹果', id: '1' ,icon:"tmicon-collection"},
-    { text: '菠萝', id: '2' ,icon:"tmicon-account-plus"},
-    { text: '电话', id: '3' ,icon:"tmicon-phone"},
-])
+    {text: '苹果', id: '1', icon: 'tmicon-collection'},
+    {text: '菠萝', id: '2', icon: 'tmicon-account-plus'},
+    {text: '电话', id: '3', icon: 'tmicon-phone'},
+]);
 const gridList = ref([
     {
-        title: '定位',
+        title: '完善个人信息',
         icon: 'tmicon-commentlines-fill',
-        url: '/pages/location/location',
-        status: '进行中',
-        tag: []
+        url: '/pages/my/refine',
     },
     {
-        title: '列表',
+        title: '扫码商家',
         icon: 'tmicon-database-fill',
-        url: '/pages/list/list',
-        status: '完成',
-        tag: ['布局', '分页', '动态', 'Tabs']
+        url: '/pages/qrcode/pay',
     },
     {
-        title: '表单',
-        icon: 'tmicon-commentlines-fill',
-        url: '/pages/my/feedback',
-        status: '完成',
-        tag: ['三级地区', '文本域', '上传图片', '政策', '动态表单', '签名']
+        title: '登录',
+        icon: 'tmicon-database-fill',
+        url: '/pages/my/login',
     },
     {
-        title: '设置',
-        icon: 'tmicon-commentlines-fill',
-        url: '/pages/my/revise',
-        status: '完成',
-        tag: ['头像', '昵称', '手机', '认证']
+        title: '消息通知',
+        icon: 'tmicon-database-fill',
+        url: '/pages/my/message',
     },
     {
-        title: '详情',
-        icon: 'tmicon-commentlines-fill',
-        url: '/pages/list/list-info',
-        status: '完成',
-        tag: ['宫格', '左滑', '预加载', '金额']
-    }
+        title: '抽奖礼品',
+        icon: 'tmicon-database-fill',
+        url: '/pages/integral/lottery',
+    },
+    {
+        title: '积分商品',
+        icon: 'tmicon-database-fill',
+        url: '/pages/integral/commodity',
+    },
+    {
+        title: '商户中心',
+        icon: 'tmicon-database-fill',
+        url: '/pages/businesses/businesses-info',
+    },
+    {
+        title: '扫码商家',
+        icon: 'tmicon-database-fill',
+        url: '/pages/qrcode/pay',
+    },
 ]);
 const {
     loading,
     data: homeData,
-} = useRequest(() => getHome(), {
+    send,
+    onSuccess
+} = useRequest((area) => getHome(area), {
+    force: true,
     initialData: {},
     immediate: true,
 });
+onSuccess((data) => {
+    // if (!useSettingStore().area) {
+    //     console.log('默认', 'area-' + data.data.area_list[0].id);
+    //     useSettingStore().setArea('area-' + data.data.area_list[0].id);
+    // }
+    // console.log('onSuccess', data.data.area_list);
+});
+const checkArea = (area: any) => {
+    useSettingStore().setArea(area);
+    showWin.value = false;
+    send();
+};
 
 </script>
 

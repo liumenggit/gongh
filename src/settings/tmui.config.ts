@@ -8,7 +8,8 @@ export const config: Tmui.tmuiConfig = {
         // 比如："primary": "#FF0000"
         // 名称如果与自带主题相同，将会覆盖。
         tnt: ['#009fe8', '#007fba'],
-        primary: '#fb4b6b'
+        primary: '#fb4b6b',
+        decolor: '#fb4b6b'
     },
     router: {
         useTmRouterBefore(arg) {

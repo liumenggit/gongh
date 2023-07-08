@@ -4,7 +4,7 @@
 declare interface HomeSeting {
     adv_list: AdvList[];
     all_click_num: number;
-    area_list: AreaList[];
+    block: AreaList[];
     carousel_list: CarouselList[];
     company_list: CompanyList[];
     foot_button: FootButton;
@@ -26,6 +26,7 @@ export interface AdvList {
 export interface AreaList {
     id: number;
     name: string;
+    type:string
 }
 
 export interface CarouselList {

@@ -9,7 +9,80 @@
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "首页",
-        "navigationStyle":"custom"
+        "navigationStyle": "custom"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/shop/shop",
+      "style": {
+        "navigationBarTitleText": "商城",
+        "navigationStyle": "custom"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/businesses/businesses-info",
+      "style": {
+        "navigationBarTitleText": "商户中心"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/integral/commodity",
+      "style": {
+        "navigationBarTitleText": "积分商品"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/integral/lottery",
+      "style": {
+        "navigationBarTitleText": "抽奖礼品"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/my/refine",
+      "style": {
+        "navigationBarTitleText": "完善个人信息"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/my/message",
+      "style": {
+        "navigationBarTitleText": "消息通知"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/qrcode/pay",
+      "style": {
+        "navigationBarTitleText": "扫码商家"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/signin/signin",
+      "style": {
+        "navigationBarTitleText": "积分签到"
       },
       "meta": {
         "ignoreAuth": true
@@ -150,6 +223,7 @@
         "ignoreAuth": true
       }
     },
+
     {
       "path": "pages/notFound/404",
       "style": {
@@ -180,6 +254,12 @@
         "iconPath": "static/tabar/compass-of.png",
         "selectedIconPath": "static/tabar/compass-on.png",
         "text": "首页"
+      },
+      {
+        "pagePath": "pages/shop/shop",
+        "iconPath": "static/tabar/compass-of.png",
+        "selectedIconPath": "static/tabar/compass-on.png",
+        "text": "商城"
       },
       {
         "pagePath": "pages/coupon/coupon-list",

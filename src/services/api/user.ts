@@ -1,4 +1,4 @@
-import {UserCardVerifyParams, UserInfoState, UserPerfectParams} from '@/services/model/userModel';
+import {UserCardVerifyParams, UserInfoState, UserPerfectParams} from '@/services/model/user';
 import {request} from '@/utils/http';
 
 /**

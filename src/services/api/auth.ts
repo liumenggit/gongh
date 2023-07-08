@@ -1,4 +1,4 @@
-import {UserInfoState} from '@/services/model/userModel';
+import {UserInfoState} from '@/services/model/user';
 import {request} from '@/utils/http';
 
 const LOGIN = '/wxLogin';

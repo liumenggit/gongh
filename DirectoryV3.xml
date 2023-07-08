@@ -48,4 +48,9 @@
     <tree path="/src/pages/cart" title="购物车"/>
     <tree path="/src/pages/shop" title="商店"/>
     <tree path="/src/pages/location" title="定位"/>
+    <tree path="/src/pages/integral" title="积分"/>
+    <tree path="/src/pages/integral/抽奖.nvue" title="抽奖礼品"/>
+    <tree path="/src/pages/integral/lottery.nvue" title="抽奖礼品"/>
+    <tree path="/src/pages/integral/commodity.nvue" title="积分商品"/>
+    <tree path="/src/pages/businesses/businesses-info.nvue" title="商户信息"/>
 </trees>

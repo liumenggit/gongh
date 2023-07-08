@@ -2,7 +2,7 @@ import {USER_INFO_KEY} from '@/enums/cacheEnum';
 import {defineStore} from 'pinia';
 import {getCache, setCache} from '@/utils/cache';
 import {getUserInfo, setUserAvatar, setUserNickName, setUserPhone, verifyUserCard} from '@/services/api/user';
-import {UserCardVerifyParams, UserInfoState} from '@/services/model/userModel';
+import {UserCardVerifyParams, UserInfoState} from '@/services/model/user';
 import {toast} from '@/tmui/tool/function/util';
 import {uploadFileOss} from '@/utils/common/upload-file';
 import {userWxlogin} from '@/services/api/auth';

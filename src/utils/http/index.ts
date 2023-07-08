@@ -7,7 +7,7 @@ import {getBaseUrl, getPlatformId, isDevMode} from '@/utils/env';
 import {checkStatus} from '@/utils/http/checkStatus';
 import {ContentTypeEnum, ResultEnum} from '@/enums/httpEnum';
 import type {API} from '@/services/model/baseModel';
-import {Token} from '@/services/model/userModel';
+import {Token} from '@/services/model/user';
 import {mockAdapter} from '@/mock';
 import {useAuthStore} from '@/state/modules/auth';
 import {useSettingStore} from '@/state/modules/setting';
