@@ -95,6 +95,12 @@ export const useLocationStore = defineStore('location', {
         getCurrentRoute(state) {
             return state.currentRouter;
         },
+        getWarpAndLatitude(state) {
+            return state.location.latitude ? {
+                latitude: state.location.latitude,
+                longitude: state.location.longitude
+            } : {};
+        }
     },
     actions: {
         /**

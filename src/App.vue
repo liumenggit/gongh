@@ -5,7 +5,8 @@ import {CURRENT_PLATFORM, PLATFORMS} from './enums/platformEnum';
 import {useUserStore} from '@/state/modules/user';
 import {removeInterceptor, setupInterceptors} from '@/utils/interceptors';
 import {useRouterStore} from '@/state/modules/router';
-import {useAuthStore} from "@/state/modules/auth";
+import {useAuthStore} from '@/state/modules/auth';
+import {useLocationStore} from '@/state/modules/location';
 
 const platform = CURRENT_PLATFORM;
 const isVue3 = judgePlatform(PLATFORMS.VUE3);
@@ -39,6 +40,7 @@ onLaunch(() => {
     setupInterceptors();
     const appStore = useRouterStore();
     appStore.initialize();
+    useLocationStore().initialize();
 });
 onShow(() => {
     const authStore = useAuthStore();

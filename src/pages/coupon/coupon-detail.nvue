@@ -1,0 +1,37 @@
+<template>
+  <tm-app>
+    <view :style="`height: ${heig}rpx`" class="fulled  flex flex-center">
+      <view class="relative"
+            style="width: 300px;height:600px;background-image: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/couponD.png');background-repeat: no-repeat;background-size: cover">
+        <tm-tag color="orange" size="m" label="朝聚眼科医院"></tm-tag>
+        <view class="fulled  mt-n20 flex flex-between flex-col" style="height: 100px;align-items: center">
+          <tm-text label="眼底检查7.2折优惠"></tm-text>
+          <tm-text label="7.2折"></tm-text>
+          <tm-button round="4" height="65" color="decolor" label="立即领取"></tm-button>
+        </view>
+        <view class="fulled  mt-n18 flex flex-between  flex-col" style="height: 100rpx;align-items: center">
+          <tm-text color="white" label="朝聚眼科医院"></tm-text>
+          <tm-text color="white" label="有效期: 2023-07-03至2023-07-09"></tm-text>
+        </view>
+        <tm-sheet round="4" :margin="[32,100,32,32]" :height="300">
+          <tm-text class="fulled flex flex-center" label="优惠券说明"></tm-text>
+          <tm-text class="mt-20" label="包括OCT:180元，激光扫描检眼镜眼底检查!90元、眼B超: 27元，原价: 297元"></tm-text>
+        </tm-sheet>
+        <view class="fulled flex">
+          <tm-button width="430"   color="orange" label="浏览本次" :margin="[32,50,0,32]" />
+          <tm-button width="100" _class="text-weight-[b]" color="black" :font-size="30" icon="tmicon-angle-right"  :margin="[0,50,0,32]"/>
+        </view>
+      </view>
+    </view>
+  </tm-app>
+</template>
+<script lang="ts" setup>
+import {ref} from "vue"
+import {getWindow} from "@/tmui/tool/function/util";
+
+const showWin = ref(false)
+const pos = ref("bottom")
+const heig = getWindow().height * 2;
+
+
+</script>

@@ -53,4 +53,7 @@
     <tree path="/src/pages/integral/lottery.nvue" title="抽奖礼品"/>
     <tree path="/src/pages/integral/commodity.nvue" title="积分商品"/>
     <tree path="/src/pages/businesses/businesses-info.nvue" title="商户信息"/>
+    <tree path="/src/pages/my/bind.nvue" title="绑定"/>
+    <tree path="/src/pages/my/refine.nvue" title="完善个人信息"/>
+    <tree path="/src/pages/businesses" title="商户"/>
 </trees>

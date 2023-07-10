@@ -1,0 +1,141 @@
+<template>
+    <tm-app>
+        <tm-sheet :margin="[0,0]" :round="0">
+            <tm-grid :col="5">
+                <tm-grid-item :height="0" v-for="businessTypeItem in businessType.type_list" :key="businessTypeItem.id"
+                              @click="businessTypeItemAc = businessTypeItem.id"
+                >
+                    <tm-icon :name="businessTypeItem.img" :font-size="64"></tm-icon>
+                    <tm-text :label="businessTypeItem.name" _class="pt-10" :font-size="22"></tm-text>
+                </tm-grid-item>
+            </tm-grid>
+            <tm-input @search="search" v-model.lazy="searchLazy" :round="25" :margin="[0,0]" prefix="tmicon-search"
+                      searchLabel="搜索" :showClear="true"
+                      placeholder="餐饮" color="red"></tm-input>
+            <td-text prefix-icon="td-bug" icon-color="decolor" :label="useLocationStore().location.address.address"
+                     class="mt-10"/>
+        </tm-sheet>
+        <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
+                    translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
+            <tm-result v-if="pageList.length === 0 && loading === false" status="empty" :show-btn="false"></tm-result>
+            <view class="mt-20"></view>
+            <tm-coupon v-for="pageListItem in pageList"
+                       btn-label="点击进入" :right-detail="{time:null}"
+                       @click="useRouter().go('/pages/businesses/businesses-info?id=' + pageListItem.id)"
+            >
+                <template v-slot:thumb>
+                    <tm-image :src="pageListItem.logo" :height="130" :width="130"></tm-image>
+                </template>
+                <template v-slot:default>
+                    <td-text :label="pageListItem.title" :font-size="36" _class="text-weight-b mb-20"/>
+                    <td-text :label="pageListItem.address" prefix-icon="td-bug" icon-color="decolor" color="grey" :font-size="24"/>
+                    <td-text :label="pageListItem.phone" prefix-icon="td-bug" icon-color="decolor" color="grey" :font-size="24"/>
+                </template>
+                <template v-slot:btn>
+                    <tm-button size="small" label="点击进入"
+                               @click="useRouter().go('/pages/businesses/businesses-info?id=' + pageListItem.id)"/>
+                    <tm-text :label="`距您${pageListItem.translate}km`" :font-size="24"/>
+                </template>
+            </tm-coupon>
+
+            <!--                <tm-row :height="160" :width="0">-->
+            <!--                    <tm-col :height="0" :col="3" align="start">-->
+            <!--                        <tm-image :width="160" :height="150" :src="pageListItem.image" :round="4"/>-->
+            <!--                    </tm-col>-->
+            <!--                    <tm-col :height="160" :col="9" align="start">-->
+            <!--                        <tm-text _class="text-overflow-2 text-align-left" :label="pageListItem.title"/>-->
+            <!--                        <tm-text :label="pageListItem.mail" color="grey"/>-->
+            <!--                        <tm-text :label="pageListItem.phone" color="grey"/>-->
+            <!--                        <tm-text :label="pageListItem.date" color="grey"/>-->
+            <!--                    </tm-col>-->
+            <!--                </tm-row>-->
+            <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
+        </tm-scrolly>
+
+
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+import TdText from '@/components/td-text/td-text.vue';
+import {useLocationStore} from '@/state/modules/location';
+import {getCurrentInstance, ref} from 'vue';
+import {onReady} from '@dcloudio/uni-app';
+import {getWindow, torpx} from '@/tmui/tool/function/util';
+import {usePagination} from '@alova/scene-vue';
+import {getBusinessList, getBusinessTyoe} from '@/services/api/business';
+import {useRequest} from 'alova';
+import {useRouter} from '@/hooks/router';
+
+
+const pull = ref(false);
+const scrollHeight = ref(400);
+const proxy = getCurrentInstance()?.proxy ?? null;
+onReady(() => {
+    const query = uni.createSelectorQuery().in(proxy);
+    query.select('.hei').boundingClientRect((result: any) => {
+        scrollHeight.value = torpx(getWindow().height - result.top);
+    }).exec();
+});
+
+const searchLazy = ref('');
+let searchText = ref('');
+
+// getBusinessTyoe
+let businessTypeItemAc = ref(0);
+
+
+const {
+    loading,
+    data: pageList,
+    isLastPage,
+    pageSize: limit,
+    page,
+    reload,
+    onSuccess
+} = usePagination(
+    (page: number, limit: number) =>
+        getBusinessList({
+            page,
+            limit,
+            type_id: businessTypeItemAc.value,
+            keyword: searchText.value, ...useLocationStore().getWarpAndLatitude
+        }),
+    {
+        watchingStates: [businessTypeItemAc, searchText],
+        preloadPreviousPage: false,
+        preloadNextPage: false,
+        append: true,
+        debounce: [500],
+        data: (res) => res.list,
+        initialPageSize: 10,
+        immediate: businessTypeItemAc.value !== 0
+    }
+);
+
+const {
+    data: businessType,
+    onSuccess: getBusinessTypeSuccess
+} = useRequest(() => getBusinessTyoe(), {
+    initialData: [],
+    immediate: true,
+});
+
+
+getBusinessTypeSuccess((res) => {
+    console.log('getBusinessTypeSuccess', res.data.type_list[0].id);
+    businessTypeItemAc.value = res.data.type_list[0].id;
+});
+onSuccess(() => {
+    console.log('onSuccess');
+    pull.value = false;
+});
+
+const search = () => {
+    searchText.value = searchLazy.value;
+};
+</script>
+
+<style scoped>
+
+</style>

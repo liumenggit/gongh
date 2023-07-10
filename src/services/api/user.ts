@@ -1,14 +1,24 @@
-import {UserCardVerifyParams, UserInfoState, UserPerfectParams} from '@/services/model/user';
+import {BindUserParams, UserCardVerifyParams, UserInfoState, UserPerfectParams} from '@/services/model/user';
 import {request} from '@/utils/http';
+
+
+/**
+ * 绑定用户信息
+ * @returns {Method<unknown, unknown, UserInfoState, unknown, {requestType?: "upload" | "download"} & UniappRequestConfig & UniappUploadConfig & UniappDownloadConfig, UniNamespace.RequestSuccessCallbackResult | UniNamespace.UploadFileSuccessCallbackResult | UniNamespace.DownloadSuccessData, any>}
+ * @param bindUserParams
+ */
+export function bindUser(bindUserParams: BindUserParams) {
+    return request.Post<UserInfoState>('accountLogin', bindUserParams);
+}
+
 
 /**
  * 完善用户信息
- * @param {UserPerfectParams} params
  * @returns {Method<unknown, unknown, UserInfoState, unknown, {requestType?: "upload" | "download"} & UniappRequestConfig & UniappUploadConfig & UniappDownloadConfig, UniNamespace.RequestSuccessCallbackResult | UniNamespace.UploadFileSuccessCallbackResult | UniNamespace.DownloadSuccessData, any>}
+ * @param userPerfectParams
  */
-export function userPerfect(params: UserPerfectParams) {
-    console.log('请求参数', params);
-    return request.Post<UserInfoState>('user_perfect', params);
+export function userPerfect(userPerfectParams: UserPerfectParams) {
+    return request.Post<UserInfoState>('setUserInfo', userPerfectParams);
 }
 
 
@@ -17,7 +27,7 @@ export function userPerfect(params: UserPerfectParams) {
  * @returns {Method<unknown, unknown, UserInfo, unknown, {requestType?: "upload" | "download"} & UniappRequestConfig & UniappUploadConfig & UniappDownloadConfig, UniNamespace.RequestSuccessCallbackResult | UniNamespace.UploadFileSuccessCallbackResult | UniNamespace.DownloadSuccessData, any>}
  */
 export function getUserInfo() {
-    return request.Get<UserInfoState>('user_info');
+    return request.Get<UserInfoState>('getUserInfo');
 }
 
 /**
@@ -41,12 +51,12 @@ export function setUserNickName(nickName: string) {
 
 
 /**
- * 设置用户手机号
+ * 获取用户授权手机号
  * @returns {Method<unknown, unknown, UserInfoState, unknown, {requestType?: "upload" | "download"} & UniappRequestConfig & UniappUploadConfig & UniappDownloadConfig, UniNamespace.RequestSuccessCallbackResult | UniNamespace.UploadFileSuccessCallbackResult | UniNamespace.DownloadSuccessData, any>}
- * @param data
+ * @param code
  */
-export function setUserPhone(data: { phone: number, code: number }) {
-    return request.Post<any>('user_perfect', data);
+export function authUserPhone(code: number) {
+    return request.Post<any>('getWxPhone', {code});
 }
 
 /**

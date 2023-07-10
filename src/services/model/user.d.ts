@@ -1,44 +1,113 @@
 /**
  * 用户公共公共状态
  */
-export declare interface UserInfoState {
+export declare interface UserInfoState  {
+    /**
+     * 创建时间
+     */
+    add_time: string;
+    /**
+     * 总签到天数
+     */
+    all_sign: number;
+    area: number;
+    /**
+     * 头像
+     */
     avatar: string;
-    create_time: number;
+    /**
+     * 是否绑定（1.绑定|2.未绑定）
+     */
+    binding: number;
+    /**
+     * 生日
+     */
+    birthday: string;
+    company: number;
+    company_card: null | string;
+    /**
+     * 连续签到天数
+     */
+    continue_sign: number;
+    /**
+     * 可使用张数
+     */
+    couponCount: number;
+    db: number;
+    /**
+     * 已优惠金额
+     */
+    discountAmount: number;
+    /**
+     * ID
+     */
     id: number;
-    last_logintime: number;
+    /**
+     * 身份证号码
+     */
+    idcard: string;
+    /**
+     * 用户积分
+     */
+    integral: number;
+    /**
+     * 真是姓名
+     */
+    name: string;
+    /**
+     * 昵称
+     */
     nickname: string;
-    open_id: string;
-    phone: number;
-    realname: string;
-    redirect_url: string;
-    sass_id: number;
+    /**
+     * openid
+     */
+    openid: string;
+    /**
+     * 手机号码
+     */
+    phone: string;
+    /**
+     * 最近签到天数
+     */
+    sign_time: number;
+    /**
+     * 状态（1.启用|2.停用）
+     */
     status: number;
-    type: number;
-    auth: {
-        card: {
-            cardId: string
-            name: string
-        }
-    };
+    /**
+     * 编辑时间
+     */
+    update_time: string;
+    /**
+     * 已核销张数
+     */
+    writeOffCouponCount: number;
+    /**
+     * 所属组织
+     */
+    zuzhi: number;
 }
 
 /**
  * 完善用户参数
  */
 declare interface UserPerfectParams {
-    code: number;
     /**
-     * 微信用户open_id
+     * 生日
      */
-    open_id: string;
+    birthday: string;
     /**
-     * 手机号
+     * 身份证号码
      */
-    phone: string;
+    idcard: string;
     /**
-     * 姓名
+     * 真实姓名
      */
-    realname: string;
+    name: string;
+    /**
+     * 联系的电话
+     */
+    phone: number;
 }
 
 
@@ -58,4 +127,27 @@ declare interface UserCardVerifyParams {
 
 declare interface UserRefine {
     name: string;
+}
+
+
+/**
+ * 绑定用户信息
+ */
+declare interface BindUserParams {
+    /**
+     * 验证码
+     */
+    code: string;
+    /**
+     * 姓名
+     */
+    name: string;
+    /**
+     * openid
+     */
+    openid: string;
+    /**
+     * 手机号
+     */
+    phone: number;
 }

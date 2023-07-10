@@ -16,6 +16,15 @@
       }
     },
     {
+      "path": "pages/my/bind",
+      "style": {
+        "navigationBarTitleText": "绑定用户信息"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
       "path": "pages/shop/shop",
       "style": {
         "navigationBarTitleText": "商城",
@@ -26,9 +35,18 @@
       }
     },
     {
-      "path": "pages/businesses/businesses-info",
+      "path": "pages/businesses/businesses-list",
       "style": {
         "navigationBarTitleText": "商户中心"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/businesses/businesses-info",
+      "style": {
+        "navigationBarTitleText": "商户信息"
       },
       "meta": {
         "ignoreAuth": true
@@ -71,12 +89,75 @@
       }
     },
     {
+      "path": "pages/my/my",
+      "style": {
+        "navigationBarTitleText": "我的"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/revise",
+      "style": {
+        "navigationBarTitleText": "修改信息"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/feedback",
+      "style": {
+        "navigationBarTitleText": "反馈"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/set/phone",
+      "style": {
+        "navigationBarTitleText": "设置手机号"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/set/nickname",
+      "style": {
+        "navigationBarTitleText": "昵称"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/set/avatar",
+      "style": {
+        "navigationBarTitleText": "头像"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/set/card",
+      "style": {
+        "navigationBarTitleText": "实名认证"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
       "path": "pages/qrcode/pay",
       "style": {
         "navigationBarTitleText": "扫码商家"
       },
       "meta": {
-        "ignoreAuth": true
+        "ignoreAuth": false
       }
     },
     {
@@ -85,7 +166,7 @@
         "navigationBarTitleText": "积分签到"
       },
       "meta": {
-        "ignoreAuth": true
+        "ignoreAuth": false
       }
     },
     {
@@ -101,6 +182,15 @@
       "path": "pages/coupon/coupon-list",
       "style": {
         "navigationBarTitleText": "卡券列表"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/coupon/coupon-info",
+      "style": {
+        "navigationBarTitleText": "卡券详情"
       },
       "meta": {
         "ignoreAuth": true
@@ -161,70 +251,6 @@
       }
     },
     {
-      "path": "pages/my/my",
-      "style": {
-        "navigationBarTitleText": "我的"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/my/revise",
-      "style": {
-        "navigationBarTitleText": "修改信息"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/my/feedback",
-      "style": {
-        "navigationBarTitleText": "反馈"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/my/set/phone",
-      "style": {
-        "navigationBarTitleText": "设置手机号"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/my/set/nickname",
-      "style": {
-        "navigationBarTitleText": "昵称"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/my/set/avatar",
-      "style": {
-        "navigationBarTitleText": "头像"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/my/set/card",
-      "style": {
-        "navigationBarTitleText": "实名认证"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-
-    {
       "path": "pages/notFound/404",
       "style": {
         "navigationBarTitleText": "404"
@@ -256,10 +282,10 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/shop/shop",
+        "pagePath": "pages/businesses/businesses-list",
         "iconPath": "static/tabar/compass-of.png",
         "selectedIconPath": "static/tabar/compass-on.png",
-        "text": "商城"
+        "text": "商户中心"
       },
       {
         "pagePath": "pages/coupon/coupon-list",
@@ -271,7 +297,7 @@
         "pagePath": "pages/my/my",
         "iconPath": "static/tabar/compass-of.png",
         "selectedIconPath": "static/tabar/compass-on.png",
-        "text": "我的"
+        "text": "个人中心"
       }
     ]
   },

@@ -36,7 +36,7 @@ export enum ResultEnum {
      * 更新TOKEN
      * @type {ResultEnum.UPDATE_TOKEN}
      */
-    UPDATE_TOKEN = 200302,
+    UPDATE_TOKEN = 10,
     /**
      * 上传失败
      * @type {ResultEnum.UPLOAD_ERROR}

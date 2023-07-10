@@ -1,5 +1,5 @@
 <template>
-    <tm-app>
+    <tm-app :bg-img="useSettingStore().bgimg">
         <tm-navbar title="标题导航栏" color="primary" hideHome>
             <template v-slot:left>
                 <view class="flex-row flex-row-center-center">
@@ -32,9 +32,9 @@
 
             </template>
         </tm-navbar>
-        <td-carousel autoplay :margin="[32,32]" :round="3" :width="686" :height="200"
+        <td-carousel autoplay :margin="[32,32]" :round="3" :width="686" :height="260"
                      :list="homeData.carousel_list"></td-carousel>
-        <tm-grid :width="700" :col="4" class="ml-32 mr-32">
+        <tm-grid :width="686" :col="4" class="ml-32 mr-32">
             <tm-grid-item v-for="(gridItem,gridIndex) in gridList" :key="gridIndex" :url="gridItem.url" :height="120"
                           dot>
                 <tm-icon :name="gridItem.icon" :font-size="42"></tm-icon>
@@ -42,21 +42,41 @@
             </tm-grid-item>
         </tm-grid>
         <tm-roll-notice :list="homeData.notice_list.map((item)=>{return item.title})"/>
-        <tm-sheet :margin="[32,0,32,32]">
-            <view class="flex-row flex-row-center-between">
-                <view>
-                    <tm-text :label="homeData.all_click_num"/>
+        <tm-sheet :margin="[32,0,32,0]" :padding="[0,0]">
+            <tm-row :gutter="0" :column="12" :height="100">
+                <tm-col :col="5" align="center">
+                    <tm-text :label="homeData.all_click_num" color="decolor"/>
                     <tm-text label="总点击量"/>
-                </view>
-                <tm-icon name="td-bug"/>
-                <view>
-                    <tm-text :label="homeData.today_click_num"/>
+                </tm-col>
+                <tm-col :col="2" align="center"></tm-col>
+                <tm-col :col="5" align="center">
+                    <tm-text :label="`${homeData.today_click_num}`" color="decolor"/>
                     <tm-text label="当日点击量"/>
-                </view>
-            </view>
+                </tm-col>
+            </tm-row>
         </tm-sheet>
-        <td-carousel autoplay :margin="[32,0,32,0]" :round="3" :width="686" :height="200"
-                     :list="homeData.adv_list"></td-carousel>
+        <td-carousel autoplay :margin="[32,32,32,32]" :round="3" :width="686" :height="200"
+                     :list="homeData.adv_list"/>
+        <tm-card title="热门商家" :round="3" status-color="grey">
+            <template v-slot:status>
+                <tm-text label="更多>" color="grey" @click="useRouter().go('/pages/businesses/businesses')"/>
+            </template>
+            <template v-slot:content>
+                <tm-scrollx :width="686" :height="300" :show-bar="false">
+                    <tm-image :src="hotBusinessItem.logo" extra :width="200" :height="300"
+                              v-for="hotBusinessItem in homeData.business_list" :key="hotBusinessItem.id"
+                              @click="useRouter().go('/pages/businesses/businesses-info?id=' + hotBusinessItem.id)"
+                    >
+                        <template v-slot:extra>
+                            <tm-sheet :margin="[0, 0]" :padding="[12, 10]" _class="flex-row flex-between "
+                                      parenClass="opacity-6">
+                                {{ hotBusinessItem.title }}
+                            </tm-sheet>
+                        </template>
+                    </tm-image>
+                </tm-scrollx>
+            </template>
+        </tm-card>
     </tm-app>
 </template>
 

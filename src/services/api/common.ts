@@ -7,7 +7,7 @@ import * as buffer from 'buffer';
  * @param {number} phone
   */
 export function sendCode(phone: number) {
-    return request.Get<any>('send_code', {params: {phone}});
+    return request.Get<any>('smsCode', {params: {phone}});
 }
 
 /**

@@ -1,13 +1,43 @@
 <template>
-    <div>
-
-    </div>
+    <tm-app>
+        <view class="fulled fulled-height flex flex-center">
+            <view class="ma-50 round-a-3 flex-col flex-col-top-center fulled pa-20"
+                  style="background-image: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/couponD.png');background-repeat: no-repeat;background-size: cover">
+                <tm-tag color="orange" size="m" label="朝聚眼科医院" :margin="[0,50]" :round="0"></tm-tag>
+                <view class="fulled flex-col flex-col-top-center">
+                    <tm-text label="眼底检查7.2折优惠" _class="fulled"></tm-text>
+                    <tm-text label="7.2折"></tm-text>
+                    <tm-button color="decolor" label="立即领取" size="mini" :width="150"></tm-button>
+                </view>
+                <view class="fulled flex-col flex-col-top-center mt-n25">
+                    <tm-text color="white" label="朝聚眼科医院" class="mt-20"></tm-text>
+                    <tm-text color="white" label="有效期: 2023-07-03至2023-07-09" class="mt-20"></tm-text>
+                </view>
+                <tm-sheet round="3" :margin="[32,100,32,32]" :height="300">
+                    <tm-text class="fulled flex flex-center" label="优惠券说明"></tm-text>
+                    <tm-text class="mt-20"
+                             label="包括OCT:180元，激光扫描检眼镜眼底检查!90元、眼B超: 27元，原价: 297元"></tm-text>
+                </tm-sheet>
+                <tm-button :width="580" color="white" :height="60">
+                    <view class="fulled flex-row flex-row-center-start">
+                        <tm-text label="浏览本店更多优惠" class="text-align-center flex-1"
+                                 _class="text-align-center flex-1"/>
+                        <view class="pa-30" style="background-color: red">
+                            <tm-icon name="td-bug" color="white"></tm-icon>
+                        </view>
+                    </view>
+                </tm-button>
+            </view>
+        </view>
+    </tm-app>
 </template>
+<script lang="ts" setup>
+import {ref} from 'vue';
+import {getWindow} from '@/tmui/tool/function/util';
 
-<script setup lang="ts">
+const showWin = ref(false);
+const pos = ref('bottom');
+const heig = getWindow().height * 2;
+
 
 </script>
-
-<style scoped>
-
-</style>

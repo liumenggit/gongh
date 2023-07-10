@@ -1,14 +1,22 @@
 <template>
     <tm-app ref="app" :bg-img="useSettingStore().bgimg">
-        <tm-text label="工会服务" :font-size="40" style="margin-top: 50vh" color="decolor" class="fulled fulled-height text-align-center " _class="fulled fulled-height text-align-center"/>
+        <tm-text label="工会服务" :font-size="40" style="margin-top: 50vh" color="decolor"
+                 class="fulled fulled-height text-align-center " _class="fulled fulled-height text-align-center"/>
         <tm-button label="确认授权" @click="login" block :margin="[24,24]" style="margin-top: 30vh"></tm-button>
     </tm-app>
 </template>
 <script lang="ts" setup>
 import {useUserStore} from '@/state/modules/user';
 import {useSettingStore} from '@/state/modules/setting';
+import {useRouter} from '@/hooks/router';
 
 const login = () => {
-    useUserStore().login();
+    useUserStore().login().then(() => {
+        useRouter().back();
+    }).catch((err) => {
+        if (err.state === 5) {
+            useRouter().go('/pages/my/bind?openid=' + err.data.openid);
+        }
+    });
 };
 </script>

@@ -9,8 +9,8 @@
                 <template v-slot:title>
                     <view class="flex-row flex-row-center-start nowrap">
                         <tm-text :label="useUserInfo.nickname"></tm-text>
-                        <tm-tag :label="useUserInfo.auth.card?.cardId?'已实名':'未实名'" text :shadow="0"
-                                icon="td-safetycertificate-f" color="grey-4" size="xs"></tm-tag>
+                        <!--                        <tm-tag :label="useUserInfo.auth.card?.cardId?'已实名':'未实名'" text :shadow="0"-->
+                        <!--                                icon="td-safetycertificate-f" color="grey-4" size="xs"></tm-tag>-->
                     </view>
                 </template>
                 <template v-slot:right>
@@ -24,25 +24,28 @@
         <tm-card title="我的卡包" :round="3">
             <template v-slot:content>
                 <tm-grid :width="638" :col="3">
-                    <tm-grid-item :height="120" dot>
+                    <tm-grid-item :height="120">
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <view class="flex-row flex-row-center-between">
                             <tm-text _class="pt-10" :font-size="22" label="已核销"></tm-text>
-                            <tm-text _class="pt-10" :font-size="22" label="张" color="red"></tm-text>
+                            <tm-text _class="pt-10 pl-5" :font-size="22" :label="`${useUserInfo.writeOffCouponCount}张`"
+                                     color="decolor"></tm-text>
                         </view>
                     </tm-grid-item>
-                    <tm-grid-item color="red" :height="120" :count="1">
+                    <tm-grid-item :height="120">
                         <tm-icon name="td-box" :font-size="60"></tm-icon>
                         <view class="flex-row flex-row-center-between">
-                            <tm-text _class="pt-10" :font-size="22" label="已核销"></tm-text>
-                            <tm-text _class="pt-10" :font-size="22" label="张" color="red"></tm-text>
+                            <tm-text _class="pt-10" :font-size="22" label="已优惠"></tm-text>
+                            <tm-text _class="pt-10 pl-5" :font-size="22" :label="`${useUserInfo.discountAmount}元`"
+                                     color="decolor"></tm-text>
                         </view>
                     </tm-grid-item>
-                    <tm-grid-item :height="120" dot>
+                    <tm-grid-item :height="120">
                         <tm-icon name="td-clipboard" :font-size="60"></tm-icon>
                         <view class="flex-row flex-row-center-between">
-                            <tm-text _class="pt-10" :font-size="22" label="已核销"></tm-text>
-                            <tm-text _class="pt-10" :font-size="22" label="张" color="red"></tm-text>
+                            <tm-text _class="pt-10" :font-size="22" label="可使用"></tm-text>
+                            <tm-text _class="pt-10 pl-5" :font-size="22" :label="`${useUserInfo.couponCount}张`"
+                                     color="decolor"></tm-text>
                         </view>
                     </tm-grid-item>
                 </tm-grid>
@@ -85,7 +88,7 @@
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="消息通知"></tm-text>
                     </tm-grid-item>
-                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/my/refine')">
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="个人设置"></tm-text>
                     </tm-grid-item>
@@ -146,11 +149,12 @@ import {
 import {useUserStore} from '@/state/modules/user';
 import {useRouter} from '@/hooks/router';
 
-const useUserInfo = useUserStore();
+const useUserInfo = useUserStore().$state;
 
 onLoad(() => {
 });
 onShow(() => {
+    useUserStore().updateUserInfo();
 });
 
 </script>

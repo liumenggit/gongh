@@ -1,0 +1,131 @@
+<template>
+    <tm-app bg-img="https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/mineBg.jpg">
+        <tm-form @submit="confirm" ref="form" v-model="bindUserParams" :label-width="190" layout="vertical">
+            <tm-form-item required :rules="[{required:true,message:'请输入姓名',validator:(val)=>isChina(val)}]"
+                          field="name"
+                          :border="false" showTopErrorGap>
+                <tm-input placeholder="请输入姓名" v-model.lazy="bindUserParams.name" :showBottomBotder="false"
+                          prefix="td-phone"></tm-input>
+            </tm-form-item>
+            <tm-form-item required
+                          :rules="[{required:true,message:'请输入手机号',validator:(val)=>isPhone(val)}]"
+                          field="phone"
+                          :border="false" showTopErrorGap
+            >
+                <tm-input placeholder="请输入手机号" type="number" v-model.lazy="bindUserParams.phone"
+                          :showBottomBotder="false"
+                          :input-padding="[24,0,0,0]"
+                          prefix="tmicon-ios-finger-print"
+
+                >
+                    <template v-slot:right>
+                        <tm-button @click="buttonSendCode(bindUserParams.phone)"
+                                   :loading="sending" size="small" :width="150" :round="4"
+                                   :disabled="sending || countdown > 0"
+                                   :label=" sending ? '发送中...' : countdown > 0 ? `${countdown}后可重发` : '发送验证码'"
+                        >
+                        </tm-button>
+                    </template>
+                </tm-input>
+            </tm-form-item>
+            <tm-form-item required
+                          :rules="[{required:true,message:'请输入验证码',validator:(val)=>{return val && val.length === 4}}]"
+                          field="code"
+                          :border="false" showTopErrorGap>
+                <tm-input placeholder="请输入验证码" @search="sendCode" v-model.lazy="bindUserParams.code"
+                          :showBottomBotder="false"
+                          prefix="td-number"/>
+            </tm-form-item>
+            <tm-form-item :border="false">
+                <tm-button form-type="submit" label="确定" block></tm-button>
+            </tm-form-item>
+        </tm-form>
+        <tm-message ref="msg"></tm-message>
+    </tm-app>
+</template>
+<script lang="ts" setup>
+import {Ref, ref} from 'vue';
+import {isChina, isPhone, toast} from '@/tmui/tool/function/util';
+
+import {sendCode} from '@/services/api/common';
+import {BindUserParams} from '../../services/model/user';
+import {useCaptcha} from '@alova/scene-vue';
+import {onLoad} from '@dcloudio/uni-app';
+import {useUserStore} from '../../state/modules/user';
+
+const bindUserParams: Ref<BindUserParams> = ref({
+    phone: null,
+    code: null,
+    name: null,
+    openid: null
+});
+
+
+const {
+    loading: sending,
+    send: sendCaptcha,
+    countdown
+} = useCaptcha(() => sendCode(bindUserParams.value.phone), {
+    initialCountdown: 20
+});
+/**
+ * 发送验证码
+ * @param {number} phone
+ */
+const buttonSendCode = (phone: number) => {
+    if (isPhone(phone)) {
+        sendCaptcha(phone);
+    } else {
+        toast('手机号格式不正确');
+    }
+};
+
+onLoad((option) => {
+    console.log('option', option);
+    bindUserParams.value.openid = option?.openid;
+});
+
+// let codeButtonState = ref(false);
+// const proxy = getCurrentInstance()?.proxy ?? null;
+//
+// const {
+//     send: sendCodes,
+//     loading: sendCodeLoading,
+//     onSuccess: sendCodeSuccess
+// } = useRequest(phone => sendCode(phone), {immediate: false});
+//
+// let codeButtonLabel = ref(VERIFY_CODE_TEXT);
+// sendCodeSuccess(() => {
+//     codeButtonState.value = true;
+//     let countDown = VERIFY_CODE_TIME;
+//     const timer = setInterval(function () {
+//         countDown--;
+//         if (countDown <= 0) {
+//             clearInterval(timer);
+//             codeButtonLabel.value = VERIFY_CODE_TEXT;
+//             codeButtonState.value = false;
+//         } else {
+//             codeButtonLabel.value = countDown + VERIFY_CODE_TIME_TEXT;
+//         }
+//     }, 1000);
+// });
+//
+const confirm = (e: any) => {
+    if (e.validate) {
+        console.log(bindUserParams.value);
+        useUserStore().bind(bindUserParams.value).then(() => {
+            console.log('完善成功');
+        });
+        // useUserStore().setPhone(e.data).then(() => {
+        //     setTimeout(() => {
+        //         uni.navigateBack();
+        //     }, 1300);
+        // }).catch(() => {
+        //     toast('设置失败');
+        // });
+    }
+};
+</script>
+
+<style>
+</style>

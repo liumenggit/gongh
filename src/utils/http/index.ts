@@ -34,7 +34,7 @@ const alovaInstance = createAlova({
     beforeRequest: (method) => {
         const authStore = useAuthStore();
         method.config.headers = assign(method.config.headers, HEADER, authStore.getAuthorization);
-        method.config.params = assign(method.config.params,useSettingStore().getArea);
+        method.config.params = assign(method.config.params, useSettingStore().getArea);
     },
     responsed: {
         /**
@@ -75,19 +75,16 @@ const alovaInstance = createAlova({
                     return data;
                 }
                 if (state === ResultEnum.UPDATE_TOKEN) {
-                    const access = alovaInstance.Get<Token>('/user_access_to_token', {
-                        params: {
-                            access: useUserStore()._token.access
-                        }
-                    });
+                    const access = alovaInstance.Post<Token>('/refreshToken');
                     const response = await access.send();
                     method.config.headers.token = response?.token || undefined;
-                    useUserStore().setToken(response?.token || undefined);
+                    useAuthStore().setToken(response?.token || undefined);
+                    // useUserStore().setToken();
                     return await method.send();
 
                 }
 
-                // message && toast(message);
+                msg && toast(msg);
                 error && toast(error);
                 return Promise.reject(rawData);
             }

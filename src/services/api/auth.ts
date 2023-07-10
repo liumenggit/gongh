@@ -3,7 +3,7 @@ import {request} from '@/utils/http';
 
 const LOGIN = '/wxLogin';
 const LOGIN_OUT = '/logout';
-const REFRESH_TOKEN = '/refresh/token';
+const REFRESH_TOKEN = 'refreshToken';
 
 /**
  * 登录
@@ -28,5 +28,5 @@ export function logout() {
  * 刷新token
  */
 export function refreshToken() {
-    return request.Post<LoginModel>(REFRESH_TOKEN, {});
+    return request.Post<any>(REFRESH_TOKEN, {});
 }

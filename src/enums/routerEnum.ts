@@ -17,7 +17,7 @@ export const HOME_PAGE = '/pages/index/index';
  * 系统登录页
  * @type {string}
  */
-export const LOGIN_PAGE = '/pages/login/login';
+export const LOGIN_PAGE = '/pages/my/login';
 export const AUTH_PAGE = '/pages/login/auth';
 /**
  * 公共404
