@@ -80,6 +80,15 @@
       }
     },
     {
+      "path": "pages/my/card-pack",
+      "style": {
+        "navigationBarTitleText": "我的卡包"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
       "path": "pages/my/message",
       "style": {
         "navigationBarTitleText": "消息通知"

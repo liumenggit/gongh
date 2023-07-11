@@ -1,12 +1,15 @@
 import {defineStore} from 'pinia';
-import {getCache} from '@/utils/cache';
-import {setCache} from 'alova';
+import {getCache, setCache} from '@/utils/cache';
+import {getHome} from '@/services/api/home';
+import {CouponType} from '@/services/model/home';
+import {AREA, AREA_NAME, COUPON_TYPE_LIST} from '@/enums/cacheEnum';
 
 interface Setting {
     area: Area;
     area_nmae: string;
     access?: string;
     bgimg: string;
+    couponTypeList: [CouponType];
 }
 
 interface Area {
@@ -17,9 +20,10 @@ interface Area {
 
 export const useSettingStore = defineStore('setting', {
     state: (): Setting => ({
-        area: getCache('area') || {name: '海拉尔', type: 'area', id: 1},
-        area_nmae: getCache('area_nmae') || '选择地区',
-        bgimg: 'https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/loginBg.jpg'
+        area: getCache(AREA) || {name: '海拉尔', type: 'area', id: 1},
+        area_nmae: getCache(AREA_NAME) || '选择地区',
+        bgimg: 'https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/loginBg.jpg',
+        couponTypeList: getCache(COUPON_TYPE_LIST) || []
     }),
     getters: {
         getArea: (state) => {
@@ -30,7 +34,14 @@ export const useSettingStore = defineStore('setting', {
     actions: {
         setArea(area: Area) {
             this.$state.area = area;
-            setCache('area', area);
+            setCache(AREA, area);
+        },
+        initSetting() {
+            getHome().send().then((res) => {
+                console.log('getHome????', res);
+                this.$state.couponTypeList = res.coupon_type_list;
+                setCache(COUPON_TYPE_LIST, this.$state.couponTypeList);
+            });
         }
     },
 });

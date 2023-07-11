@@ -56,4 +56,7 @@
     <tree path="/src/pages/my/bind.nvue" title="绑定"/>
     <tree path="/src/pages/my/refine.nvue" title="完善个人信息"/>
     <tree path="/src/pages/businesses" title="商户"/>
+    <tree path="/src/pages/coupon/coupon-info.nvue" title="优惠券详情"/>
+    <tree path="/src/pages/businesses/businesses-list.nvue" title="商家列表"/>
+    <tree path="/src/pages/coupon/coupon-list.nvue" title="卡券列表"/>
 </trees>

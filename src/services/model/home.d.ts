@@ -14,6 +14,26 @@ declare interface HomeSeting {
     member_count: number;
     notice_list: NoticeList[];
     today_click_num: number;
+    coupon_type_list: [CouponType];
+}
+
+declare interface CouponType {
+    /**
+     * 优惠券颜色值
+     */
+    code: string;
+    /**
+     * 优惠券颜色
+     */
+    color: number;
+    /**
+     * 分类ID
+     */
+    id: number;
+    /**
+     * 标题
+     */
+    title: string;
 }
 
 export interface AdvList {
@@ -26,7 +46,7 @@ export interface AdvList {
 export interface AreaList {
     id: number;
     name: string;
-    type:string
+    type: string;
 }
 
 export interface CarouselList {

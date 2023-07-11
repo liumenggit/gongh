@@ -31,6 +31,7 @@
                                linear-deep="accent" mainColor="yellow" font-color=""
                                :price-detail="{price:couponItem.price,subtext:'',prefix:'￥',suffix:''}"
                                :right-detail="{title:couponItem.title,subtitle:'副标题',time:couponItem.eff_range}"
+                               @click="useRouter().go('/pages/coupon/coupon-info?id=' + couponItem.id)"
                                extra
                                btn-label="立即使用"
                     >
@@ -57,6 +58,7 @@ import {callPhone, getWindow, torpx} from '@/tmui/tool/function/util';
 import {getBusinessInfo} from '@/services/api/business';
 import {useRequest} from 'alova';
 import {useLocationStore} from '@/state/modules/location';
+import {useRouter} from '@/hooks/router';
 
 
 const {

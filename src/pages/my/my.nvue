@@ -24,7 +24,7 @@
         <tm-card title="我的卡包" :round="3">
             <template v-slot:content>
                 <tm-grid :width="638" :col="3">
-                    <tm-grid-item :height="120">
+                    <tm-grid-item :height="120" url="/pages/my/card-pack?type=2">
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <view class="flex-row flex-row-center-between">
                             <tm-text _class="pt-10" :font-size="22" label="已核销"></tm-text>
@@ -40,7 +40,7 @@
                                      color="decolor"></tm-text>
                         </view>
                     </tm-grid-item>
-                    <tm-grid-item :height="120">
+                    <tm-grid-item :height="120" url="/pages/my/card-pack?type=1">
                         <tm-icon name="td-clipboard" :font-size="60"></tm-icon>
                         <view class="flex-row flex-row-center-between">
                             <tm-text _class="pt-10" :font-size="22" label="可使用"></tm-text>
@@ -84,7 +84,7 @@
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="意见反馈"></tm-text>
                     </tm-grid-item>
-                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/index/index')">
+                    <tm-grid-item :height="120" dot @click="useRouter().go('/pages/my/message')">
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="消息通知"></tm-text>
                     </tm-grid-item>

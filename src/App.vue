@@ -7,6 +7,7 @@ import {removeInterceptor, setupInterceptors} from '@/utils/interceptors';
 import {useRouterStore} from '@/state/modules/router';
 import {useAuthStore} from '@/state/modules/auth';
 import {useLocationStore} from '@/state/modules/location';
+import {useSettingStore} from '@/state/modules/setting';
 
 const platform = CURRENT_PLATFORM;
 const isVue3 = judgePlatform(PLATFORMS.VUE3);
@@ -41,11 +42,14 @@ onLaunch(() => {
     const appStore = useRouterStore();
     appStore.initialize();
     useLocationStore().initialize();
+    useSettingStore().initSetting();
+
 });
 onShow(() => {
     const authStore = useAuthStore();
     authStore.initToken();
     console.log('App Show');
+
 });
 onHide(() => {
     console.log('App Hide');

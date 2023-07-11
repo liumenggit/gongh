@@ -11,6 +11,9 @@ import {Token} from '@/services/model/user';
 import {mockAdapter} from '@/mock';
 import {useAuthStore} from '@/state/modules/auth';
 import {useSettingStore} from '@/state/modules/setting';
+import {jumpLogin} from '@/utils/router/constant';
+import {useRouter} from '@/hooks/router';
+import {LOGIN_PAGE} from '@/enums/routerEnum';
 
 const BASE_URL = getBaseUrl();
 const PLATFORM_ID = getPlatformId();
@@ -31,6 +34,7 @@ const alovaInstance = createAlova({
         // mockRequest: isDevMode() ? mockAdapter : undefined,
     }),
     timeout: 5000,
+    localCache: null,
     beforeRequest: (method) => {
         const authStore = useAuthStore();
         method.config.headers = assign(method.config.headers, HEADER, authStore.getAuthorization);
@@ -82,6 +86,10 @@ const alovaInstance = createAlova({
                     // useUserStore().setToken();
                     return await method.send();
 
+                }
+                if (state === ResultEnum.UNAUTHORIZED) {
+                    useRouter().go(LOGIN_PAGE);
+                    return msg;
                 }
 
                 msg && toast(msg);
