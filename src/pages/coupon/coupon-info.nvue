@@ -3,11 +3,11 @@
         <view class="fulled fulled-height flex flex-center">
             <view class="ma-50 round-a-3 flex-col fulled pa-50"
                   style="background-image: url('https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/couponD.png');background-repeat: no-repeat;background-size: cover">
-                <tm-tag color="orange" size="m" :label="couponInfo.business.title" :margin="[0,50]" :round="0"></tm-tag>
+                <tm-tag color="orange" size="m" :label="couponInfo.business?.title" :margin="[0,50]" :round="0"></tm-tag>
                 <view class="fulled flex-col flex-col-top-center">
-                    <tm-text :label="couponInfo.coupon.title" _class="fulled"></tm-text>
-                    <tm-text :label="couponInfo.coupon.discount"></tm-text>
-                    <tm-text :label="`金额${couponInfo.coupon.price}元`" class="mt-20"></tm-text>
+                    <tm-text :label="couponInfo.coupon?.title" _class="fulled"></tm-text>
+                    <tm-text :label="couponInfo.coupon?.discount"></tm-text>
+                    <tm-text :label="`金额${couponInfo.coupon?.price}元`" class="mt-20"></tm-text>
                     <tm-button color="decolor" label="立即领取" size="small" :width="150"
                                @click="sendApplyCoupon(couponInfo.coupon.id)"
                                :margin="[0,15,0,0]"></tm-button>

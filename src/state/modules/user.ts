@@ -59,7 +59,6 @@ export const useUserStore = defineStore('userInfo', {
             getUserInfo().send().then((userInfo) => {
                 this.$state = userInfo;
                 setCache(USER_INFO_KEY, this.$state);
-
             });
         },
         /**

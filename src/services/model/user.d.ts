@@ -1,7 +1,7 @@
 /**
  * 用户公共公共状态
  */
-export declare interface UserInfoState  {
+export declare interface UserInfoState {
     /**
      * 创建时间
      */
@@ -125,13 +125,8 @@ declare interface UserCardVerifyParams {
 }
 
 
-declare interface UserRefine {
-    name: string;
-}
-
-
 /**
- * 绑定用户信息
+ * 绑定用户表单
  */
 declare interface BindUserParams {
     /**

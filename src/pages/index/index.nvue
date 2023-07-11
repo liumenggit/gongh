@@ -1,19 +1,20 @@
 <template>
     <tm-app :bg-img="useSettingStore().bgimg">
-        <tm-navbar title="标题导航栏" color="primary" hideHome>
+        <tm-navbar title="工会" color="primary" hideHome :left-width="300">
             <template v-slot:left>
                 <view class="flex-row flex-row-center-center">
                     <td-text prefix-icon="td-bug" :label="useSettingStore().area.name" @click="showWin = !showWin"
                              class="ml-20"
-                             color="white"></td-text>
+                             color="white" icon-color="white"></td-text>
                     <view class="pa-20"
-                          style="width: 60vw;height: 20vh;background-color: white;position: absolute;top: 88px;left: 0px"
+                          style="width: 60vw;background-color: rgb(255,255,225,0.8);position: absolute;left: 0px"
+                          :style="{top:getWindow().statusBarHeight * 2 + 'px'}"
                           v-if="showWin">
                         <tm-text label="旗县" color="declolr"/>
                         <view class="fulled flex-row flex-row-center-start flex-wrap">
                             <tm-text v-for="(areaItem,areaIndex) in _.filter(homeData.block, {type: 'area'})"
                                      :label="areaItem.name"
-                                     :font-size="32" class="mr-20"
+                                     :font-size="32" class="mr-20 my-10"
                                      :color="useSettingStore().area.id === areaItem.id && useSettingStore().area.type === areaItem.type?'red':''"
                                      @click="checkArea(areaItem)"
                                      :key="areaIndex"/>
@@ -22,7 +23,7 @@
                         <view class="fulled flex-row flex-row-center-start flex-wrap">
                             <tm-text v-for="(areaItem,areaIndex) in _.filter(homeData.block, {type: 'company'})"
                                      :label="areaItem.name"
-                                     :font-size="32" class="mr-20"
+                                     :font-size="32" class="mr-20 my-10"
                                      :color="useSettingStore().area.id === areaItem.id && useSettingStore().area.type === areaItem.type?'red':''"
                                      @click="checkArea(areaItem)"
                                      :key="areaIndex"/>
@@ -32,7 +33,7 @@
 
             </template>
         </tm-navbar>
-        <td-carousel autoplay :margin="[32,32]" :round="3" :width="686" :height="260"
+        <td-carousel autoplay :margin="[32,32,32,0]" :round="3" :width="686" :height="260"
                      :list="homeData.carousel_list"></td-carousel>
         <tm-grid :width="686" :col="4" class="ml-32 mr-32">
             <tm-grid-item v-for="(gridItem,gridIndex) in gridList" :key="gridIndex" :url="gridItem.url" :height="120"
@@ -41,7 +42,7 @@
                 <tm-text :label="gridItem.title" _class="pt-10" :font-size="22"></tm-text>
             </tm-grid-item>
         </tm-grid>
-        <tm-roll-notice :list="homeData.notice_list.map((item)=>{return item.title})"/>
+        <tm-roll-notice :list="homeData.notice_list.map((item)=>{return item.title})" :margin="[32,16]"/>
         <tm-sheet :margin="[32,0,32,0]" :padding="[0,0]">
             <tm-row :gutter="0" :column="12" :height="100">
                 <tm-col :col="5" align="center">
@@ -77,25 +78,27 @@
                 </tm-scrollx>
             </template>
         </tm-card>
+        <tm-adsorb :offset="[left,top]" :width="120" :height="120" :adsorbX="-200">
+            <view class="flex flex-row flex-row-center-center" style="width:120rpx;height:120rpx;background:red;border-radius: 120rpx;">
+                <tm-text color="white" label="拖动吸附"></tm-text>
+            </view>
+        </tm-adsorb>
     </tm-app>
 </template>
 
 <script setup lang="ts">
 import {useRequest} from 'alova';
-import {getCarouselList} from '@/services/api/page';
 import {ref} from 'vue';
 import {useRouter} from '@/hooks/router';
 import {getHome} from '@/services/api/home';
-import {useLocationStore} from '@/state/modules/location';
 import {useSettingStore} from '@/state/modules/setting';
 import _ from 'lodash';
+import {getWindow} from '../../tmui/tool/function/util';
 
 const showWin = ref(false);
-const list = ref([
-    {text: '苹果', id: '1', icon: 'tmicon-collection'},
-    {text: '菠萝', id: '2', icon: 'tmicon-account-plus'},
-    {text: '电话', id: '3', icon: 'tmicon-phone'},
-]);
+const sys = uni.getSystemInfoSync()
+const left = ref(uni.$tm.u.torpx(sys.windowWidth) - 160)
+const top = ref(uni.$tm.u.torpx(sys.windowHeight) -160)
 const gridList = ref([
     {
         title: '完善个人信息',
@@ -148,13 +151,7 @@ const {
     initialData: {},
     immediate: true,
 });
-onSuccess((data) => {
-    // if (!useSettingStore().area) {
-    //     console.log('默认', 'area-' + data.data.area_list[0].id);
-    //     useSettingStore().setArea('area-' + data.data.area_list[0].id);
-    // }
-    // console.log('onSuccess', data.data.area_list);
-});
+
 const checkArea = (area: any) => {
     useSettingStore().setArea(area);
     showWin.value = false;

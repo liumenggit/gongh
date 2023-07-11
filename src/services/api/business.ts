@@ -3,7 +3,7 @@ import {
     Business,
     BusinessInfo,
     BusinessListParams,
-    BusinessParams,
+    BusinessParams, BusinessPayInfo,
     BusinessType,
     BusinessTypeRes
 } from '@/services/model/business';
@@ -34,4 +34,13 @@ export function getBusinessList(businessListParams: BusinessListParams) {
  */
 export function getBusinessTyoe() {
     return request.Get<BusinessTypeRes>('industry_list');
+}
+
+
+/**
+ * 支付页信息
+ * @returns {any}
+ */
+export function getBusinessPayInfo(id: number) {
+    return request.Get<BusinessPayInfo>('pay_info', {params: {id}});
 }

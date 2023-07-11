@@ -101,6 +101,18 @@ export function getPlatformId(): string {
     return getEnvValue<string>('VITE_PLATFORM_ID');
 }
 
+/**
+ * 获取版本号
+ * @returns {string}
+ */
+export function getVersiond(): string {
+    // if (judgePlatform(PLATFORMS.H5) && isDevMode())
+    //   return ''
+    return getEnvValue<string>('VITE_VERSION');
+}
+
+
+
 
 /**
  * @description: 获取环境变量 VITE_UPLOAD_URL 的值

@@ -1,23 +1,17 @@
+import {Coupon} from '@/services/model/coupon';
+
+/**
+ * 商家信息
+ */
 declare interface Business {
     coupon_list: [Coupon];
     info: BusinessInfo;
 }
 
-export interface Coupon {
-    days: number | null;
-    eff_range: string;
-    eff_time_end: number | null;
-    eff_time_start: number | null;
-    id: number;
-    is_discount: number;
-    is_new: number;
-    price: string;
-    rec_type: number;
-    remark: string;
-    title: string;
-    type: number;
-}
 
+/**
+ * 商家信息
+ */
 export interface BusinessInfo {
     id: number;
     address: string;
@@ -30,17 +24,9 @@ export interface BusinessInfo {
     longitude: number;
 }
 
-export interface BusinessInfo {
-    address: string;
-    content: string;
-    imgs: string[];
-    phone: number;
-    title: string;
-    translate: number;
-    longitude: number;
-    latitude: number;
-}
-
+/**
+ * 商家查询条件
+ */
 export interface BusinessParams {
     /**
      * 商家id
@@ -50,6 +36,10 @@ export interface BusinessParams {
     longitude: number;
 }
 
+
+/**
+ * 商户列表查询条件
+ */
 export interface BusinessListParams {
     /**
      * 当前选中的值   最开始默认 area-1 意思是 地区海拉尔
@@ -75,13 +65,28 @@ export interface BusinessListParams {
     type_id?: number;
 }
 
-
+/**
+ * RES
+ */
 declare interface BusinessTypeRes {
     type_list: [BusinessType];
 }
 
+
+/**
+ * 商户类型
+ */
 export interface BusinessType {
     id: number;
     img: string;
     name: string;
 }
+
+
+declare interface BusinessPayInfo {
+    coupon_card: [Coupon];
+    db: number;
+    integral: [any];
+    business: string;
+}
+

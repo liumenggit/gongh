@@ -1,5 +1,6 @@
 import {defineStore} from 'pinia';
 import {toast} from '@/tmui/tool/function/util';
+// @ts-ignore
 import QQMapWX from '@/utils/common/qqmap-wx-jssdk';
 
 const qqmapsdk = new QQMapWX({

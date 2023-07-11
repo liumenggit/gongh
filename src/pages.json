@@ -16,15 +16,6 @@
       }
     },
     {
-      "path": "pages/my/bind",
-      "style": {
-        "navigationBarTitleText": "绑定用户信息"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
       "path": "pages/shop/shop",
       "style": {
         "navigationBarTitleText": "商城",
@@ -46,7 +37,35 @@
     {
       "path": "pages/businesses/businesses-info",
       "style": {
-        "navigationBarTitleText": "商户信息"
+        "navigationBarTitleText": "商户信息",
+        "navigationStyle": "custom"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/qrcode/pay",
+      "style": {
+        "navigationBarTitleText": "扫码商家"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/coupon/coupon-list",
+      "style": {
+        "navigationBarTitleText": "卡券列表"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/coupon/coupon-info",
+      "style": {
+        "navigationBarTitleText": "卡券详情"
       },
       "meta": {
         "ignoreAuth": true
@@ -71,36 +90,36 @@
       }
     },
     {
+      "path": "pages/my/my",
+      "style": {
+        "navigationBarTitleText": "我的"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
       "path": "pages/my/refine",
       "style": {
         "navigationBarTitleText": "完善个人信息"
       },
       "meta": {
-        "ignoreAuth": true
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/bind",
+      "style": {
+        "navigationBarTitleText": "绑定用户信息"
+      },
+      "meta": {
+        "ignoreAuth": false
       }
     },
     {
       "path": "pages/my/card-pack",
       "style": {
         "navigationBarTitleText": "我的卡包"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/my/message",
-      "style": {
-        "navigationBarTitleText": "消息通知"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/my/my",
-      "style": {
-        "navigationBarTitleText": "我的"
       },
       "meta": {
         "ignoreAuth": false
@@ -161,108 +180,18 @@
       }
     },
     {
-      "path": "pages/qrcode/pay",
+      "path": "pages/notFound/404",
       "style": {
-        "navigationBarTitleText": "扫码商家"
+        "navigationBarTitleText": "404"
       },
       "meta": {
-        "ignoreAuth": false
-      }
-    },
-    {
-      "path": "pages/signin/signin",
-      "style": {
-        "navigationBarTitleText": "积分签到"
-      },
-      "meta": {
-        "ignoreAuth": false
+        "ignoreAuth": true
       }
     },
     {
       "path": "pages/my/login",
       "style": {
         "navigationBarTitleText": "登录"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/coupon/coupon-list",
-      "style": {
-        "navigationBarTitleText": "卡券列表"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/coupon/coupon-info",
-      "style": {
-        "navigationBarTitleText": "卡券详情"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/index/demo",
-      "style": {
-        "navigationBarTitleText": "首页"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/demo/demo",
-      "style": {
-        "navigationBarTitleText": "ceshi"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/list/list",
-      "style": {
-        "navigationBarTitleText": "列表"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/location/location",
-      "style": {
-        "navigationBarTitleText": "定位"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/list/list-info",
-      "style": {
-        "navigationBarTitleText": "详情"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/shop/shop-list",
-      "style": {
-        "navigationBarTitleText": "商店"
-      },
-      "meta": {
-        "ignoreAuth": true
-      }
-    },
-    {
-      "path": "pages/notFound/404",
-      "style": {
-        "navigationBarTitleText": "404"
       },
       "meta": {
         "ignoreAuth": true
@@ -280,7 +209,7 @@
   },
   "tabBar": {
     "color": "#9a9a9a",
-    "selectedColor": "#4ec752",
+    "selectedColor": "#fb4b6b",
     "borderStyle": "black",
     "backgroundColor": "white",
     "list": [

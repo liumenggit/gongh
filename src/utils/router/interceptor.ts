@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import {HOME_PAGE, NAVIGATE_TYPE_LIST, NOT_FOUND_PAGE} from '@/enums/routerEnum';
-import {useUserStore} from '@/state/modules/user';
 import {isIgnoreAuth, jumpLogin} from '@/utils/router/constant';
-import {useAuthStore} from "@/state/modules/auth";
+import {useAuthStore} from '@/state/modules/auth';
 
 /**
  * 路由跳转前拦截
@@ -11,6 +10,7 @@ import {useAuthStore} from "@/state/modules/auth";
  */
 
 export function routerBeforeEach(path: string): boolean {
+    console.log('path', path);
     const isIgnore = isIgnoreAuth(path);
     if (isIgnore) {
         return true;

@@ -2,9 +2,9 @@
     <tm-app>
         <tm-filterMenu :fixed="true" ref="filter">
             <tm-filterMenu-item :footerHeight="100" :title="businessTypeText">
-                <tm-radio-group direction='customCol' v-model="businessType" :default-value="businessType">
+                <tm-radio-group direction='customCol' v-model="businessType" >
                     <tm-radio :value="businessTypeItem.key"
-                              v-for="(businessTypeItem, businessTypeIndex) in businessAllType" :key="businessTypeIndex"
+                              v-for="businessTypeItem in businessAllType" :key="businessTypeItem.key"
                               :custom="false">
                         <template v-slot:default="{ checked }">
                             <view :userInteractionEnabled="false" hover-class="opactiy-7"
@@ -62,7 +62,7 @@
                     translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
             <tm-result v-if="pageList.length === 0 && loading === false" status="empty" :show-btn="false"></tm-result>
             <view class="mt-20"/>
-            <tm-coupon v-for="pageItem in pageList" :color="pageItem.code" linear="right"
+            <tm-coupon v-for="pageItem in pageList" :key="pageItem.id" :color="pageItem.code" linear="right"
                        linear-deep="accent" mainColor="yellow" font-color=""
                        :price-detail="{price:pageItem.price,subtext:'',prefix:'￥',suffix:''}"
                        :right-detail="{title:pageItem.title,subtitle:'副标题',time:pageItem.eff_range}"
@@ -110,18 +110,17 @@ import {useSettingStore} from '@/state/modules/setting';
 import {useRouter} from '@/hooks/router';
 
 const filter = ref<InstanceType<typeof tmFilterMenu | null>>(null);
-const businessType: Ref<string | number> = ref(-1);
+const businessType = ref(-1);
 const businessAllType = enumToArr(CouponStateEnum);
 const businessTypeText = computed(() => {
-    return _.find(businessAllType, {key: businessType.value}).title;
+    return _.find(businessAllType, {key: businessType.value})?.title;
 });
 
 const couponAllType = ref(useSettingStore().couponTypeList);
 const couponType: Ref<string | number> = ref(couponAllType.value[0].id);
 const couponTypeText = computed(() => {
-    return _.find(couponAllType.value, {id: couponType.value}).title;
+    return _.find(couponAllType.value, {id: couponType.value})?.title;
 });
-
 
 const pull = ref(false);
 const scrollHeight = ref(400);
@@ -150,20 +149,23 @@ const {
         preloadPreviousPage: false,
         preloadNextPage: false,
         append: true,
-        debounce: [500],
         data: (res) => res.list,
-        initialPageSize: 10
+        initialPageSize: 10,
+        immediate: false
     }
 );
 onSuccess(() => {
     console.log('onSuccess', pageList.value);
     pull.value = false;
+
 });
 
 onLoad((option) => {
     businessType.value = option?.type;
-    console.log('onload',businessType.value);
+    console.log('onload', businessType.value);
+    reload()
 });
+
 
 </script>
 

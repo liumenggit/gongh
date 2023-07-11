@@ -1,3 +1,5 @@
+import {CouponType} from '@/services/model/coupon';
+
 /**
  * 首页信息
  */
@@ -17,25 +19,9 @@ declare interface HomeSeting {
     coupon_type_list: [CouponType];
 }
 
-declare interface CouponType {
-    /**
-     * 优惠券颜色值
-     */
-    code: string;
-    /**
-     * 优惠券颜色
-     */
-    color: number;
-    /**
-     * 分类ID
-     */
-    id: number;
-    /**
-     * 标题
-     */
-    title: string;
-}
-
+/**
+ * 广告列表
+ */
 export interface AdvList {
     id?: number;
     img?: string;
@@ -43,12 +29,19 @@ export interface AdvList {
     url?: string;
 }
 
+/**
+ * 区域列表
+ */
 export interface AreaList {
     id: number;
     name: string;
     type: string;
 }
 
+
+/**
+ * 轮播列表
+ */
 export interface CarouselList {
     id?: number;
     img?: string;
@@ -56,6 +49,9 @@ export interface CarouselList {
     url?: string;
 }
 
+/**
+ * 公司列表
+ */
 export interface CompanyList {
     id: number;
     name: string;
@@ -75,6 +71,9 @@ export interface FootButton {
     user_img_before: string;
 }
 
+/**
+ * 通知列表
+ */
 export interface NoticeList {
     id?: number;
     sub_title?: string;

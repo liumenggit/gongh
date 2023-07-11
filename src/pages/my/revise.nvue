@@ -1,9 +1,13 @@
 <template>
     <tm-app ref="app">
         <view class="mx-32 mt-32 round-3 overflow">
-            <tm-cell title="头像" url="/pages/my/set/avatar" :margin="[0, 0]" :titleFontSize="30" bottomBorder>
+            <tm-cell title="头像" :margin="[0, 0]" :titleFontSize="30" bottomBorder>
                 <template v-slot:rightText>
-                    <tm-avatar :img="useUserInfo.avatar" :size="75" :round="4" class="pr-10"></tm-avatar>
+                    <button class="pa-0 flex-row-center-center pt-50" open-type="chooseAvatar" @chooseavatar="setAvatar"
+                            style="background-color: transparent;margin: 0;padding: 0">
+                        <tm-avatar :img="useUserInfo.avatar" :size="75" :round="4" class="pr-10"></tm-avatar>
+                    </button>
+
                 </template>
             </tm-cell>
             <tm-cell title="昵称" url="/pages/my/set/nickname" :right-text="useUserInfo.nickname"
@@ -20,54 +24,58 @@
                     <tm-icon customicon name="td-shield_check" :font-size="60"></tm-icon>
                 </template>
                 <template v-slot:right>
-                    <tm-button :label="useUserInfo.auth.card?.cardId?'修改':'认证'"
-                               :color="useUserInfo.auth.card?.cardId?'green':'primary'" size="small"
+                    <tm-button :label="useUserInfo.idcard?'修改':'补充'"
+                               :color="useUserInfo.idcard?'green':'primary'" size="small"
                                :padding="[0,0]"
-                               :margin="[0,0]"></tm-button>
+                               :margin="[0,0]"
+                               @click="useRouter().go('/pages/my/refine')"
+                    />
                 </template>
             </tm-cell>
-            <tm-cell title="微信" showAvatar
-                     :margin="[0, 0]" :round="3" :titleFontSize="30" class="mt-20">
-                <template v-slot:avatar>
-                    <tm-icon customicon name="td-shield_check" :font-size="60"></tm-icon>
-                </template>
-                <template v-slot:right>
-                    <tm-button label="绑定" size="small" :padding="[0,0]" :margin="[0,0]"></tm-button>
-                </template>
-            </tm-cell>
-            <tm-cell title="QQ" showAvatar
-                     :margin="[0, 0]" :round="3" :titleFontSize="30" class="mt-20">
-                <template v-slot:avatar>
-                    <tm-icon customicon name="td-shield_check" :font-size="60"></tm-icon>
-                </template>
-                <template v-slot:right>
-                    <tm-button label="绑定" size="small" :padding="[0,0]" :margin="[0,0]"></tm-button>
-                </template>
-            </tm-cell>
+            <!--            <tm-cell title="微信" showAvatar-->
+            <!--                     :margin="[0, 0]" :round="3" :titleFontSize="30" class="mt-20">-->
+            <!--                <template v-slot:avatar>-->
+            <!--                    <tm-icon customicon name="td-shield_check" :font-size="60"></tm-icon>-->
+            <!--                </template>-->
+            <!--                <template v-slot:right>-->
+            <!--                    <tm-button label="绑定" size="small" :padding="[0,0]" :margin="[0,0]"></tm-button>-->
+            <!--                </template>-->
+            <!--            </tm-cell>-->
         </view>
-        <view class="mx-32 mt-32 round-3 overflow">
-            <tm-cell title="安全中心" label="账号挂失、解限、举报等安全服务" :margin="[0, 0]"
-                     :titleFontSize="30" bottomBorder/>
-        </view>
-        <tm-alert :shadow="2" :content="alertContent" :height="80"></tm-alert>
+        <!--        <view class="mx-32 mt-32 round-3 overflow">-->
+        <!--            <tm-cell title="安全中心" label="账号挂失、解限、举报等安全服务" :margin="[0, 0]"-->
+        <!--                     :titleFontSize="30" bottomBorder/>-->
+        <!--        </view>-->
+        <!--        <tm-alert :shadow="2" :content="alertContent" :height="80"></tm-alert>-->
     </tm-app>
 </template>
 <script lang="ts" setup>
-import {getCurrentInstance, ref} from "vue";
-import {useUserStore} from "@/state/modules/user";
-import {onLoad} from "@dcloudio/uni-app";
+import {getCurrentInstance, ref} from 'vue';
+import {useUserStore} from '@/state/modules/user';
+import {onLoad} from '@dcloudio/uni-app';
+import {useRouter} from '@/hooks/router';
+import {toast} from '@/tmui/tool/function/util';
 
 const proxy = getCurrentInstance()?.proxy ?? null;
-const useUserInfo = useUserStore()
+const useUserInfo = useUserStore().$state;
 const alertContent = ref([
     {
         icon: 'tmicon-alert',
-        content: "这是一条新闻这是一条新闻这是一条新闻这是一条新闻这是一条新闻这是一条新闻22这是一条新闻这是一条新闻这是一条新闻"
+        content: '这是一条新闻这是一条新闻这是一条新闻这是一条新闻这是一条新闻这是一条新闻22这是一条新闻这是一条新闻这是一条新闻'
     }
-])
+]);
+
+const setAvatar = (e: any) => {
+    useUserStore().setAvatar(e.detail.avatarUrl).then(() => {
+        toast('设置成功');
+    });
+};
 onLoad(() => {
-    useUserStore().updateUserInfo()
-})
+    useUserStore().updateUserInfo();
+});
 </script>
 <style>
+button::after {
+    border: none;
+}
 </style>

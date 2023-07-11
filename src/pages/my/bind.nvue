@@ -1,5 +1,5 @@
 <template>
-    <tm-app bg-img="https://wx.shuidiwang.cn/addons/china_ghphpt/resource/mobileImg/mineBg.jpg">
+    <tm-app :bg-img="useSettingStore().bgimg">
         <tm-form @submit="confirm" ref="form" v-model="bindUserParams" :label-width="190" layout="vertical">
             <tm-form-item required :rules="[{required:true,message:'请输入姓名',validator:(val)=>isChina(val)}]"
                           field="name"
@@ -52,6 +52,7 @@ import {BindUserParams} from '../../services/model/user';
 import {useCaptcha} from '@alova/scene-vue';
 import {onLoad} from '@dcloudio/uni-app';
 import {useUserStore} from '../../state/modules/user';
+import {useSettingStore} from '@/state/modules/setting';
 
 const bindUserParams: Ref<BindUserParams> = ref({
     phone: null,

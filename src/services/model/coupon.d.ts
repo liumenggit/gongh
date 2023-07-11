@@ -1,3 +1,6 @@
+/**
+ * 优惠券列表查询条件
+ */
 declare interface CouponListParams {
     /**
      * 商家行业
@@ -17,11 +20,19 @@ declare interface CouponListParams {
     current_value?: string;
 }
 
+
+/**
+ * 优惠券RES
+ */
 declare interface CouponRes {
     business: Business;
     coupon: Coupon;
 }
 
+
+/**
+ * 优惠券商家信息
+ */
 export interface Business {
     add_time: number;
     address: string;
@@ -46,6 +57,10 @@ export interface Business {
     y: string;
 }
 
+
+/**
+ * 优惠券
+ */
 export interface Coupon {
     /**
      * 创建时间
@@ -163,4 +178,26 @@ export interface Coupon {
      * 卡券类型名称
      */
     type_title?: string;
+}
+
+/**
+ * 优惠券类型
+ */
+declare interface CouponType {
+    /**
+     * 优惠券颜色值
+     */
+    code: string;
+    /**
+     * 优惠券颜色
+     */
+    color: number;
+    /**
+     * 分类ID
+     */
+    id: number;
+    /**
+     * 标题
+     */
+    title: string;
 }

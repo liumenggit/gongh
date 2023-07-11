@@ -7,7 +7,7 @@
                 <tm-text class="flex-1" :label="businessInfo.info.title"></tm-text>
                 <tm-text color="grey" label="距您："></tm-text>
                 <tm-text color="grey" :label="`${businessInfo.info.translate}km`"></tm-text>
-                <tm-icon color="decolor" name="tmicon-share1" class="ml-15"></tm-icon>
+                <tm-icon @click="share" color="decolor" name="tmicon-share1" class="ml-15"></tm-icon>
             </view>
             <view class="fulled flex-row flex-row-center-start mt-10">
                 <tm-button icon="td-bug" size="mini" :width="120" :margin="[0,0]" outlined text
@@ -22,9 +22,9 @@
                 <tm-text :label="businessInfo.info.address" class="ml-10"/>
             </view>
         </tm-sheet>
-        <tm-tabs :width="750" align="center" :swiper="true" :item-width="375" color="grey-3" activeColor="white"
-                 item-model="card" :height="getWindow().height * 2" default-name="youhui">
-            <tm-tabs-pane name="youhui" title="优惠">
+        <tm-tabs :width="750" align="center" :swiper="true" :item-width="210" color="grey-3" activeColor="white"
+                 item-model="card" :height="getWindow().height * 2" default-name="shangpin">
+            <tm-tabs-pane name="shangpin" title="优惠">
                 <view class="fulled fulled-height">
                     <view class="mb-16"/>
                     <tm-coupon v-for="couponItem in businessInfo.coupon_list" color="pink" linear="right"
@@ -47,6 +47,11 @@
                     <tm-html :content="businessInfo.info.content"></tm-html>
                 </view>
             </tm-tabs-pane>
+            <tm-tabs-pane name="youhui" title="优惠">
+                <view class="fulled fulled-height pa-32">
+                    <tm-html :content="businessInfo.info.content"></tm-html>
+                </view>
+            </tm-tabs-pane>
         </tm-tabs>
     </tm-app>
 </template>
@@ -58,7 +63,8 @@ import {callPhone, getWindow, torpx} from '@/tmui/tool/function/util';
 import {getBusinessInfo} from '@/services/api/business';
 import {useRequest} from 'alova';
 import {useLocationStore} from '@/state/modules/location';
-import {useRouter} from '@/hooks/router';
+import {useRoute, useRouter} from '@/hooks/router';
+import {getAppid} from '@/utils/env';
 
 
 const {
@@ -80,7 +86,19 @@ onLoad((option) => {
 const openLocation = (data: any) => {
     uni.openLocation(data);
 };
-
+console.log(useRoute().path);
+const share = () => {
+    uni.share({
+        type: 5,
+        provider: 'weixin',
+        title: businessInfo.value.info.title,
+        miniProgram: {
+            id: getAppid(),
+            path: useRoute().path,
+            type: 0
+        }
+    });
+};
 </script>
 
 <style scoped>

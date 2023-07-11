@@ -6,10 +6,12 @@
                 <tm-text label="商家名称" color="decolor"/>
             </template>
             <template v-slot:content>
-                <tm-text label="1232sdad士大夫地方"/>
+                <tm-text :label="businessPayInfo.business"/>
             </template>
         </tm-card>
-        <tm-cell :round="3" :margin="[32,12,32,0]" right-text="选择" :shadow="2">
+        <tm-cell :round="3" :margin="[32,12,32,0]"
+                 :right-text="payParams.card_id?_.find(businessPayInfo.coupon_card, {id: payParams.card_id})?.title:'选择'"
+                 :shadow="2" @click="couponShow = true">
             <template v-slot:title>
                 <tm-text label="查看可用优惠券" color="decolor"/>
             </template>
@@ -23,7 +25,8 @@
             <template v-slot:title>
                 <view class="flex-row flex-row-center-start">
                     <tm-text label="可用余额" color="decolor" class="mr-20"/>
-                    <tm-text label="￥20.00"/>
+                    <!--                    <tm-text :label="businessPayInfo.db"/>-->
+                    <tm-statistic :end-val="businessPayInfo.db" :decimals="2" suffix="元"/>
                     <!--                    <tm-statistic prefix="￥" :start-val="0" :end-val="20" :decimals="2"></tm-statistic>-->
                 </view>
             </template>
@@ -36,35 +39,60 @@
             </template>
         </tm-card>
         <tm-button label="支付" block :margin="[32,32]"></tm-button>
-        <tm-drawer ref="calendarView" placement="bottom" v-model:show="showWin" :height="800">
+        <tm-drawer @ok="payParams.card_id = null" hideCancel okText="不使用" ref="calendarView" placement="bottom"
+                   v-model:show="couponShow" :height="800">
             <tm-scrolly :width="0">
-                <tm-sheet v-for="(item,index) in 30" :key="index" :margin="[12,0]">
-                    <view class="flex-row flex-row-center-between">
-                        <tm-image src="https://cdn.tmui.design/gds2023628-2024628.jpg" :width="200" :height="130"
-                                  :round="3"></tm-image>
-                        <view class="flex-col flex-col-top-start flex-wrap flex-1 ml-20">
-                            <tm-text label="123123123" class="fulled" :font-size="32"/>
-                            <view class="fulled flex-row flex-row-center-start my-10">
-                                <tm-icon name="td-bug" class="mr-10"/>
-                                <tm-text label="50积分" color="decolor"/>
-                            </view>
-                            <view class="fulled flex-row flex-row-center-start">
-                                <tm-text label="有效期:" color="decolor" class="mr-10"/>
-                                <tm-text label="2045-5-4" color="grey"/>
-                            </view>
-                        </view>
-                    </view>
-                </tm-sheet>
+                <tm-result v-if="businessPayInfo.coupon_card.length === 0" status="empty" :show-btn="false"></tm-result>
+                <view class="mb-16"/>
+                <tm-coupon v-for="couponItem in businessPayInfo.coupon_card" color="pink" linear="right"
+                           linear-deep="accent" mainColor="yellow" font-color=""
+                           :price-detail="{price:couponItem.price,subtext:'',prefix:'￥',suffix:''}"
+                           :right-detail="{title:couponItem.title,subtitle:'副标题',time:couponItem.eff_range}"
+                           @click="payParams.card_id = couponItem.id;couponShow = false"
+                           extra
+                           btn-label="立即使用"
+                >
+                    <template v-slot:extra>
+                        <tm-text :font-size="22" _class="opacity-7" :label="couponItem.remark"></tm-text>
+                    </template>
+                </tm-coupon>
             </tm-scrolly>
         </tm-drawer>
     </tm-app>
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
-import TdText from '../../components/td-text/td-text.vue';
+import {onLoad} from '@dcloudio/uni-app';
+import {useRequest} from 'alova';
+import {getBusinessInfo, getBusinessPayInfo} from '@/services/api/business';
+import {useUserStore} from '@/state/modules/user';
+import {Ref, ref} from 'vue';
+import {useRouter} from '@/hooks/router';
+import _ from 'lodash';
 
-const showWin = ref(false);
+useUserStore().updateUserInfo();
+const userInfo = useUserStore().$state;
+const couponShow = ref(false);
+const {
+    loading,
+    data: businessPayInfo,
+    send
+} = useRequest((id) => getBusinessPayInfo(id), {
+    initialData: {},
+    immediate: false,
+});
+const payParams: Ref<PayParams> = ref({
+    card_id: null,
+    business_id: null,
+    db: null,
+    integral_id: null
+});
+
+onLoad((option) => {
+    option = {id: 2};
+    payParams.value.business_id = option?.id;
+    send(option?.id);
+});
 </script>
 
 <style scoped>

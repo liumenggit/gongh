@@ -70,7 +70,7 @@
         <slot name="bottom" :status="{ isBootRefresh }">
           <view
             v-if="isBootRefresh"
-            class="flex flex-row flex-row-center-center"
+            class="flex fulled flex-row flex-row-center-center"
             :style="{ height: (isBootRefresh ? props.loadBarHeight : 0) + 'rpx' }"
           >
             <tm-icon :font-size="24" color="primary" name="tmicon-shuaxin" spin></tm-icon>

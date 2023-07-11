@@ -46,7 +46,8 @@
     <tree path="/src/pages/article" title="文章"/>
     <tree path="/src/enums/verifyEnum.ts" title="验证"/>
     <tree path="/src/pages/cart" title="购物车"/>
-    <tree path="/src/pages/shop" title="商店"/>
+    <tree path="/src/pages/shop" title="商城" extension="" presentableText="" tooltipTitle="" icon="" textColor=""
+          backgroundColor=""/>
     <tree path="/src/pages/location" title="定位"/>
     <tree path="/src/pages/integral" title="积分"/>
     <tree path="/src/pages/integral/抽奖.nvue" title="抽奖礼品"/>
@@ -59,4 +60,24 @@
     <tree path="/src/pages/coupon/coupon-info.nvue" title="优惠券详情"/>
     <tree path="/src/pages/businesses/businesses-list.nvue" title="商家列表"/>
     <tree path="/src/pages/coupon/coupon-list.nvue" title="卡券列表"/>
+    <tree path="/src/pages/my/revise.nvue" title="用户设置"/>
+    <tree path="/src/services/api/coupon.ts" title="优惠券"/>
+   <tree path="/src/pages/my/login.nvue" title="登录"/>
+   <tree path="/src/pages/my/my.nvue" title="个人中心"/>
+   <tree path="/src/pages/my/card-pack.nvue" title="卡包"/>
+   <tree path="/src/pages/qrcode/pay.nvue" title="扫描商家码"/>
+   <tree path="/src/utils/common/base64-to-temp.ts" title="Base64转临时地址"/>
+   <tree path="/src/utils/common/enum-to-arr.ts" title="枚举转数组"/>
+    <tree path="/src/pages/coupon" title="优惠券"/>
+    <tree path="/src/pages/qrcode" title="扫码"/>
+    <tree path="/src/services/api/business.ts" title="商家"/>
+    <tree path="/src/services/api/home.ts" title="首页"/>
+    <tree path="/src/services/api/user.ts" title="用户"/>
+    <tree path="/src/services/api/auth.ts" title="授权"/>
+    <tree path="/src/services/model/auth.d.ts" title="授权"/>
+    <tree path="/src/services/model/business.d.ts" title="商家"/>
+    <tree path="/src/services/model/common.d.ts" title="公共"/>
+    <tree path="/src/services/model/coupon.d.ts" title="优惠券"/>
+    <tree path="/src/services/model/home.d.ts" title="首页"/>
+    <tree path="/src/services/model/user.d.ts" title="用户"/>
 </trees>
