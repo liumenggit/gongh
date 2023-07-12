@@ -12,8 +12,9 @@
             <tm-input @search="search" v-model.lazy="searchLazy" :round="25" :margin="[0,0]" prefix="tmicon-search"
                       searchLabel="搜索" :showClear="true"
                       placeholder="餐饮" color="red"></tm-input>
-            <td-text prefix-icon="td-bug" icon-color="decolor" :label="useLocationStore().location.address.address"
-                     class="mt-10"/>
+            <td-text prefix-icon="tmicon-position-fill" icon-color="decolor"
+                     :label="useLocationStore().location.address.address || '获取当前位置'"
+                     class="mt-10" @click="useLocationStore().setAuthorize"/>
         </tm-sheet>
         <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
                     translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
@@ -28,8 +29,10 @@
                 </template>
                 <template v-slot:default>
                     <td-text :label="pageListItem.title" :font-size="36" _class="text-weight-b mb-20"/>
-                    <td-text :label="pageListItem.address" prefix-icon="td-bug" icon-color="decolor" color="grey" :font-size="24"/>
-                    <td-text :label="pageListItem.phone" prefix-icon="td-bug" icon-color="decolor" color="grey" :font-size="24"/>
+                    <td-text :label="pageListItem.address" prefix-icon="td-bug" icon-color="decolor" color="grey"
+                             :font-size="24"/>
+                    <td-text :label="pageListItem.phone" prefix-icon="td-bug" icon-color="decolor" color="grey"
+                             :font-size="24"/>
                 </template>
                 <template v-slot:btn>
                     <tm-button size="small" label="点击进入"

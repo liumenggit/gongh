@@ -9,6 +9,11 @@
                 <tm-text :label="businessPayInfo.business"/>
             </template>
         </tm-card>
+        <tm-sheet :padding="[0,0]" :margin="[32,12,32,0]" :round="4" :shadow="2">
+            <tm-input placeholder="请输入订单总金额" prefixLabel="订单总金额" prefix="tmicon-dollar" suffixLabel="元" type="number"
+                      class="fulled" transprent/>
+        </tm-sheet>
+
         <tm-cell :round="3" :margin="[32,12,32,0]"
                  :right-text="payParams.card_id?_.find(businessPayInfo.coupon_card, {id: payParams.card_id})?.title:'选择'"
                  :shadow="2" @click="couponShow = true">
@@ -34,6 +39,7 @@
                 <view class="flex-col flex-col-center-center flex-wrap fulled pa-20">
                     <tm-input placeholder="请输入付款金额" type="number" :fontSize="48" align="center" class="fulled"
                               :height="120"/>
+
                     <tm-text label="实际支付￥0.00" color="decolor" class="mt-40"/>
                 </view>
             </template>

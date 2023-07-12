@@ -22,7 +22,7 @@
                 <tm-text :label="businessInfo.info.address" class="ml-10"/>
             </view>
         </tm-sheet>
-        <tm-tabs :width="750" align="center" :swiper="true" :item-width="210" color="grey-3" activeColor="white"
+        <tm-tabs :width="750" align="around" :swiper="true" :item-width="210" color="grey-3" activeColor="white"
                  item-model="card" :height="getWindow().height * 2" default-name="shangpin">
             <tm-tabs-pane name="shangpin" title="优惠">
                 <view class="fulled fulled-height">

@@ -1,0 +1,37 @@
+<template>
+    <tm-app :bg-img="useSettingStore().bgimg">
+        <tm-sheet :margin="[0,0]" transprent>
+            <tm-row :column="12" transprent>
+                <tm-col :col="12" align="start" transprent>
+                    <tm-text label="gongsi" color="white"/>
+                </tm-col>
+                <tm-col :col="12" align="center" :height="100" transprent>
+                    <tm-statistic prefix="￥" :end-val="46444" :decimals="2" color="orange"
+                                  :font-size="46"></tm-statistic>
+                    <tm-button label="提现" color="white" size="small"/>
+                </tm-col>
+                <tm-col :col="12" align="start" transprent>
+                    <tm-statistic prefix="累计提现金额：" :end-val="46444" :decimals="2" color="white"></tm-statistic>
+                </tm-col>
+            </tm-row>
+        </tm-sheet>
+        <tm-card title="提现金额" status="待确认" :round="3">
+            <template v-slot:content class="fulled">
+                <view class="fulled flex-row flex-row-center-center">
+                    <tm-statistic prefix="￥" :start-val="46444" :end-val="46444" :decimals="2" :font-size="32"
+                                  color="decolor"/>
+                </view>
+                <tm-descriptions-item label="申请时间:" value="4564465adsa"></tm-descriptions-item>
+            </template>
+        </tm-card>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+
+import {useSettingStore} from '@/state/modules/setting';
+</script>
+
+<style scoped>
+
+</style>

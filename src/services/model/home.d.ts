@@ -1,4 +1,5 @@
 import {CouponType} from '@/services/model/coupon';
+import {BusinessHy, BusinessType} from '@/services/model/business';
 
 /**
  * 首页信息
@@ -17,7 +18,10 @@ declare interface HomeSeting {
     notice_list: NoticeList[];
     today_click_num: number;
     coupon_type_list: [CouponType];
+    business_type: [BusinessHy];
+    business_hy: [BusinessType];
 }
+
 
 /**
  * 广告列表

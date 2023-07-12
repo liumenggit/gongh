@@ -1,0 +1,34 @@
+<template>
+    <tm-app>
+        <view class="fulled pa-20 flex-row flex-row-center-center nowrap">
+            <tm-input @search="search" searchLabel="搜索" placeholder="请输入商品名" class="flex-1" color="red"/>
+            <td-text prefix-icon="tmicon-plus-circle-fill" label="添加人员" class="ml-30"/>
+        </view>
+        <tm-sheet :column="12">
+            <tm-row :width="0">
+                <tm-col :col="2" align="start">
+                    <tm-text label="姓名"/>
+                </tm-col>
+                <tm-col :col="4" align="start">
+                    <tm-text label="18647012056" color="grey"/>
+                </tm-col>
+                <tm-col :col="5" align="start">
+                    <tm-text label="未绑定" color="red"/>
+                </tm-col>
+                <tm-col :col="12" align="start">
+                    <tm-text label="152104199312251914" color="grey"/>
+                </tm-col>
+            </tm-row>
+        </tm-sheet>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+const search = (e: string) => {
+
+};
+</script>
+
+<style scoped>
+
+</style>

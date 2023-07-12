@@ -63,9 +63,46 @@
       }
     },
     {
+      "path": "pages/coupon/happy",
+      "style": {
+        "navigationBarTitleText": "生日快乐"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/coupon/coupon-birthday-list",
+      "style": {
+        "navigationBarTitleText": "生日券列表"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
       "path": "pages/coupon/coupon-info",
       "style": {
         "navigationBarTitleText": "卡券详情"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/integral/integral-signIn",
+      "style": {
+        "navigationBarTitleText": "积分签到"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
+      "path": "pages/integral/integral-list",
+      "style": {
+        "navigationBarTitleText": "积分明细",
+        "disableScroll": true
       },
       "meta": {
         "ignoreAuth": true
@@ -108,6 +145,24 @@
       }
     },
     {
+      "path": "pages/my/message",
+      "style": {
+        "navigationBarTitleText": "消息通知"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/feedback",
+      "style": {
+        "navigationBarTitleText": "意见反馈"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
       "path": "pages/my/bind",
       "style": {
         "navigationBarTitleText": "绑定用户信息"
@@ -135,9 +190,27 @@
       }
     },
     {
-      "path": "pages/my/feedback",
+      "path": "pages/my/business/employee-list",
       "style": {
-        "navigationBarTitleText": "反馈"
+        "navigationBarTitleText": "人员管理"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/business/employee-add",
+      "style": {
+        "navigationBarTitleText": "添加人员"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/business/employee-withdrawals",
+      "style": {
+        "navigationBarTitleText": "财务管理"
       },
       "meta": {
         "ignoreAuth": false
@@ -224,6 +297,12 @@
         "iconPath": "static/tabar/compass-of.png",
         "selectedIconPath": "static/tabar/compass-on.png",
         "text": "商户中心"
+      },
+      {
+        "pagePath": "pages/shop/shop",
+        "iconPath": "static/tabar/compass-of.png",
+        "selectedIconPath": "static/tabar/compass-on.png",
+        "text": "商城"
       },
       {
         "pagePath": "pages/coupon/coupon-list",

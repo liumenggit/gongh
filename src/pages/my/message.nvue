@@ -1,0 +1,64 @@
+<template>
+    <tm-app>
+        <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
+                    translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
+            <tm-result v-if="pageList.length === 0 && loading === false" status="empty" :show-btn="false"></tm-result>
+            <view class="flex flex-row flex-center">
+                <tm-icon color="decolor" name="tmicon-tongzhi" class="ml-10"></tm-icon>
+                <tm-sheet :round="5" class="fulled">
+                    <tm-text color="grey" label="欢迎您关注普惠平台"></tm-text>
+                    <tm-text class="mt-10 mb-10" color="grey" label="工会"></tm-text>
+                    <tm-text color="grey" label="12124323"></tm-text>
+                </tm-sheet>
+            </view>
+            <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
+        </tm-scrolly>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+import {getCurrentInstance, ref} from 'vue';
+import {usePagination} from '@alova/scene-vue';
+import {onReady} from '@dcloudio/uni-app';
+import {getWindow, torpx} from '@/tmui/tool/function/util';
+import {getCouponList} from '@/services/api/coupon';
+
+const pull = ref(false);
+const scrollHeight = ref(400);
+const proxy = getCurrentInstance()?.proxy ?? null;
+onReady(() => {
+    const query = uni.createSelectorQuery().in(proxy);
+    query.select('.hei').boundingClientRect((result: any) => {
+        scrollHeight.value = torpx(getWindow().height - result.top);
+    }).exec();
+});
+
+const {
+    loading,
+    data: pageList,
+    isLastPage,
+    pageSize: limit,
+    page,
+    reload,
+    onSuccess
+} = usePagination(
+    (page: number, limit: number) =>
+        getCouponList({page, limit}),
+    {
+        preloadPreviousPage: false,
+        preloadNextPage: false,
+        append: true,
+        debounce: [500],
+        data: (res) => res.list,
+        initialPageSize: 10
+    }
+);
+onSuccess(() => {
+    pull.value = false;
+});
+
+</script>
+
+<style scoped>
+
+</style>

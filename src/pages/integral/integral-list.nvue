@@ -1,0 +1,114 @@
+<template>
+    <tm-app>
+        <tm-sticky>
+            <template v-slot:sticky>
+                <tm-sheet :margin="[0,0]" border-direction="bottom" :border="1">
+                    <tm-row :width="0">
+                        <tm-col :col="4">
+                            <view class="flex-row flex-row-top-center">
+                                <tm-text label="收入:" color="grey" class="mr-10"/>
+                                <tm-text label="2" color="decolor"/>
+                            </view>
+                        </tm-col>
+                        <tm-col :col="4">
+                            <view class="flex-row flex-row-top-center">
+                                <tm-text label="支出:" color="grey" class="mr-10"/>
+                                <tm-text label="2" color="decolor"/>
+                            </view>
+                        </tm-col>
+                        <tm-col :col="4">
+                            <view class="flex-row flex-row-top-center">
+                                <tm-text label="当前积分:" color="grey" class="mr-10"/>
+                                <tm-text label="2" color="decolor"/>
+                            </view>
+                        </tm-col>
+                    </tm-row>
+                </tm-sheet>
+                <tm-tabs :list="tabsTitle" item-model="line" align="around" showTabsLine showTabsLineAni :width="750"
+                         :default-name="tabsActice" v-model:active-name="tabsActice"></tm-tabs>
+            </template>
+            <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
+                        translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
+                <tm-result v-if="pageList.length === 0 && loading === false" status="empty"
+                           :show-btn="false"></tm-result>
+                <tm-sheet v-for="pageListItem in pageList" url="/pages/list/list-info"
+                          :key="pageListItem" border-direction="bottom"
+                          :padding="[32,12]" :margin="[0]" :border="1" :width="0" :height="0">
+                    <tm-row :width="0">
+                        <tm-col :col="6" align="start">
+                            <tm-text label="日常签到" color="grey"/>
+                        </tm-col>
+                        <tm-col :col="6" align="end">
+                            <tm-text label="2" color="decolor"/>
+                        </tm-col>
+                        <tm-col :col="6" align="start">
+                            <tm-text label="日常签到" color="grey"/>
+                        </tm-col>
+                        <tm-col :col="6" align="end">
+                            <view class="flex-row flex-row-top-center">
+                                <tm-text label="余额" color="grey" class="mr-10"/>
+                                <tm-text label="2" color="decolor"/>
+                            </view>
+                        </tm-col>
+                    </tm-row>
+                </tm-sheet>
+                <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
+            </tm-scrolly>
+        </tm-sticky>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+import {getCurrentInstance, ref} from 'vue';
+import {usePagination} from '@alova/scene-vue';
+import {onReady} from '@dcloudio/uni-app';
+import {getWindow, torpx} from '@/tmui/tool/function/util';
+import {getCouponList} from '@/services/api/coupon';
+import {enumToArr} from '@/utils/common/enum-to-arr';
+import {CouponStateEnum} from '@/enums/couponEnum';
+
+const tabsTitle = enumToArr(CouponStateEnum);
+
+const tabsActice = ref(tabsTitle[0].key);
+
+const pull = ref(false);
+const scrollHeight = ref(400);
+const proxy = getCurrentInstance()?.proxy ?? null;
+onReady(() => {
+    const query = uni.createSelectorQuery().in(proxy);
+    query.select('.hei').boundingClientRect((result: any) => {
+        scrollHeight.value = torpx(getWindow().height - result.top);
+    }).exec();
+});
+
+const clsName = ref(null);
+
+const {
+    loading,
+    data: pageList,
+    isLastPage,
+    pageSize: limit,
+    page,
+    reload,
+    onSuccess
+} = usePagination(
+    (page: number, limit: number) =>
+        getCouponList({page, limit, type: tabsActice.value}),
+    {
+        watchingStates: [tabsActice],
+        preloadPreviousPage: false,
+        preloadNextPage: false,
+        append: true,
+        debounce: [500],
+        initialPageSize: 10
+    }
+);
+onSuccess(() => {
+    pull.value = false;
+});
+
+</script>
+
+<style scoped>
+
+</style>

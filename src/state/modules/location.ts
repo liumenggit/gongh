@@ -1,5 +1,4 @@
 import {defineStore} from 'pinia';
-import {toast} from '@/tmui/tool/function/util';
 // @ts-ignore
 import QQMapWX from '@/utils/common/qqmap-wx-jssdk';
 
@@ -15,11 +14,6 @@ interface LocationStore {
 interface LocationInfo {
     latitude?: number;
     longitude?: number;
-    cityCode?: string;
-    city?: string;
-    province?: string;
-    streetNumber?: string;
-    district?: string;
     address: Address;
 }
 
@@ -70,31 +64,17 @@ interface Address {
     location: object;
 }
 
-//TODO 当前位置信息
 export const useLocationStore = defineStore('location', {
     state: (): LocationStore => ({
         auto: true,
-        location: {
-            address: {
-                adcode: '',
-                city: '',
-                city_code: '',
-                district: '',
-                name: '',
-                nation: '',
-                nation_code: '',
-                phone_area_code: '',
-                province: '',
-                address: '',
-            }
-        }
+        location: {}
     }),
     getters: {
         getRoutes(state) {
-            return state.routes;
+            return state.location;
         },
         getCurrentRoute(state) {
-            return state.currentRouter;
+            return state.location;
         },
         getWarpAndLatitude(state) {
             return state.location.latitude ? {
@@ -109,66 +89,104 @@ export const useLocationStore = defineStore('location', {
          */
         initialize() {
             return new Promise((resolve, reject) => {
-                // uni.getLocation({
-                //     geocode: true,
-                //     type: 'gcj02',
-                //     success: (location) => {
-                //         console.log('getLocation', location);
-                //         this.$state.location.latitude = location.latitude;
-                //         this.$state.location.longitude = location.longitude;
-                //         resolve(true);
-                //     }, fail: (err) => {
-                //         console.log('获取定位失败');
-                //         reject('Location');
-                //     }
-                // });
-                uni.startLocationUpdate({
-                    success: (res) => {
-                        console.log('开启小程序接收位置消息成功', res);
-                        uni.onLocationChange((location) => {
-                            console.log('纬度：' + location.latitude);
-                            console.log('经度：' + location.longitude);
-                            this.$state.location.latitude = location.latitude;
-                            this.$state.location.longitude = location.longitude;
-                            //
-                            qqmapsdk.reverseGeocoder({
-                                location,
-                                success: (address) => {
-                                    console.log('位置信息', address);
-                                    this.$state.location.address = {
-                                        ...address.result.ad_info,
-                                        address: address.result.address
-                                    };
-                                    resolve(true);
-                                },
-                            });
+                uni.authorize({
+                    scope: 'scope.userLocation',
+                    success: () => {
+                        uni.startLocationUpdate({
+                            success: (res) => {
+                                // console.log('开启小程序接收位置消息成功', res);
+                                uni.onLocationChange((location) => {
+                                    console.log('位置发生变化', location);
+                                    // console.log('纬度：' + location.latitude);
+                                    // console.log('经度：' + location.longitude);
+                                    this.$state.location.latitude = location.latitude;
+                                    this.$state.location.longitude = location.longitude;
+                                    //
+                                    qqmapsdk.reverseGeocoder({
+                                        location,
+                                        success: (address) => {
+                                            // console.log('地理位置信息', address);
+                                            this.$state.location.address = {
+                                                ...address.result.ad_info,
+                                                address: address.result.address
+                                            };
+                                            resolve(true);
+                                        },
+                                    });
+                                });
+                                uni.onLocationChangeError((err) => {
+                                    // toast('监听错误' + err);
+                                });
+                            },
+                            fail: err => {
+                                // console.error('开启小程序接收位置消息失败：', err);
+                                reject(false);
+                            },
+                            complete: msg => {
+                                // console.log('调用开启小程序接收位置消息 API 完成', msg)
+                            }
                         });
-                        uni.onLocationChangeError((err) => {
-                            toast('监听错误' + err);
-                        });
-                    },
-                    fail: err => {
-                        console.error('开启小程序接收位置消息失败：', err);
+                    }, fail: () => {
+                        console.log('拒绝授权', Object.keys(this.$state.location));
+                        if (Object.keys(this.$state.location)) {
+                            this.setDefaultLocation();
+                        }
                         reject(false);
-                    },
-                    complete: msg => console.log('调用开启小程序接收位置消息 API 完成', msg)
+                    }
                 });
             });
         },
         /**
-         * 设置位置信息
+         * 设置授权
          */
-        setRoutes() {
+        setAuthorize() {
+            return new Promise((resolve, reject) => {
+                uni.authorize({
+                    scope: 'scope.userLocation',
+                    success: () => {
+                        console.log('userLocation');
+                        this.initialize().then(() => {
+                            resolve(true);
+                        }).catch(() => {
+                            reject(false);
+                        });
+                    }, fail: () => {
+                        uni.showModal({
+                            title: '地理位置未授权',
+                            content: '如需正常使用，请点击确认并在设置页允许"使用我的地理位置"',
+                            confirmText: '确认',
+                            success: (res) => {
+                                if (res.confirm) {
+                                    //打开小程序设置页面
+                                    uni.openSetting({
+                                        success: (resSetting) => {
+                                            this.initialize().then(() => {
+                                                resolve(true);
+                                            }).catch(() => {
+                                                reject(false);
+                                            });
+                                        }, fail: () => {
+                                            reject(false);
+                                        }
+                                    });
+                                }
+                            }, fail: () => {
+                                reject(false);
+                            }
+                        });
+                    }
+                });
+            });
         },
         /**
          * 设置位置
          */
-        setDefaultLocation(Location: LocationInfo = null) {
-            this.$state.auto = !(Location === null);
-            console.log('设置定位', Location, this.$state.auto);
-            this.$state.location = Location || {
-                latitude: 49.32573,
-                longitude: 119.87694,
+        setDefaultLocation(location: LocationInfo = null) {
+            this.$state.auto = !(location === null);
+            console.log('设置定位', location, this.$state.auto);
+            this.$state.location = location || {
+                latitude: 49.209741,
+                longitude: 119.738552,
                 address: {
                     adcode: '',
                     city: '默认城市',
@@ -182,12 +200,13 @@ export const useLocationStore = defineStore('location', {
                     address: '',
                 }
             };
-            // console.log('location',this.$state.location);
+            console.log('location', this.$state.location);
         },
         /**
          * 计算位置距离
          */
         calculateDistance(markers: any) {
+            console.log('calculateDistance', markers);
             return new Promise((resolve, reject) => {
                 qqmapsdk.calculateDistance({
                     from: this.$state.location,
@@ -247,3 +266,17 @@ export const useLocationStore = defineStore('location', {
         }
     },
 });
+
+// uni.getLocation({
+//     geocode: true,
+//     type: 'gcj02',
+//     success: (location) => {
+//         console.log('getLocation', location);
+//         this.$state.location.latitude = location.latitude;
+//         this.$state.location.longitude = location.longitude;
+//         resolve(true);
+//     }, fail: (err) => {
+//         console.log('获取定位失败');
+//         reject('Location');
+//     }
+// });

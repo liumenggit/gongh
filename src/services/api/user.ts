@@ -33,10 +33,10 @@ export function getUserInfo() {
 /**
  * 设置用户头像
  * @returns {Method<unknown, unknown, UserInfoState, unknown, {requestType?: "upload" | "download"} & UniappRequestConfig & UniappUploadConfig & UniappDownloadConfig, UniNamespace.RequestSuccessCallbackResult | UniNamespace.UploadFileSuccessCallbackResult | UniNamespace.DownloadSuccessData, any>}
- * @param avatarUrl
+ * @param avatar
  */
-export function setUserAvatar(avatarUrl: string) {
-    return request.Post<any>('set-nickname', {avatarUrl});
+export function setUserAvatar(avatar: string) {
+    return request.Post<any>('/setAvatar', {avatar});
 }
 
 

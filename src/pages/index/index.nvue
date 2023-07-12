@@ -1,5 +1,5 @@
 <template>
-    <tm-app :bg-img="useSettingStore().bgimg">
+    <tm-app>
         <tm-navbar title="工会" color="primary" hideHome :left-width="300">
             <template v-slot:left>
                 <view class="flex-row flex-row-center-center">
@@ -42,7 +42,7 @@
                 <tm-text :label="gridItem.title" _class="pt-10" :font-size="22"></tm-text>
             </tm-grid-item>
         </tm-grid>
-        <tm-roll-notice :list="homeData.notice_list.map((item)=>{return item.title})" :margin="[32,16]"/>
+        <tm-roll-notice :list="homeData.notice_list?.map((item)=>{return item.title})" :margin="[32,16]"/>
         <tm-sheet :margin="[32,0,32,0]" :padding="[0,0]">
             <tm-row :gutter="0" :column="12" :height="100">
                 <tm-col :col="5" align="center">
@@ -58,6 +58,22 @@
         </tm-sheet>
         <td-carousel autoplay :margin="[32,32,32,32]" :round="3" :width="686" :height="200"
                      :list="homeData.adv_list"/>
+        <tm-card title="微信卡券" v-if="WxCouponList.total > 0" :round="3" status-color="grey">
+            <template v-slot:status>
+                <tm-text label="更多>" color="grey" @click="useRouter().go('/pages/coupon/coupon-wx-list')"/>
+            </template>
+            <template v-slot:content>
+                <tm-coupon v-for="wxCouponItem in WxCouponList.data" :key="wxCouponItem.id" :color="wxCouponItem.code"
+                           linear="right"
+                           linear-deep="accent" mainColor="yellow" font-color=""
+                           :price-detail="{price:wxCouponItem.price,subtext:'',prefix:'￥',suffix:''}"
+                           :right-detail="{title:wxCouponItem.title,subtitle:'副标题',time:wxCouponItem.eff_range}"
+                           @click="useRouter().go('/pages/coupon/coupon-info?id=' + wxCouponItem.id)"
+                           extra
+                           btn-label="立即使用"
+                ></tm-coupon>
+            </template>
+        </tm-card>
         <tm-card title="热门商家" :round="3" status-color="grey">
             <template v-slot:status>
                 <tm-text label="更多>" color="grey" @click="useRouter().go('/pages/businesses/businesses')"/>
@@ -78,10 +94,11 @@
                 </tm-scrollx>
             </template>
         </tm-card>
-        <tm-adsorb :offset="[left,top]" :width="120" :height="120" :adsorbX="-200">
-            <view class="flex flex-row flex-row-center-center" style="width:120rpx;height:120rpx;background:red;border-radius: 120rpx;">
-                <tm-text color="white" label="拖动吸附"></tm-text>
-            </view>
+        <tm-adsorb :offset="[left,top]" :width="120" :height="120">
+            <tm-translate name="zoom">
+                <tm-image src="https://pic.pimg.tw/bamboo333/1678450019-3016922529-g_l.jpg" :height="120"
+                          :width="120" @click="useRouter().go('/pages/coupon/happy')"></tm-image>
+            </tm-translate>
         </tm-adsorb>
     </tm-app>
 </template>
@@ -94,11 +111,12 @@ import {getHome} from '@/services/api/home';
 import {useSettingStore} from '@/state/modules/setting';
 import _ from 'lodash';
 import {getWindow} from '../../tmui/tool/function/util';
+import {getCouponWxList} from '@/services/api/coupon';
 
 const showWin = ref(false);
-const sys = uni.getSystemInfoSync()
-const left = ref(uni.$tm.u.torpx(sys.windowWidth) - 160)
-const top = ref(uni.$tm.u.torpx(sys.windowHeight) -160)
+const sys = uni.getSystemInfoSync();
+const left = ref(uni.$tm.u.torpx(sys.windowWidth) - 160);
+const top = ref(uni.$tm.u.torpx(sys.windowHeight) - 160);
 const gridList = ref([
     {
         title: '完善个人信息',
@@ -151,6 +169,15 @@ const {
     initialData: {},
     immediate: true,
 });
+
+
+const {
+    data: WxCouponList,
+} = useRequest(() => getCouponWxList({page: 1, limit: 40}), {
+    initialData: [],
+    immediate: true,
+});
+
 
 const checkArea = (area: any) => {
     useSettingStore().setArea(area);

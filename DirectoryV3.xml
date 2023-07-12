@@ -52,7 +52,8 @@
     <tree path="/src/pages/integral" title="积分"/>
     <tree path="/src/pages/integral/抽奖.nvue" title="抽奖礼品"/>
     <tree path="/src/pages/integral/lottery.nvue" title="抽奖礼品"/>
-    <tree path="/src/pages/integral/commodity.nvue" title="积分商品"/>
+    <tree path="/src/pages/integral/commodity.nvue" title="积分商品详情" extension="" presentableText="" tooltipTitle=""
+          icon="" textColor="" backgroundColor=""/>
     <tree path="/src/pages/businesses/businesses-info.nvue" title="商户信息"/>
     <tree path="/src/pages/my/bind.nvue" title="绑定"/>
     <tree path="/src/pages/my/refine.nvue" title="完善个人信息"/>
@@ -80,4 +81,13 @@
     <tree path="/src/services/model/coupon.d.ts" title="优惠券"/>
     <tree path="/src/services/model/home.d.ts" title="首页"/>
     <tree path="/src/services/model/user.d.ts" title="用户"/>
+    <tree path="/src/pages/coupon/coupon-birthday-list.nvue" title="生日券列表" extension="" presentableText=""
+          tooltipTitle="" icon="" textColor="" backgroundColor=""/>
+    <tree path="/src/pages/coupon/coupon-wx-list.nvue" title="微信卡券列表"/>
+    <tree path="/src/pages/my/business" title="商家管理"/>
+    <tree path="/src/pages/my/business/employee-add.nvue" title="添加店员"/>
+    <tree path="/src/pages/my/business/employee-list.nvue" title="人员管理"/>
+    <tree path="/src/pages/my/business/employee-withdrawals.nvue" title="财务管理"/>
+    <tree path="/src/pages/integral/integral-signIn.nvue" title="积分签到"/>
+    <tree path="/src/pages/integral/integral-list.nvue" title="积分明细"/>
 </trees>

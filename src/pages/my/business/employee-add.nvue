@@ -1,0 +1,68 @@
+<template>
+    <tm-app ref="app" :bg-img="useSettingStore().bgimg">
+        <tm-form @submit="confirm" ref="form" v-model="userPerfectParams" :label-width="190" :border="false"
+                 layout="vertical">
+            <tm-form-item label="添加会员信息" field="name"
+                          :rules="[{required:true,message:'真实姓名',validator:(val)=>isChina(val)}]"
+                          required
+            >
+                <tm-input prefixLabel="真实姓名" placeholder="请输入真实姓名" :inputPadding="[12,0]"
+                          v-model.lazy="userPerfectParams.name"
+                          :showBottomBotder="false"></tm-input>
+            </tm-form-item>
+            <tm-form-item field="phone"
+                          :rules="[{required:true,message:'请输入手机号',validator:(val)=>isPhone(val)}]"
+                          required
+                          :border="false"
+            >
+                <tm-input prefixLabel="联系电话" placeholder="请输入手机号" type="number"
+                          v-model.lazy="userPerfectParams.phone"
+                          :showBottomBotder="false"
+                          :input-padding="[24,0,0,0]"
+
+                >
+                </tm-input>
+            </tm-form-item>
+            <tm-form-item field="idcard"
+                          :rules="[{required:true,message:'请输入身份证号',validator:(val)=>isIdCard(val)}]"
+                          required
+            >
+                <tm-input prefixLabel="身份证号" placeholder="请输入身份证号" :inputPadding="[12,0]"
+                          v-model.lazy="userPerfectParams.idcard"
+                          :showBottomBotder="false"></tm-input>
+            </tm-form-item>
+            <tm-form-item>
+                <tm-button form-type="submit" label="保存更改" block></tm-button>
+            </tm-form-item>
+        </tm-form>
+    </tm-app>
+</template>
+<script lang="ts" setup>
+import {
+    ref,
+    getCurrentInstance,
+} from 'vue';
+import {isChina, isIdCard, isPhone, toast} from '@/tmui/tool/function/util';
+import {useSettingStore} from '@/state/modules/setting';
+import {useUserStore} from '@/state/modules/user';
+
+const {proxy} = getCurrentInstance();
+const userInfo = useUserStore().$state;
+const userPerfectParams = ref({
+    name: userInfo.name,
+    phone: userInfo.phone,
+    idcard: userInfo.idcard,
+});
+
+
+const confirm = (e: any) => {
+    if (e.validate) {
+        useUserStore().perfectInfo({...userPerfectParams.value, birthday: 'birthday'}).then(() => {
+            toast('成功');
+        }).catch((err) => {
+            toast('失败');
+        });
+    }
+};
+
+</script>

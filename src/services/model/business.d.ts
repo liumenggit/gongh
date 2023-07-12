@@ -77,9 +77,32 @@ declare interface BusinessTypeRes {
  * 商户类型
  */
 export interface BusinessType {
+    add_time: number;
+    area: number;
+    company: null;
     id: number;
     img: string;
+    is_show: number;
+    is_up: number;
     name: string;
+    sort: number;
+    update_time: null;
+}
+
+/**
+ * 商户行业
+ */
+export interface BusinessHy {
+    add_time: number;
+    area: number;
+    company: null;
+    id: number;
+    img: string;
+    is_show: number;
+    is_up: number;
+    name: string;
+    sort: number;
+    update_time: number | null;
 }
 
 

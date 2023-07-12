@@ -1,16 +1,17 @@
 <template>
     <tm-app>
         <tm-filterMenu :fixed="true" ref="filter">
+            <!--            商家类型-->
             <tm-filterMenu-item :footerHeight="100" :title="businessTypeText">
-                <tm-radio-group direction='customCol' v-model="businessType" >
-                    <tm-radio :value="businessTypeItem.key"
-                              v-for="businessTypeItem in businessAllType" :key="businessTypeItem.key"
+                <tm-radio-group direction='customCol' v-model="businessType">
+                    <tm-radio :value="businessTypeItem.id"
+                              v-for="businessTypeItem in businessAllType" :key="businessTypeItem.id"
                               :custom="false">
                         <template v-slot:default="{ checked }">
                             <view :userInteractionEnabled="false" hover-class="opactiy-7"
                                   class="flex-1 flex-row flex flex-row-center-between" style="height: 76rpx;">
                                 <tm-text :color="checked.checked ? 'primary' : ''"
-                                         :label="businessTypeItem.title"></tm-text>
+                                         :label="businessTypeItem.name"></tm-text>
                                 <tm-icon :font-size="24" color="primary" v-if="checked.checked"
                                          name="tmicon-check"></tm-icon>
                             </view>
@@ -24,7 +25,35 @@
                                        label="取消"></tm-button>
                         </view>
                         <view class="pr-24 pl-12 flex-1">
-                            <tm-button @click="filter.close()" block :border="1" label="确认"></tm-button>
+                            <tm-button @click="reload();filter.close()" block :border="1" label="确认"></tm-button>
+                        </view>
+                    </view>
+                </template>
+            </tm-filterMenu-item>
+            <tm-filterMenu-item :footerHeight="100" :title="industryTypeText">
+                <tm-radio-group direction='customCol' v-model="industryType">
+                    <tm-radio :value="industryTypeItem.id"
+                              v-for="industryTypeItem in industryAllType" :key="industryTypeItem.id"
+                              :custom="false">
+                        <template v-slot:default="{ checked }">
+                            <view :userInteractionEnabled="false" hover-class="opactiy-7"
+                                  class="flex-1 flex-row flex flex-row-center-between" style="height: 76rpx;">
+                                <tm-text :color="checked.checked ? 'primary' : ''"
+                                         :label="industryTypeItem.name"></tm-text>
+                                <tm-icon :font-size="24" color="primary" v-if="checked.checked"
+                                         name="tmicon-check"></tm-icon>
+                            </view>
+                        </template>
+                    </tm-radio>
+                </tm-radio-group>
+                <template v-slot:footer>
+                    <view class="flex flex-row flex-row-between ">
+                        <view class="pl-24 pr-12 flex-1">
+                            <tm-button @click="filter.close()" :shadow="0" text :outlined="true" block
+                                       label="取消"></tm-button>
+                        </view>
+                        <view class="pr-24 pl-12 flex-1">
+                            <tm-button @click="reload();filter.close()" block :border="1" label="确认"></tm-button>
                         </view>
                     </view>
                 </template>
@@ -38,7 +67,7 @@
                             <view :userInteractionEnabled="false" hover-class="opactiy-7"
                                   class="flex-1 flex-row flex flex-row-center-between" style="height: 76rpx;">
                                 <tm-text :color="checked.checked ? 'primary' : ''"
-                                         :label="couponTypeItem.title"></tm-text>
+                                         :label="couponTypeItem.name"></tm-text>
                                 <tm-icon :font-size="24" color="primary" v-if="checked.checked"
                                          name="tmicon-check"></tm-icon>
                             </view>
@@ -52,7 +81,7 @@
                                        label="取消"></tm-button>
                         </view>
                         <view class="pr-24 pl-12 flex-1">
-                            <tm-button @click="filter.close()" block :border="1" label="确认"></tm-button>
+                            <tm-button @click="reload();filter.close()" block :border="1" label="确认"></tm-button>
                         </view>
                     </view>
                 </template>
@@ -68,28 +97,12 @@
                        :right-detail="{title:pageItem.title,subtitle:'副标题',time:pageItem.eff_range}"
                        @click="useRouter().go('/pages/coupon/coupon-info?id=' + pageItem.id)"
                        extra
-                       :disable="pageItem.is_state !== 1"
                        btn-label="立即使用"
             >
                 <template v-slot:extra>
                     <tm-text :font-size="22" _class="opacity-7" :label="pageItem.remark"></tm-text>
                 </template>
             </tm-coupon>
-            <!--            <tm-sheet v-for="pageListItem in pageList" url="/pages/list/list-info"-->
-            <!--                      :key="pageListItem" border-direction="bottom"-->
-            <!--                      :padding="[24,24]" :margin="[0]" :border="1" :width="0" :height="0">-->
-            <!--                <tm-row :height="160" :width="0">-->
-            <!--                    <tm-col :height="0" :col="3" align="start">-->
-            <!--                        <tm-image :width="160" :height="150" :src="pageListItem.image" :round="4"/>-->
-            <!--                    </tm-col>-->
-            <!--                    <tm-col :height="160" :col="9" align="start">-->
-            <!--                        <tm-text _class="text-overflow-2 text-align-left" :label="pageListItem.title"/>-->
-            <!--                        <tm-text :label="pageListItem.mail" color="grey"/>-->
-            <!--                        <tm-text :label="pageListItem.phone" color="grey"/>-->
-            <!--                        <tm-text :label="pageListItem.date" color="grey"/>-->
-            <!--                    </tm-col>-->
-            <!--                </tm-row>-->
-            <!--            </tm-sheet>-->
             <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
         </tm-scrolly>
     </tm-app>
@@ -98,28 +111,32 @@
 <script setup lang="ts">
 import {computed, getCurrentInstance, Ref, ref} from 'vue';
 import {usePagination} from '@alova/scene-vue';
-import {onLoad, onReady} from '@dcloudio/uni-app';
+import {onReady, onShow} from '@dcloudio/uni-app';
 import {getWindow, torpx} from '@/tmui/tool/function/util';
 import tmFilterMenu from '@/tmui/components/tm-filterMenu/tm-filterMenu.vue';
-
 import _ from 'lodash';
-import {getMyCoupon} from '@/services/api/coupon';
-import {enumToArr} from '@/utils/common/enum-to-arr';
-import {CouponStateEnum} from '@/enums/couponEnum';
+import {getCouponBirthdayList, getCouponList, getMyCoupon} from '@/services/api/coupon';
 import {useSettingStore} from '@/state/modules/setting';
 import {useRouter} from '@/hooks/router';
 
 const filter = ref<InstanceType<typeof tmFilterMenu | null>>(null);
-const businessType = ref(-1);
-const businessAllType = enumToArr(CouponStateEnum);
+// 商家类型
+const businessType = ref(null);
+const businessAllType = ref([{id: null, name: '全部商家类型'}, ...useSettingStore().$state.businessTypeList]);
 const businessTypeText = computed(() => {
-    return _.find(businessAllType, {key: businessType.value})?.title;
+    return _.find(businessAllType.value, {id: businessType.value})?.name;
 });
-
-const couponAllType = ref(useSettingStore().couponTypeList);
-const couponType: Ref<string | number> = ref(couponAllType.value[0].id);
+// 商家行业类型
+const industryType = ref(null);
+const industryAllType = ref([{id: null, name: '全部行业'}, ...useSettingStore().$state.businessHyTypeList]);
+const industryTypeText = computed(() => {
+    return _.find(industryAllType.value, {id: industryType.value})?.name;
+});
+// 优惠券类型
+const couponType = ref(null);
+const couponAllType = ref([{id: null, name: '全部优惠类型'}, ...useSettingStore().$state.couponTypeList]);
 const couponTypeText = computed(() => {
-    return _.find(couponAllType.value, {id: couponType.value})?.title;
+    return _.find(couponAllType.value, {id: couponType.value})?.name;
 });
 
 const pull = ref(false);
@@ -132,7 +149,6 @@ onReady(() => {
     }).exec();
 });
 
-
 const {
     loading,
     data: pageList,
@@ -143,28 +159,27 @@ const {
     onSuccess
 } = usePagination(
     (page: number, limit: number) =>
-        getMyCoupon({page, limit, 'is_state': businessType.value, 'coupon_type': couponType.value}),
+        getCouponBirthdayList({
+            page,
+            limit,
+            business_hy: businessType.value || '',
+            business_type: industryType.value || '',
+            coupon_type: couponType.value || '',
+        }),
     {
-        watchingStates: [couponType, businessType],
+        watchingStates: [businessType, industryType, couponType],
         preloadPreviousPage: false,
         preloadNextPage: false,
+        debounce: [500],
         append: true,
         initialPageSize: 10,
-        immediate: false
+        immediate: true
     }
 );
 onSuccess(() => {
     console.log('onSuccess', pageList.value);
     pull.value = false;
-
 });
-
-onLoad((option) => {
-    businessType.value = option?.type;
-    console.log('onload', businessType.value);
-    reload()
-});
-
 
 </script>
 

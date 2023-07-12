@@ -2,6 +2,8 @@
  * 优惠券列表查询条件
  */
 declare interface CouponListParams {
+    page: number;
+    limit: number;
     /**
      * 商家行业
      */
@@ -199,5 +201,5 @@ declare interface CouponType {
     /**
      * 标题
      */
-    title: string;
+    name: string;
 }
