@@ -113,3 +113,28 @@ declare interface BusinessPayInfo {
     business: string;
 }
 
+
+declare interface BusinessAddUserParams {
+    name: string;
+    phone: number;
+    idcard: string;
+}
+
+
+declare interface BusinessUserInfo {
+    binding: number;
+    id: number;
+    idcard: string;
+    name: string;
+    phone: string;
+}
+
+declare interface BusinessWithdrawalInfo {
+    create_time: string;
+    number: string;
+    price: number;
+    state: number;
+    state_2_time: string;
+    state_3_time: string;
+    state_name: string;
+}

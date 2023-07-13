@@ -1,121 +1,111 @@
 <template>
     <tm-app color="white">
-        <tm-navbar title="商城" color="primary" hideHome :left-width="400">
+        <tm-navbar title="" color="primary" hideHome :left-width="500">
             <template v-slot:left>
-                <tm-input @search="search" searchLabel="搜索" placeholder="请输入商品名" class="ml-20 fulled"/>
+                <tm-input @search="search" v-model.lazy="searchLazy" searchLabel="搜索" placeholder="请输入商品名"
+                          class="ml-20 fulled"/>
             </template>
         </tm-navbar>
         <td-carousel autoplay :margin="[0,0]" :round="0" :width="750" :height="300"
-                     :list="carousel_list"/>
+                     :list="shopInfo.carousel_list"/>
         <tm-grid :col="5" :width="750" transprent class="my-10">
-            <tm-grid-item>
+            <tm-grid-item v-for="businessHyType in useSettingStore().businessHyTypeList"
+                          @click="businessHyTypeActive=businessHyType.id">
                 <tm-icon name="tmicon-heart-fill" :font-size="42"></tm-icon>
-                <tm-text label="宫格文本" color="grey"/>
-            </tm-grid-item>
-            <tm-grid-item>
-                <tm-icon name="tmicon-heart-fill" :font-size="42"></tm-icon>
-                <tm-text label="宫格文本" color="grey"/>
-            </tm-grid-item>
-            <tm-grid-item>
-                <tm-icon name="tmicon-heart-fill" :font-size="42"></tm-icon>
-                <tm-text label="宫格文本" color="grey"/>
-            </tm-grid-item>
-            <tm-grid-item>
-                <tm-icon name="tmicon-heart-fill" :font-size="42"></tm-icon>
-                <tm-text label="宫格文本" color="grey"/>
-            </tm-grid-item>
-            <tm-grid-item>
-                <tm-icon name="tmicon-heart-fill" :font-size="42"></tm-icon>
-                <tm-text label="宫格文本" color="grey"/>
+                <tm-text :label="businessHyType.name"
+                         :color=" businessHyTypeActive === businessHyType.id?'red':'grey'"/>
             </tm-grid-item>
         </tm-grid>
-        <td-carousel autoplay :margin="[32,0,32,32]" :round="3" :width="686" :height="150"
-                     :list="carousel_list"/>
-        <tm-waterfall ref="wall" :width="686" class="mx-32">
-            <tm-waterfall-item :img="item.img" v-for="(item,index) in imglist">
-                <view class="pt-12 pb-12 px-12">
-                    <tm-text :label="item.text" _class="text-overflow-2"></tm-text>
-                    <view class="flex flex-row flex-row-bottom-start mt-24">
-                        <!-- <tm-text color="orange" :font-size="24" label='¥'></tm-text> -->
-                        <tm-text color="orange" _class="px-10" :font-size="36" :label='item.price'></tm-text>
-                        <tm-text color="grey" :font-size="24" :label='item.num'></tm-text>
+        <td-carousel autoplay :margin="[0,0]" :width="750" :height="150"
+                     :list="shopInfo.adv_list"/>
+        <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="getWindow().height * 2"
+                    translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading">
+            <tm-result v-if="pageList.length === 0 && loading === false" status="empty" :show-btn="false"></tm-result>
+            <view class="mt-20"></view>
+            <tm-waterfall ref="wall" :width="686" class="mx-32">
+                <tm-waterfall-item :img="pageItem.img" v-for="(pageItem,index) in pageList" :key="pageItem.id">
+                    <view class="pt-12 pb-12 px-12">
+                        <tm-text :label="pageItem.name" _class="text-overflow-2"></tm-text>
+                        <view class="flex flex-row flex-row-bottom-start mt-24">
+                            <tm-text color="orange" _class="px-10" :font-size="36" :label='pageItem.price'></tm-text>
+                            <tm-text color="grey" :font-size="24" :label='pageItem.num'></tm-text>
+                        </view>
                     </view>
-                </view>
-            </tm-waterfall-item>
-        </tm-waterfall>
+                </tm-waterfall-item>
+            </tm-waterfall>
+            <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
+        </tm-scrolly>
     </tm-app>
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
 
-const imglist = ref([
+import {getCurrentInstance, ref} from 'vue';
+import {onReady} from '@dcloudio/uni-app';
+import {getWindow, torpx} from '@/tmui/tool/function/util';
+import {usePagination} from '@alova/scene-vue';
+import {getShopGoodsList} from '@/services/api/shop';
+import {useSettingStore} from '@/state/modules/setting';
+import tmWaterfall from '@/tmui/components/tm-waterfall/tm-waterfall.vue';
+import {useRouter} from '@/hooks/router';
+import TdText from '@/components/td-text/td-text.vue';
+
+const wall = ref<InstanceType<typeof tmWaterfall> | null>(null);
+
+const businessHyTypeActive = ref(useSettingStore().businessHyTypeList[0].id);
+
+const shopInfo = ref({
+    carousel_list: [],
+    adv_list: []
+});
+const searchLazy = ref('');
+let searchText = ref('');
+
+const pull = ref(false);
+const scrollHeight = ref(400);
+const proxy = getCurrentInstance()?.proxy ?? null;
+onReady(() => {
+    const query = uni.createSelectorQuery().in(proxy);
+    query.select('.hei').boundingClientRect((result: any) => {
+        scrollHeight.value = torpx(getWindow().height - result.top);
+    }).exec();
+});
+
+const {
+    loading,
+    data: pageList,
+    isLastPage,
+    pageSize: limit,
+    page,
+    reload,
+    onSuccess
+} = usePagination(
+    (page: number, limit: number) =>
+        getShopGoodsList({
+            page,
+            limit,
+            type_id: businessHyTypeActive.value,
+            keyword: searchText.value,
+        }),
     {
-        img: 'https://gw.alicdn.com/bao/uploaded/i2/1848622920/O1CN018zBHJ91XRPJ4bHW78_!!0-item_pic.jpg_320x320q90.jpg',
-        text: '杨大爷麻辣香肠腊肠500克四川特产烟熏肉农家自制川味烤腊肉辣肠',
-        price: '49',
-        num: '3000+'
-    },
-    {
-        img: 'https://gw.alicdn.com/imgextra/i4/2207613550143/O1CN01hPpOvy1CvXQdlZLeC_!!2207613550143-0-alimamacc.jpg_q90.jpg',
-        text: '',
-        price: '200',
-        num: '3000+'
-    },
-    {
-        img: 'https://gw.alicdn.com/bao/uploaded/i4/14498052/O1CN01pa6ScB29LrgfkRp8V_!!14498052.jpg_320x320q90.jpg',
-        text: '带盖 酸奶杯一次性塑料布丁杯胖胖pp果冻杯慕斯甜品杯双皮奶100套',
-        price: '12.8',
-        num: '1500+'
-    },
-    {
-        img: 'https://images.pexels.com/photos/12640459/pexels-photo-12640459.jpeg?auto=compress&cs=tinysrgb&w=1600&lazy=load',
-        text: '带盖 酸奶杯一次性塑料布丁杯胖胖pp果冻杯慕斯甜品杯双皮奶100套',
-        price: '12.8',
-        num: '1500+'
-    },
-    {
-        img: 'https://gw.alicdn.com/bao/uploaded/i4/1026973813/O1CN014Kirba1e2OrHg7gwN_!!1026973813.jpg_320x320q90.jpg',
-        text: '带盖 酸奶杯一次性塑料布丁杯胖胖pp果冻杯慕斯甜品杯双皮奶100套',
-        price: '12.8',
-        num: '1500+'
-    },
-    {
-        img: 'https://gw.alicdn.com/imgextra/i3/23844911/O1CN01N1UxMS1m9Hs6gGu6E_!!23844911-0-alimamacc.jpg',
-        text: '',
-        price: '200',
-        num: '3000+'
-    },
-    {
-        img: 'https://gw.alicdn.com/bao/uploaded/i4/2418392409/O1CN01zT4JbA1TfMoU30Uub_!!2418392409.jpg_320x320q90.jpg',
-        text: '50枚挂耳咖啡滤袋日本材质手冲咖啡滤纸咖啡粉滤袋挂耳咖啡袋包邮',
-        price: '12.8',
-        num: '1500+'
-    },
-    {
-        img: 'https://gw.alicdn.com/bao/uploaded/i2/6000000001207/O1CN016TztFg1Kmqqrtarb0_!!6000000001207-0-picassoopen.jpg_320x320q90.jpg',
-        text: '带盖 酸奶杯一次性塑料布丁杯胖胖pp果冻杯慕斯甜品杯双皮奶100套',
-        price: '12.8',
-        num: '1500+'
-    },
-    {
-        img: 'https://gw.alicdn.com/bao/uploaded/i3/2200531292142/O1CN01gFUdOw1Rh4vjN44sB_!!0-item_pic.jpg_320x320q90.jpg',
-        text: '带盖 酸奶杯一次性塑料布丁杯胖胖pp果冻杯慕斯甜品杯双皮奶100套',
-        price: '12.8',
-        num: '1500+'
-    },
-]);
-const carousel_list = ref([
-    {
-        'id': 3,
-        'title': '我是轮播',
-        'img': 'http://china0470oss.oss-cn-beijing.aliyuncs.com/20230707/e2ebc78cb98a1e3534572ac972b76a87.png',
-        'url': 'http://www.baidu.com'
+        watchingStates: [businessHyTypeActive, searchText],
+        preloadPreviousPage: false,
+        preloadNextPage: false,
+        debounce: [500],
+        append: true,
+        initialPageSize: 10,
+        immediate: true,
+        data: (res) => res.list
     }
-]);
-
+);
+onSuccess((data) => {
+    wall.value?.clear();
+    console.log('onSuccess', pageList.value);
+    shopInfo.value = {carousel_list: data.data.carousel_list, adv_list: data.data.adv_list};
+    pull.value = false;
+});
 const search = () => {
-
+    searchText.value = searchLazy.value;
 };
 </script>
 

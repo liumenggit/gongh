@@ -1,13 +1,13 @@
 <template>
     <tm-app ref="app" :bg-img="useSettingStore().bgimg">
-        <tm-form @submit="confirm" ref="form" v-model="userPerfectParams" :label-width="190" :border="false"
+        <tm-form @submit="confirm" ref="form" v-model="businessAddUser" :label-width="190" :border="false"
                  layout="vertical">
             <tm-form-item label="添加会员信息" field="name"
                           :rules="[{required:true,message:'真实姓名',validator:(val)=>isChina(val)}]"
                           required
             >
                 <tm-input prefixLabel="真实姓名" placeholder="请输入真实姓名" :inputPadding="[12,0]"
-                          v-model.lazy="userPerfectParams.name"
+                          v-model.lazy="businessAddUser.name"
                           :showBottomBotder="false"></tm-input>
             </tm-form-item>
             <tm-form-item field="phone"
@@ -16,7 +16,7 @@
                           :border="false"
             >
                 <tm-input prefixLabel="联系电话" placeholder="请输入手机号" type="number"
-                          v-model.lazy="userPerfectParams.phone"
+                          v-model.lazy="businessAddUser.phone"
                           :showBottomBotder="false"
                           :input-padding="[24,0,0,0]"
 
@@ -28,7 +28,7 @@
                           required
             >
                 <tm-input prefixLabel="身份证号" placeholder="请输入身份证号" :inputPadding="[12,0]"
-                          v-model.lazy="userPerfectParams.idcard"
+                          v-model.lazy="businessAddUser.idcard"
                           :showBottomBotder="false"></tm-input>
             </tm-form-item>
             <tm-form-item>
@@ -40,27 +40,29 @@
 <script lang="ts" setup>
 import {
     ref,
-    getCurrentInstance,
+    getCurrentInstance, Ref,
 } from 'vue';
 import {isChina, isIdCard, isPhone, toast} from '@/tmui/tool/function/util';
 import {useSettingStore} from '@/state/modules/setting';
-import {useUserStore} from '@/state/modules/user';
+import {BusinessAddUserParams} from '@/services/model/business';
+import {createBusinessUser} from '@/services/api/business';
+import {useRouter} from '@/hooks/router';
 
-const {proxy} = getCurrentInstance();
-const userInfo = useUserStore().$state;
-const userPerfectParams = ref({
-    name: userInfo.name,
-    phone: userInfo.phone,
-    idcard: userInfo.idcard,
+const businessAddUser: Ref<BusinessAddUserParams> = ref({
+    name: '刘老六',
+    phone: 18647012056,
+    idcard: 152104199312251914,
 });
 
 
 const confirm = (e: any) => {
     if (e.validate) {
-        useUserStore().perfectInfo({...userPerfectParams.value, birthday: 'birthday'}).then(() => {
-            toast('成功');
-        }).catch((err) => {
-            toast('失败');
+        console.log(e.data);
+        createBusinessUser(e.data).send().then(() => {
+            toast('添加成功');
+            setTimeout(() => {
+                useRouter().back();
+            }, 1000);
         });
     }
 };

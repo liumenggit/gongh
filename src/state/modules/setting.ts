@@ -1,7 +1,14 @@
 import {defineStore} from 'pinia';
 import {getCache, setCache} from '@/utils/cache';
 import {getHome} from '@/services/api/home';
-import {AREA, AREA_NAME, BUSINESS_HY_TYPE_LIST, BUSINESS_TYPE_LIST, COUPON_TYPE_LIST} from '@/enums/cacheEnum';
+import {
+    AREA,
+    AREA_NAME,
+    BUSINESS_HY_TYPE_LIST,
+    BUSINESS_TYPE_LIST,
+    COUPON_TYPE_LIST,
+    INTEGRAL_PRODUCTS_CATEGORIES, POINTS_CHECKIN_RULES
+} from '@/enums/cacheEnum';
 import {BusinessHy, BusinessType} from '@/services/model/business';
 import {CouponType} from '@/services/model/coupon';
 
@@ -13,6 +20,8 @@ interface Setting {
     couponTypeList: [CouponType];
     businessTypeList: [BusinessHy];
     businessHyTypeList: [BusinessType];
+    integralProductsCategories: [IntegralCate];
+    pointsCheckinRules: string;
 }
 
 interface Area {
@@ -29,6 +38,8 @@ export const useSettingStore = defineStore('setting', {
         couponTypeList: getCache(COUPON_TYPE_LIST) || [],
         businessTypeList: getCache(BUSINESS_TYPE_LIST) || [],
         businessHyTypeList: getCache(BUSINESS_HY_TYPE_LIST) || [],
+        integralProductsCategories: getCache(INTEGRAL_PRODUCTS_CATEGORIES) || [],
+        pointsCheckinRules: getCache(POINTS_CHECKIN_RULES) || '',
     }),
     getters: {
         getArea: (state) => {
@@ -47,9 +58,15 @@ export const useSettingStore = defineStore('setting', {
                 this.$state.couponTypeList = res.coupon_type_list;
                 this.$state.businessTypeList = res.business_type;
                 this.$state.businessHyTypeList = res.business_hy;
+                this.$state.pointsCheckinRules = res.points_checkin_rules;
+                this.$state.integralProductsCategories = res.integral_products_categories.map((item) => {
+                    return {key: item.id, title: item.name, ...item};
+                });
                 setCache(COUPON_TYPE_LIST, this.$state.couponTypeList);
                 setCache(BUSINESS_TYPE_LIST, this.$state.businessTypeList);
                 setCache(BUSINESS_HY_TYPE_LIST, this.$state.businessHyTypeList);
+                setCache(INTEGRAL_PRODUCTS_CATEGORIES, this.$state.integralProductsCategories);
+                setCache(POINTS_CHECKIN_RULES, this.$state.pointsCheckinRules);
             });
         }
     },

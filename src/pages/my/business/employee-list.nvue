@@ -1,32 +1,116 @@
 <template>
     <tm-app>
         <view class="fulled pa-20 flex-row flex-row-center-center nowrap">
-            <tm-input @search="search" searchLabel="搜索" placeholder="请输入商品名" class="flex-1" color="red"/>
-            <td-text prefix-icon="tmicon-plus-circle-fill" label="添加人员" class="ml-30"/>
+            <tm-input @search="search" v-model.lazy="searchLazy" searchLabel="搜索"
+                      placeholder="请输入人员姓名" class="flex-1"
+                      color="red"/>
+            <td-text @click="useRouter().go('/pages/my/business/employee-add')" prefix-icon="tmicon-plus-circle-fill" label="添加人员" class="ml-30"/>
         </view>
-        <tm-sheet :column="12">
-            <tm-row :width="0">
-                <tm-col :col="2" align="start">
-                    <tm-text label="姓名"/>
-                </tm-col>
-                <tm-col :col="4" align="start">
-                    <tm-text label="18647012056" color="grey"/>
-                </tm-col>
-                <tm-col :col="5" align="start">
-                    <tm-text label="未绑定" color="red"/>
-                </tm-col>
-                <tm-col :col="12" align="start">
-                    <tm-text label="152104199312251914" color="grey"/>
-                </tm-col>
-            </tm-row>
-        </tm-sheet>
+        <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
+                    translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
+            <tm-result v-if="businessUserList.length === 0 && loading === false" status="empty"
+                       :show-btn="false"></tm-result>
+            <view class="mt-20"></view>
+            <tm-sheet v-for="businessUser in businessUserList" :key="businessUser.id" :margin="[32,32]">
+                <tm-row :width="0" :column="12">
+                    <tm-col :col="10" align="start" :height="0">
+                        <tm-row :width="0" :height="0">
+                            <tm-col :col="3" align="start" :height="0">
+                                <tm-text :label="businessUser.name"/>
+                            </tm-col>
+                            <tm-col :col="4" align="start" :height="0">
+                                <tm-text :label="businessUser.phone" color="grey"/>
+                            </tm-col>
+                            <tm-col :col="5" align="start" :height="0">
+                                <tm-text :label="businessUser.binding" color="red"/>
+                            </tm-col>
+                            <tm-col :col="12" align="start" :height="0">
+                                <tm-text :label="businessUser.idcard" color="grey"/>
+                            </tm-col>
+                        </tm-row>
+                    </tm-col>
+                    <tm-col :col="2" align="center" :height="0">
+                        <tm-icon name="tmicon-delete" @click="deleteUser(businessUser.id)"/>
+                    </tm-col>
+                </tm-row>
+            </tm-sheet>
+            <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
+        </tm-scrolly>
+        <tm-modal ref='modal' title="确定删除员工吗？" content="确定删除员工吗？" closeable @ok="deleteUser" color="white"
+                  okColor="pink" cancelColor="pink" okLinear="left" splitBtn></tm-modal>
     </tm-app>
 </template>
 
 <script setup lang="ts">
-const search = (e: string) => {
 
+import {deleteBusinessUser, getBusinessUserList} from '@/services/api/business';
+import {getCurrentInstance, ref} from 'vue';
+import {usePagination} from '@alova/scene-vue';
+import {onReady} from '@dcloudio/uni-app';
+import {getWindow, toast, torpx} from '@/tmui/tool/function/util';
+import {useRouter} from '@/hooks/router';
+import TdText from '@/components/td-text/td-text.vue';
+import tmModal from '@/tmui/components/tm-modal/tm-modal.vue';
+
+const modal = ref<InstanceType<typeof tmModal> | null>(null);
+const searchLazy = ref('');
+let searchText = ref('');
+
+const pull = ref(false);
+const scrollHeight = ref(400);
+const proxy = getCurrentInstance()?.proxy ?? null;
+onReady(() => {
+    const query = uni.createSelectorQuery().in(proxy);
+    query.select('.hei').boundingClientRect((result: any) => {
+        scrollHeight.value = torpx(getWindow().height);
+    }).exec();
+});
+
+const {
+    loading,
+    data: businessUserList,
+    isLastPage,
+    pageSize: limit,
+    page,
+    reload,
+    onSuccess
+} = usePagination(
+    (page: number, limit: number) =>
+        getBusinessUserList({
+            page,
+            limit,
+            keyword: searchText.value,
+        }),
+    {
+        data: (res) => res.list,
+        watchingStates: [searchText],
+        preloadPreviousPage: false,
+        preloadNextPage: false,
+        append: true,
+        initialPageSize: 10,
+        immediate: true
+    }
+);
+
+onSuccess(() => {
+    console.log('onSuccess');
+    pull.value = false;
+});
+
+const search = () => {
+    searchText.value = searchLazy.value;
 };
+
+function deleteUser(userId: number) {
+    modal.value?.open()?.then(() => {
+        deleteBusinessUser(userId).send().then(() => {
+            toast('删除成功');
+        });
+    }).catch(() => {
+        toast('操作被取消');
+    });
+}
+
 </script>
 
 <style scoped>

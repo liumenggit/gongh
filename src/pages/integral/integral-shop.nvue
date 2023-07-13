@@ -1,7 +1,17 @@
 <template>
     <tm-app>
+        <tm-navbar title="积分商城" color="primary" hideHome hideBack>
+            <template v-slot:left>
+                <view class="flex-row flex-row-center-start ml-20">
+                    <tm-text label="我的积分:" color="white"/>
+                    <tm-text :label="useUserStore().integral" color="white"/>
+                </view>
+            </template>
+        </tm-navbar>
         <tm-tabs :list="integralAllType" :width="750" align="around" :default-name="integralType"
                  :active-name="integralType"></tm-tabs>
+        <td-carousel autoplay :margin="[32,32,32,32]" :round="3" :width="686" :height="100"
+                     :list="[useUserStore().avatar]"/>
         <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
                     translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
             <tm-result v-if="pageList.length === 0 && loading === false" status="empty" :show-btn="false"></tm-result>
@@ -22,6 +32,11 @@
             </view>
             <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
         </tm-scrolly>
+        <tm-overlay v-model:show="showWin" contentAnimation>
+            <tm-badge icon="tmicon-times-circle" :font-size="40" :top="-60" :right="-60">
+                <tm-image :src="useUserStore().avatar" :width="300" :height="300" @click.stop="useRouter().go('/pages/integral/lottery')"/>
+            </tm-badge>
+        </tm-overlay>
     </tm-app>
 </template>
 
@@ -34,13 +49,20 @@ import {onReady} from '@dcloudio/uni-app';
 import {getWindow, torpx} from '@/tmui/tool/function/util';
 import {usePagination} from '@alova/scene-vue';
 import {getCouponList} from '@/services/api/coupon';
-import {getIntegralShopList, getMyIntegralShop} from '@/services/api/integral';
+import {getIntegralShopList} from '@/services/api/integral';
 import _ from 'lodash';
-import {IntegralStartType} from '@/enums/integral';
-import {enumToArr} from '@/utils/common/enum-to-arr';
 
-const integralAllType = enumToArr(IntegralStartType);
-const integralType = ref(integralAllType[0].key);
+function test() {
+    console.log('test');
+}
+
+function ima() {
+    console.log('ima');
+}
+
+const showWin = ref(true);
+const integralType = ref(null);
+const integralAllType = ref([{key: null, title: '全部'}, ...useSettingStore().$state.integralProductsCategories]);
 
 
 const pull = ref(false);
@@ -63,7 +85,7 @@ const {
     onSuccess
 } = usePagination(
     (page: number, limit: number) =>
-        getMyIntegralShop({
+        getIntegralShopList({
             page,
             limit,
             categories: integralType.value || '',

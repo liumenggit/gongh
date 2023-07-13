@@ -20,6 +20,7 @@ declare interface HomeSeting {
     coupon_type_list: [CouponType];
     business_type: [BusinessHy];
     business_hy: [BusinessType];
+    integral_products_categories: [IntegralCate];
 }
 
 

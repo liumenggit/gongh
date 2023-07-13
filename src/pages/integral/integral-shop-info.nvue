@@ -1,0 +1,95 @@
+<template>
+    <tm-app color="white">
+        <tm-image class="ma-47" preview :height="280" round="5" :width="650"
+                  :src="integralShopInfo.image"></tm-image>
+        <tm-sheet :padding="[0,0]" transprent>
+            <view class="flex-row flex-row-center-between">
+                <view class="flex-col flex-wrap">
+                    <view class="flex-row flex-row-center-start">
+                        <tm-icon :font-size="40"
+                                 name="https://pic.90sheji.com/design/03/23/87/70/5d38c081c507f.png!/fwfh/804x804/clip/0x800a0a0/quality/90/unsharp/true/compress/true/watermark/url/LzkwX3dhdGVyX3Y2LnBuZw==/repeat/true"></tm-icon>
+                        <tm-text color="red" :label="integralShopInfo.points"></tm-text>
+                        <tm-text color="grey" label="35.00"></tm-text>
+                    </view>
+                    <tm-text :label="`市场参考价格￥${integralShopInfo.market_price}`" color="grey"
+                             _class="text-delete"/>
+                </view>
+                <tm-divider :vertical="true"/>
+                <view class="flex-col flex-wrap flex-1">
+                    <!--                    <tm-text class="fulled" :font-size="32" :label="integralShopInfo.market_price"></tm-text>-->
+                    <tm-text class="fulled" :font-size="28" label="红花尔基野生柳蒿芽1KG"></tm-text>
+                    <view class="flex flex-row flex-end">
+                        <tm-text label="库存"></tm-text>
+                        <tm-text color="red" :label="integralShopInfo.stock" class="ml-20 mr-50"></tm-text>
+                    </view>
+                </view>
+            </view>
+        </tm-sheet>
+        <tm-divider :margin="[0,32]"></tm-divider>
+        <tm-button @click="applyShop" :loading="applyLoading" :disabled="applyLoading" :margin="[50,0]" color="decolor"
+                   block round="3"
+                   label="立即兑换"></tm-button>
+        <tm-divider></tm-divider>
+        <tm-descriptions :column="1" transprent class="ml-40">
+            <tm-descriptions-item iconcolor="decolor" icon="td-bug" label="有效期：" labelcolor="decolor"
+                                  value="132234.2342342.234" color="decolor"/>
+            <tm-descriptions-item iconcolor="decolor" icon="td-bug" label="有效期" labelcolor="decolor"
+                                  value="132234.2342342.234" color="decolor"/>
+            <tm-descriptions-item iconcolor="decolor" icon="td-bug" label="有效期" labelcolor="decolor"
+                                  value="132234.2342342.234" color="decolor"/>
+        </tm-descriptions>
+        <tm-sheet>
+            <tm-text label="使用须知" _class="font-weight-b" :font-size="24"/>
+            <tm-divider></tm-divider>
+            <tm-html :content="integralShopInfo.usage_notes"/>
+        </tm-sheet>
+        <tm-sheet>
+            <tm-text label="商品详情" _class="font-weight-b" :font-size="24"/>
+            <tm-divider></tm-divider>
+            <tm-html :content="integralShopInfo.details"/>
+        </tm-sheet>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+import {applyIntegralShop, getIntegralShopInfo} from '../../services/api/integral';
+import {onLoad} from '@dcloudio/uni-app';
+import {useRequest} from 'alova';
+import {ref} from 'vue';
+import {toast} from '../../tmui/tool/function/util';
+
+const {
+    loading,
+    data: integralShopInfo,
+    send: sendIntegralShopInfo
+} = useRequest((id) => getIntegralShopInfo(id), {
+    initialData: {},
+    immediate: false,
+});
+
+
+const {
+    loading: applyLoading,
+    send: sendApply
+} = useRequest((products_id: number, points: number) => applyIntegralShop(products_id, points), {
+    initialData: {},
+    immediate: false,
+});
+
+function applyShop() {
+    sendApply(integralShopInfo.value.id, integralShopInfo.value.points).then(() => {
+        toast('兑换成功');
+    }).catch((err) => {
+        toast('兑换失败' + err);
+    });
+}
+
+onLoad((option) => {
+    sendIntegralShopInfo(option?.id);
+});
+
+</script>
+
+<style scoped>
+
+</style>

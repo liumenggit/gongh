@@ -99,19 +99,38 @@
       }
     },
     {
-      "path": "pages/integral/integral-list",
+      "path": "pages/integral/integral-shop",
       "style": {
-        "navigationBarTitleText": "积分明细",
-        "disableScroll": true
+        "navigationBarTitleText": "积分商城",
+        "navigationStyle": "custom"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/integral/integral-shop-info",
+      "style": {
+        "navigationBarTitleText": "积分商品详情"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/integral/integral-raffle",
+      "style": {
+        "navigationBarTitleText": "抽奖"
       },
       "meta": {
         "ignoreAuth": true
       }
     },
     {
-      "path": "pages/integral/commodity",
+      "path": "pages/integral/integral-list",
       "style": {
-        "navigationBarTitleText": "积分商品"
+        "navigationBarTitleText": "积分明细",
+        "disableScroll": true
       },
       "meta": {
         "ignoreAuth": true
@@ -139,6 +158,15 @@
       "path": "pages/my/refine",
       "style": {
         "navigationBarTitleText": "完善个人信息"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/integral-already",
+      "style": {
+        "navigationBarTitleText": "积分礼品"
       },
       "meta": {
         "ignoreAuth": false
@@ -211,6 +239,15 @@
       "path": "pages/my/business/employee-withdrawals",
       "style": {
         "navigationBarTitleText": "财务管理"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/business/order-list",
+      "style": {
+        "navigationBarTitleText": "订单"
       },
       "meta": {
         "ignoreAuth": false

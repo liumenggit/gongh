@@ -63,7 +63,7 @@
         <tm-card title="积分活动" :round="3">
             <template v-slot:content>
                 <tm-grid :width="638" :col="4">
-                    <tm-grid-item :height="120">
+                    <tm-grid-item :height="120" @click="useRouter().go('/pages/integral/integral-shop')">
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="积分商城"></tm-text>
                     </tm-grid-item>
@@ -75,7 +75,7 @@
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="抽奖礼品"></tm-text>
                     </tm-grid-item>
-                    <tm-grid-item :height="120" @click="useRouter().go('/pages/integral/commodity')">
+                    <tm-grid-item :height="120" @click="useRouter().go('/pages/my/integral-already')">
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="积分礼品"></tm-text>
                     </tm-grid-item>
@@ -125,7 +125,7 @@
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="人员管理"></tm-text>
                     </tm-grid-item>
-                    <tm-grid-item :height="120" @click="useRouter().go('/pages/my/business/employee-add')">
+                    <tm-grid-item :height="120" @click="useRouter().go('/pages/my/business/order-list')">
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="订单"></tm-text>
                     </tm-grid-item>

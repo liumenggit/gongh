@@ -90,4 +90,12 @@
     <tree path="/src/pages/my/business/employee-withdrawals.nvue" title="财务管理"/>
     <tree path="/src/pages/integral/integral-signIn.nvue" title="积分签到"/>
     <tree path="/src/pages/integral/integral-list.nvue" title="积分明细"/>
+    <tree path="/src/pages/integral/integral-raffle.nvue" title="抽奖"/>
+    <tree path="/src/enums/couponEnum.ts" title="优惠券"/>
+    <tree path="/src/pages/my/business/order-list.nvue" title="订单"/>
+    <tree path="/src/pages/integral/integral-shop.nvue" title="积分商城"/>
+    <tree path="/src/pages/integral/integral-shop-info.nvue" title="积分商品详情"/>
+    <tree path="/src/pages/my/integral-already.nvue" title="我的积分礼品"/>
+    <tree path="/src/services/api/integral.ts" title="积分"/>
+    <tree path="/src/services/model/integral.d.ts" title="积分"/>
 </trees>

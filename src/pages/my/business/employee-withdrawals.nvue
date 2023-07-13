@@ -3,33 +3,123 @@
         <tm-sheet :margin="[0,0]" transprent>
             <tm-row :column="12" transprent>
                 <tm-col :col="12" align="start" transprent>
-                    <tm-text label="gongsi" color="white"/>
+                    <tm-text :label="info.business_name" color="white"/>
                 </tm-col>
                 <tm-col :col="12" align="center" :height="100" transprent>
-                    <tm-statistic prefix="￥" :end-val="46444" :decimals="2" color="orange"
+                    <tm-statistic prefix="￥" :end-val="info.sum_withdrawal" :decimals="2" color="orange"
                                   :font-size="46"></tm-statistic>
-                    <tm-button label="提现" color="white" size="small"/>
+                    <tm-button label="提现" color="white" @click="apply" size="small"/>
                 </tm-col>
                 <tm-col :col="12" align="start" transprent>
-                    <tm-statistic prefix="累计提现金额：" :end-val="46444" :decimals="2" color="white"></tm-statistic>
+                    <tm-statistic prefix="累计提现金额：" :end-val="info.total" :decimals="2"
+                                  color="white"></tm-statistic>
                 </tm-col>
             </tm-row>
         </tm-sheet>
-        <tm-card title="提现金额" status="待确认" :round="3">
-            <template v-slot:content class="fulled">
-                <view class="fulled flex-row flex-row-center-center">
-                    <tm-statistic prefix="￥" :start-val="46444" :end-val="46444" :decimals="2" :font-size="32"
-                                  color="decolor"/>
-                </view>
-                <tm-descriptions-item label="申请时间:" value="4564465adsa"></tm-descriptions-item>
+
+        <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
+                    translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
+            <tm-result v-if="pageList.length === 0 && loading === false" status="empty" :show-btn="false"></tm-result>
+            <view class="mt-20"></view>
+            <tm-card v-for="pageItem in pageList" title="提现金额" :status="pageItem.state_name" :round="3">
+                <template v-slot:content class="fulled">
+                    <view class="fulled flex-row flex-row-center-center">
+                        <tm-statistic prefix="￥" :start-val="pageItem.price" :end-val="pageItem.price" :decimals="2"
+                                      :font-size="32"
+                                      color="decolor"/>
+                    </view>
+                    <tm-descriptions-item label="申请时间:" :value="pageItem.create_time"/>
+                    <tm-descriptions-item label="确认时间:" :value="pageItem.state_2_time"
+                                          v-if="pageItem.state_2_time"/>
+                    <tm-descriptions-item label="成功时间:" :value="pageItem.state_3_time"
+                                          v-if="pageItem.state_3_time"/>
+                </template>
+            </tm-card>
+            <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
+        </tm-scrolly>
+        <tm-modal ref='modal' title="提现" closeable color="white" ok-text="提现"
+                  okColor="pink" cancelColor="pink" okLinear="left" splitBtn>
+            <template v-slot:default>
+                <tm-input v-model="money" type="digit" placeholder="请输入提现金额" :font-size="60" focus :height="100"
+                          align="center"></tm-input>
             </template>
-        </tm-card>
+        </tm-modal>
     </tm-app>
 </template>
 
 <script setup lang="ts">
 
 import {useSettingStore} from '@/state/modules/setting';
+import {getCurrentInstance, ref} from 'vue';
+import {onReady} from '@dcloudio/uni-app';
+import {getWindow, toast, torpx} from '@/tmui/tool/function/util';
+import {usePagination} from '@alova/scene-vue';
+import {applyBusinessWithdrawal, deleteBusinessUser, getBusinessWithdrawalList} from '@/services/api/business';
+import tmModal from '@/tmui/components/tm-modal/tm-modal.vue';
+
+const modal = ref<InstanceType<typeof tmModal> | null>(null);
+const money = ref(0.00);
+const info = ref({
+    sum_withdrawal: 0,
+    total: 0,
+    business_name: ''
+});
+const pull = ref(false);
+const scrollHeight = ref(400);
+const proxy = getCurrentInstance()?.proxy ?? null;
+onReady(() => {
+    const query = uni.createSelectorQuery().in(proxy);
+    query.select('.hei').boundingClientRect((result: any) => {
+        scrollHeight.value = torpx(getWindow().height - result.top);
+    }).exec();
+});
+
+
+const {
+    loading,
+    data: pageList,
+    isLastPage,
+    pageSize: limit,
+    page,
+    reload,
+    onSuccess
+} = usePagination(
+    (page: number, limit: number) =>
+        getBusinessWithdrawalList({
+            page,
+            limit
+        }),
+    {
+        preloadPreviousPage: false,
+        preloadNextPage: false,
+        append: true,
+        debounce: [500],
+        data: (res) => res.list,
+        initialPageSize: 10,
+        immediate: true
+    }
+);
+
+onSuccess((data) => {
+    pull.value = false;
+    console.log(data.data.info);
+    info.value = data.data.info;
+});
+
+function apply() {
+    modal.value?.open()?.then(() => {
+        if (money.value ) {
+            applyBusinessWithdrawal(money.value).send().then(() => {
+                toast('提现申请成功');
+            });
+        } else {
+            toast('输入的金额无法提现，请输入正确额金额');
+        }
+    }).catch(() => {
+        toast('操作被取消');
+    });
+}
+
 </script>
 
 <style scoped>

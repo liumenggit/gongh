@@ -5,7 +5,8 @@
                 <tm-text :label="userInfo.nickname" color="white"/>
             </template>
             <template v-slot:right>
-                <tm-tag label="积分明细" @click="useRouter().go('/pages/integral/integral-list')" size="s" :round="10" color="white" font-color="decolor"></tm-tag>
+                <tm-tag label="积分明细" @click="useRouter().go('/pages/integral/integral-list')" size="s" :round="10"
+                        color="white" font-color="decolor"></tm-tag>
             </template>
         </tm-cell>
         <tm-text :label="userInfo.integral" :font-size="46" _class="text-align-center fulled" color="amber"></tm-text>
@@ -30,7 +31,7 @@
         <tm-card title="签到规则">
             <template v-slot:content class="fulled">
                 <view class="fulled fulled-height">
-                    <tm-html :content="rx"/>
+                    <tm-html :content="useSettingStore().pointsCheckinRules"/>
                 </view>
             </template>
         </tm-card>

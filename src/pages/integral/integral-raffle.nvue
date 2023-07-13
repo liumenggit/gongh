@@ -1,0 +1,73 @@
+<template>
+    <tm-app>
+        <view class="mt-n20">
+            <pt-lottery
+                ref="pt-lottery"
+                lotteryBg="../../static/lotteryBg.png"
+                lotteryBtn="../../static/lotteryBtn.png"
+                :times="3"
+                :prizeList="prizeList"
+                :showTimes="false"
+                @start="start"
+                @end="end">
+            </pt-lottery>
+        </view>
+        <view class="fulled flex flex-center flex-col mt-n20">
+            <tm-text _class="mt-15" label="抽奖规则" color="black"></tm-text>
+            <tm-text _class="mt-15" label="每人每天抽奖最多：5次" color="black"></tm-text>
+            <tm-text _class="mt-15" label="每次消耗积分：5积分" color="black"></tm-text>
+            <tm-text _class="mt-n20" label="呼伦贝尔总会" color="black"></tm-text>
+        </view>
+    </tm-app>
+</template>
+<script lang="ts" setup>
+import {getCurrentInstance, Ref, ref} from 'vue';
+import PtLottery from '../../components/pt-lottery/pt-lottery.vue';
+import {useUserStore} from '../../state/modules/user';
+
+const {proxy} = getCurrentInstance();
+const prizeIndex: Ref<number> = ref(0);
+
+interface Prize {
+    prizeName: string;
+    prizeIcon: string;
+}
+
+const prizeList: Prize[] = [
+    {
+        prizeName: 'iphone 12',
+        prizeIcon: useUserStore().avatar,
+    },
+    {
+        prizeName: 'iphone 11',
+        prizeIcon: useUserStore().avatar,
+    },
+    // 省略其他奖品数据项
+];
+
+const start = (): void => {
+
+    prizeIndex.value = Math.ceil(Math.random() * 1);
+    const ptLottery: any = proxy.$refs['pt-lottery'];
+    ptLottery.init(prizeIndex.value);
+};
+
+const end = (): void => {
+    switch (prizeIndex.value) {
+        case 1:
+            uni.showToast({
+                icon: 'none',
+                title: '未中奖，再接再厉!',
+            });
+            break;
+        default:
+            uni.showToast({
+                icon: 'none',
+                title: '恭喜您获取' + prizeList[prizeIndex.value].prizeName,
+            });
+            console.log(prizeIndex.value);
+            break;
+    }
+};
+
+</script>

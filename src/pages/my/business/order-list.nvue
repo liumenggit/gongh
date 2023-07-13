@@ -1,0 +1,136 @@
+<template>
+    <tm-app>
+        <tm-tabs :list="tabsTitle" item-model="line" align="around" showTabsLine showTabsLineAni :width="750"
+                 :default-name="tabsActice" v-model:active-name="tabsActice"></tm-tabs>
+        <tm-sheet :margin="[0,0]">
+            <view class="flex-row flex-row-center-between">
+                <view class="flex-row flex-row-center-between flex-1" @click="show=true">
+                    <tm-input :placeholder="dateStart || '开始时间'" :disabled="true" class="flex-1"/>
+                    <tm-text label="至" class="mx-20"></tm-text>
+                    <tm-input :placeholder="dateEnd || '结束时间'" :disabled="true" class="flex-1"/>
+                </view>
+                <tm-button label="筛选" size="small" class="ml-20" @click="reload"/>
+            </view>
+        </tm-sheet>
+        <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
+                    translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
+            <tm-result v-if="pageList.length === 0 && loading === false" status="empty"
+                       :show-btn="false"></tm-result>
+            <view class="mt-20"></view>
+            <tm-card :title="pageItem.number" :status="pageItem.add_time" v-for="pageItem in pageList"
+                     :key="pageItem.id">
+                <template v-slot:content class="fulled">
+                    <view class="fulled">
+                        <tm-descriptions :column="0" :margin="[0,0]">
+                            <tm-descriptions-item label="订单金额：" :font-size="28">
+                                <view class="fulled flex-row flex-row-center-end">
+                                    <tm-text :label="`￥${pageItem.record_price}`" color="grey" :font-size="28"/>
+                                </view>
+                            </tm-descriptions-item>
+                            <tm-descriptions-item :label="`${BusinessOrderTypeEnum[pageItem.record_type]}:`"
+                                                  :font-size="28">
+                                <view class="fulled flex-row flex-row-center-end">
+                                    <tm-text :label="pageItem.record_title" color="grey" :font-size="28" class="mr-30"/>
+                                    <tm-text :label="`￥${pageItem.record_price}`" color="decolor" :font-size="28"/>
+                                </view>
+                            </tm-descriptions-item>
+                            <tm-descriptions-item label="余额支付：" :font-size="28">
+                                <view class="fulled flex-row flex-row-center-end">
+                                    <tm-text :label="`￥${pageItem.record_price}`" color="blue" :font-size="28"/>
+                                </view>
+                            </tm-descriptions-item>
+                        </tm-descriptions>
+                    </view>
+                </template>
+            </tm-card>
+            <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
+        </tm-scrolly>
+        <tm-drawer v-model:show="show" :height="900" hideHeader>
+            <view class="pa-16">
+                <tm-time-between @confirm="dateconfirm" :asyncModel="false" :end="DayJs()"></tm-time-between>
+            </view>
+        </tm-drawer>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+
+import {getBusinessOrderList, getBusinessUserList} from '@/services/api/business';
+import {computed, getCurrentInstance, ref} from 'vue';
+import {usePagination} from '@alova/scene-vue';
+import {onReady} from '@dcloudio/uni-app';
+import {getWindow, toast, torpx} from '@/tmui/tool/function/util';
+import {enumToArr} from '@/utils/common/enum-to-arr';
+import {BusinessOrderTabsEnum, BusinessOrderTypeEnum} from '@/enums/businessEnum';
+import * as dayjs from '@/tmui/tool/dayjs/esm/index';
+import {round} from 'lodash-es';
+import TdText from '@/components/td-text/td-text.vue';
+
+
+const DayJs = dayjs.default;
+const show = ref(false);
+const tabsTitle = enumToArr(BusinessOrderTabsEnum);
+const tabsActice = ref(tabsTitle[0].key);
+
+const dateStart = ref('');
+const dateEnd = ref('');
+
+const pull = ref(false);
+const scrollHeight = ref(400);
+const proxy = getCurrentInstance()?.proxy ?? null;
+onReady(() => {
+    const query = uni.createSelectorQuery().in(proxy);
+    query.select('.hei').boundingClientRect((result: any) => {
+        scrollHeight.value = torpx(getWindow().height);
+    }).exec();
+});
+
+const {
+    loading,
+    data: pageList,
+    isLastPage,
+    pageSize: limit,
+    page,
+    reload,
+    onSuccess
+} = usePagination(
+    (page: number, limit: number) =>
+        getBusinessOrderList({
+            page,
+            limit,
+            type: tabsActice.value,
+            start_time: dateStart.value,
+            end_time: dateEnd.value
+        }),
+    {
+        watchingStates: [tabsActice],
+        data: (res) => res.list,
+        preloadPreviousPage: false,
+        preloadNextPage: false,
+        append: true,
+        initialPageSize: 10,
+        immediate: true
+    }
+);
+
+onSuccess(() => {
+    console.log('onSuccess');
+    pull.value = false;
+});
+
+
+function dateconfirm(e: any) {
+    console.log('dateChange', DayJs(e[0]).format('YYYY-MM-DD'), DayJs(e[1]).format('YYYY-MM-DD'), DayJs(e[0]).isBefore(DayJs(e[1])));
+    if (DayJs(e[0]).isBefore(DayJs(e[1]))) {
+        dateStart.value = e[0];
+        dateEnd.value = e[1];
+    } else {
+        toast('时间选择错误');
+    }
+    show.value = false;
+}
+</script>
+
+<style scoped>
+
+</style>
