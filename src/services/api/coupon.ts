@@ -7,7 +7,7 @@ import {Coupon, CouponListParams, CouponRes} from '@/services/model/coupon';
  * @param couponListParams
  */
 export function getCouponList(couponListParams: CouponListParams) {
-    return request.Get<any>('/coupon', {params: couponListParams});
+    return request.Get<[Coupon]>('/coupon', {params: couponListParams});
 }
 
 /**

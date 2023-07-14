@@ -1,4 +1,4 @@
-declare interface PayParams{
+declare interface PayParams {
     /**
      * 商家id
      */
@@ -15,4 +15,12 @@ declare interface PayParams{
      * 积分兑换id
      */
     integral_id: number;
+    /**
+     * 优惠金额
+     */
+    record_price: number;
+    /**
+     * 订单总金额
+     */
+    total: number;
 }

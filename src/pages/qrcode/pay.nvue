@@ -6,24 +6,36 @@
                 <tm-text label="商家名称" color="decolor"/>
             </template>
             <template v-slot:content>
-                <tm-text :label="businessPayInfo.business"/>
+                <tm-text :label="businessPayInfo.business.title"/>
             </template>
         </tm-card>
-        <tm-sheet :padding="[0,0]" :margin="[32,12,32,0]" :round="4" :shadow="2">
-            <tm-input placeholder="请输入订单总金额" prefixLabel="订单总金额" prefix="tmicon-dollar" suffixLabel="元" type="number"
-                      class="fulled" transprent/>
-        </tm-sheet>
+        <tm-card :margin="[32,12,32,0]" :round="3">
+            <template v-slot:title>
+                <tm-text label="商品价格" color="decolor" class="mr-20"/>
+            </template>
+            <template v-slot:content>
+                <view class="flex-col flex-col-center-start flex-wrap fulled pa-20">
+                    <tm-input prefixLabel="￥" v-model.lazy="payParams.total" placeholder="请输入付款金额" type="number"
+                              :fontSize="48"
+                              class="fulled"
+                              :height="120"/>
 
+                    <tm-text label="说明：输入订单金额，选择优惠券或者积分商品券后系统自动计算实际支付金额。"
+                             color="decolor" class="mt-20"/>
+                </view>
+            </template>
+        </tm-card>
+        <!--        <tm-sheet :padding="[0,0]" :margin="[32,12,32,0]" :round="4" :shadow="2">-->
+        <!--            <tm-input placeholder="请输入订单总金额" prefixLabel="订单总金额" prefix="tmicon-dollar" suffixLabel="元" type="number"-->
+        <!--                      class="fulled" transprent/>-->
+        <!--        </tm-sheet>-->
         <tm-cell :round="3" :margin="[32,12,32,0]"
-                 :right-text="payParams.card_id?_.find(businessPayInfo.coupon_card, {id: payParams.card_id})?.title:'选择'"
+                 :right-text="activeCoupon?.coupon_info?.[activeCoupon?.coupon_info?.is_discount === 1?'price':'discount'] || '选择'"
                  :shadow="2" @click="couponShow = true">
             <template v-slot:title>
-                <tm-text label="查看可用优惠券" color="decolor"/>
-            </template>
-        </tm-cell>
-        <tm-cell :round="3" :margin="[32,12,32,0]" right-text="选择" :shadow="2">
-            <template v-slot:title>
-                <tm-text label="查看可用核销积分商品" color="decolor"/>
+                <tm-text
+                    :label="activeCoupon?.coupon_info?.title || '优惠'"
+                    color="decolor"/>
             </template>
         </tm-cell>
         <tm-card :margin="[32,12,32,0]" :round="3">
@@ -37,47 +49,76 @@
             </template>
             <template v-slot:content>
                 <view class="flex-col flex-col-center-center flex-wrap fulled pa-20">
-                    <tm-input placeholder="请输入付款金额" type="number" :fontSize="48" align="center" class="fulled"
-                              :height="120"/>
-
-                    <tm-text label="实际支付￥0.00" color="decolor" class="mt-40"/>
+                    <tm-input prefixLabel="￥" v-model.lazy="payParams.db" placeholder="余额支付" type="number"
+                              :fontSize="40"
+                              class="fulled"
+                              :height="100"/>
                 </view>
             </template>
         </tm-card>
         <tm-button label="支付" block :margin="[32,32]"></tm-button>
         <tm-drawer @ok="payParams.card_id = null" hideCancel okText="不使用" ref="calendarView" placement="bottom"
-                   v-model:show="couponShow" :height="800">
-            <tm-scrolly :width="0">
-                <tm-result v-if="businessPayInfo.coupon_card.length === 0" status="empty" :show-btn="false"></tm-result>
-                <view class="mb-16"/>
-                <tm-coupon v-for="couponItem in businessPayInfo.coupon_card" color="pink" linear="right"
-                           linear-deep="accent" mainColor="yellow" font-color=""
-                           :price-detail="{price:couponItem.price,subtext:'',prefix:'￥',suffix:''}"
-                           :right-detail="{title:couponItem.title,subtitle:'副标题',time:couponItem.eff_range}"
-                           @click="payParams.card_id = couponItem.id;couponShow = false"
-                           extra
-                           btn-label="立即使用"
-                >
-                    <template v-slot:extra>
-                        <tm-text :font-size="22" _class="opacity-7" :label="couponItem.remark"></tm-text>
-                    </template>
-                </tm-coupon>
-            </tm-scrolly>
+                   v-model:show="couponShow" :height="800" hideHeader>
+            <tm-tabs :width="750" :height="800" item-model="line" align="around" showTabsLine showTabsLineAni>
+                <tm-tabs-pane name="card" title="优惠券">
+                    <view class="fulled fulled-height">
+                        <tm-result v-if="businessPayInfo.coupon_card.length === 0" status="empty"
+                                   :show-btn="false"></tm-result>
+                        <view class="mb-16"/>
+                        <tm-coupon v-for="couponItem in businessPayInfo.coupon_card" color="pink" linear="right"
+                                   linear-deep="accent" mainColor="yellow" font-color="" :key="couponItem.id"
+                                   :price-detail="{price:couponItem.coupon_info.price || couponItem.coupon_info.discount,subtext:'',prefix:'￥',suffix:''}"
+                                   :right-detail="{title:couponItem.coupon_info.title,subtitle:couponItem.coupon_info.type_title,time:couponItem.add_time}"
+                                   @click="payParams.card_id = couponItem.id;couponShow = false"
+                                   extra
+                                   btn-label="立即使用"
+                        >
+                            <template v-slot:extra>
+                                <tm-text :font-size="22" _class="opacity-7"
+                                         :label="couponItem.coupon_info.remark"></tm-text>
+                            </template>
+                        </tm-coupon>
+                    </view>
+                </tm-tabs-pane>
+                <tm-tabs-pane name="integral" title="积分兑换">
+                    <view class="fulled fulled-height">
+                        <tm-result v-if="businessPayInfo.integral.length === 0" status="empty"
+                                   :show-btn="false"></tm-result>
+                        <view class="mb-16"/>
+                        <tm-coupon v-for="integralItem in businessPayInfo.integral" color="pink" linear="right"
+                                   linear-deep="accent" mainColor="yellow" font-color="" :key="integralItem.id"
+                                   :price-detail="{price:integralItem.coupon_info.price,subtext:'',prefix:'￥',suffix:''}"
+                                   :right-detail="{title:integralItem.coupon_info.title,subtitle:'副标题',time:integralItem.eff_range}"
+                                   @click="payParams.card_id = integralItem.id;couponShow = false"
+                                   extra
+                                   btn-label="立即使用"
+                        >
+                            <template v-slot:extra>
+                                <tm-text :font-size="22" _class="opacity-7" :label="integralItem.remark"></tm-text>
+                            </template>
+                        </tm-coupon>
+                    </view>
+                </tm-tabs-pane>
+            </tm-tabs>
+
         </tm-drawer>
     </tm-app>
 </template>
+
+
+<!--满减 折扣 兑换{订单}-->
 
 <script setup lang="ts">
 import {onLoad} from '@dcloudio/uni-app';
 import {useRequest} from 'alova';
 import {getBusinessInfo, getBusinessPayInfo} from '@/services/api/business';
 import {useUserStore} from '@/state/modules/user';
-import {Ref, ref} from 'vue';
+import {computed, Ref, ref} from 'vue';
 import {useRouter} from '@/hooks/router';
 import _ from 'lodash';
+import {CouponList} from '@/services/model/business';
 
 useUserStore().updateUserInfo();
-const userInfo = useUserStore().$state;
 const couponShow = ref(false);
 const {
     loading,
@@ -91,8 +132,14 @@ const payParams: Ref<PayParams> = ref({
     card_id: null,
     business_id: null,
     db: null,
-    integral_id: null
+    integral_id: null,
+    total: null
 });
+
+const activeCoupon: Ref<CouponList> = computed(() => {
+    return payParams.value.card_id ? _.find(businessPayInfo.value.coupon_card, {id: payParams.value.card_id}) : {};
+});
+
 
 onLoad((option) => {
     option = {id: 2};

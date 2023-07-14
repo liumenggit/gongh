@@ -6,9 +6,8 @@ import {Coupon} from '@/services/model/coupon';
 declare interface Business {
     coupon_list: [Coupon];
     info: BusinessInfo;
-    goods_list:[ShopGoodsInfo]
+    goods_list: [ShopGoodsInfo];
 }
-
 
 /**
  * 商家信息
@@ -23,6 +22,25 @@ export interface BusinessInfo {
     translate: number;
     latitude: number;
     longitude: number;
+    account: string;
+    add_time: number;
+    admin_name: string;
+    admin_phone: string;
+    admin_pwd: string;
+    area: number;
+    bank: string;
+    business_hy_id: number;
+    business_type_id: number;
+    company: null;
+    db: number;
+    is_show: number;
+    is_up: number;
+    logo: string;
+    sort: number;
+    status: number;
+    update_time: number;
+    x: string;
+    y: string;
 }
 
 /**
@@ -108,12 +126,25 @@ export interface BusinessHy {
 
 
 declare interface BusinessPayInfo {
-    coupon_card: [Coupon];
+    coupon_card: [CouponList];
     db: number;
     integral: [any];
-    business: string;
+    business: BusinessInfo;
 }
 
+
+declare interface CouponList {
+    add_time: number;
+    card_number: string;
+    coupon_id: number;
+    coupon_type: number;
+    get_time: number;
+    id: number;
+    is_state: number;
+    member_id: number;
+    use_time: string;
+    coupon_info: Coupon;
+}
 
 declare interface BusinessAddUserParams {
     name: string;

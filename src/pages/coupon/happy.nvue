@@ -2,11 +2,15 @@
     <tm-app>
         <tm-sheet :margin="[32,100,32,32]" :round="3">
             <view class="fulled flex-row flex-row-center-center" style="margin-top: -50px">
-                <tm-badge icon="td-bug" transprent :font-size="80">
-                    <tm-avatar :img="userInfo.avatar" :round="26" :size="150"/>
+                <tm-badge icon="td-bug" transprent :font-size="80" :right="-50" :top="-50">
+                    <template v-slot:extra>
+                        <tm-image :src="hg" :width="100" :height="100"/>
+                    </template>
+                    <tm-image :src="userInfo.avatar" :round="26" :width="150" :height="150">
+                    </tm-image>
                 </tm-badge>
             </view>
-            <tm-text :label="`${userInfo.name}:`" class="my-10"/>
+            <tm-text :label="`${userInfo.name}:`" class="my-10 mt-50"/>
             <tm-divider :margin="[30,0]"/>
             <tm-text label="你好!" class="ml-50 my-10"/>
             <tm-divider :margin="[30,0]"/>
@@ -23,6 +27,12 @@
             </view>
             <tm-divider :margin="[30,0]"/>
         </tm-sheet>
+        <view class="fulled fixed t-0 l-0" style="height: 90vh">
+            <tm-translate name="fade" :duration="1000">
+                <tm-image :src="happy" :width="750" :height="1000"/>
+            </tm-translate>
+        </view>
+
         <tm-button label="领取生日券" :width="650" @click="useRouter().go('/pages/coupon/coupon-birthday-list')"
                    class="fixed b-40 fulled px-50"/>
     </tm-app>
@@ -32,6 +42,8 @@
 
 import {useUserStore} from '../../state/modules/user';
 import {useRouter} from '@/hooks/router';
+import happy from '@/static/birthdayballoons.png';
+import hg from '@/static/hg.png';
 
 const userInfo = useUserStore().$state;
 </script>

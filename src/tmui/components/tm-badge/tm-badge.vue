@@ -16,11 +16,13 @@
         :borderStyle="props.borderStyle" :borderDirection="props.borderDirection" :text="props.text"
         :transprent="props.transprent" :linear="props.linear" :linearDeep="props.linearDeep" :width="size.w"
         :height="size.h" :margin="props.margin" :padding="props.padding">
-        <tm-text color="white" :font-size="props.fontSize" :_class="size.h == 0 ? 'py-3 px-6' : ''"
-          v-if="_count > 0 && !istext" :label="_count > props.maxCount ? props.maxCount + '+' : _count"></tm-text>
-        <tm-text color="white" :font-size="props.fontSize" :_class="size.h == 0 ? 'py-3 px-6' : ''"
-          v-if="_count && istext" :label="_count"></tm-text>
-        <tm-icon color="white" :font-size="props.fontSize" :name="_icon" v-if="_icon"></tm-icon>
+          <slot name="extra">
+              <tm-text color="white" :font-size="props.fontSize" :_class="size.h == 0 ? 'py-3 px-6' : ''"
+                       v-if="_count > 0 && !istext" :label="_count > props.maxCount ? props.maxCount + '+' : _count"></tm-text>
+              <tm-text color="white" :font-size="props.fontSize" :_class="size.h == 0 ? 'py-3 px-6' : ''"
+                       v-if="_count && istext" :label="_count"></tm-text>
+              <tm-icon color="white" :font-size="props.fontSize" :name="_icon" v-if="_icon"></tm-icon>
+          </slot>
       </tm-sheet>
     </view>
     <tm-text eventPenetrationEnabled="true" :font-size="props.fontSize" _class="ml-10" v-if="props.status" :label="props.label"></tm-text>

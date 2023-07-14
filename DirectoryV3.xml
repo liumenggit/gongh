@@ -98,4 +98,6 @@
     <tree path="/src/pages/my/integral-already.nvue" title="我的积分礼品"/>
     <tree path="/src/services/api/integralEnum.ts" title="积分"/>
     <tree path="/src/services/model/integral.d.ts" title="积分"/>
+    <tree path="/src/pages/my/feedback.nvue" title="反馈"/>
+    <tree path="/src/pages/my/message.nvue" title="消息通知"/>
 </trees>

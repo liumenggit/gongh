@@ -5,3 +5,11 @@ export enum CouponStateEnum {
     '已核销' = 2,
     '已过期' = 3
 }
+
+
+export enum CouponTypeColorEnum {
+    'amber' = 1,
+    'deep-orange' = 2,
+    'green' = 3,
+    'pink' = 4,
+}

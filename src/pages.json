@@ -38,7 +38,8 @@
     {
       "path": "pages/businesses/businesses-list",
       "style": {
-        "navigationBarTitleText": "商户中心"
+        "navigationBarTitleText": "商户中心",
+        "disableScroll": true
       },
       "meta": {
         "ignoreAuth": true
@@ -66,7 +67,8 @@
     {
       "path": "pages/coupon/coupon-list",
       "style": {
-        "navigationBarTitleText": "卡券列表"
+        "navigationBarTitleText": "卡券列表",
+        "disableScroll": true
       },
       "meta": {
         "ignoreAuth": true
@@ -78,7 +80,7 @@
         "navigationBarTitleText": "生日快乐"
       },
       "meta": {
-        "ignoreAuth": true
+        "ignoreAuth": false
       }
     },
     {
@@ -87,7 +89,7 @@
         "navigationBarTitleText": "生日券列表"
       },
       "meta": {
-        "ignoreAuth": true
+        "ignoreAuth": false
       }
     },
     {
@@ -102,20 +104,22 @@
     {
       "path": "pages/integral/integral-signIn",
       "style": {
-        "navigationBarTitleText": "积分签到"
+        "navigationBarTitleText": "积分签到",
+        "disableScroll": true
       },
       "meta": {
-        "ignoreAuth": true
+        "ignoreAuth": false
       }
     },
     {
       "path": "pages/integral/integral-shop",
       "style": {
         "navigationBarTitleText": "积分商城",
-        "navigationStyle": "custom"
+        "navigationStyle": "custom",
+        "disableScroll": true
       },
       "meta": {
-        "ignoreAuth": false
+        "ignoreAuth": true
       }
     },
     {
@@ -124,7 +128,7 @@
         "navigationBarTitleText": "积分商品详情"
       },
       "meta": {
-        "ignoreAuth": false
+        "ignoreAuth": true
       }
     },
     {
@@ -133,7 +137,7 @@
         "navigationBarTitleText": "抽奖"
       },
       "meta": {
-        "ignoreAuth": true
+        "ignoreAuth": false
       }
     },
     {
@@ -143,16 +147,17 @@
         "disableScroll": true
       },
       "meta": {
-        "ignoreAuth": true
+        "ignoreAuth": false
       }
     },
     {
       "path": "pages/integral/lottery",
       "style": {
-        "navigationBarTitleText": "抽奖礼品"
+        "navigationBarTitleText": "抽奖礼品",
+        "disableScroll": true
       },
       "meta": {
-        "ignoreAuth": true
+        "ignoreAuth": false
       }
     },
     {
@@ -176,7 +181,8 @@
     {
       "path": "pages/my/integral-already",
       "style": {
-        "navigationBarTitleText": "积分礼品"
+        "navigationBarTitleText": "积分礼品",
+        "disableScroll": true
       },
       "meta": {
         "ignoreAuth": false
@@ -185,7 +191,8 @@
     {
       "path": "pages/my/message",
       "style": {
-        "navigationBarTitleText": "消息通知"
+        "navigationBarTitleText": "消息通知",
+        "disableScroll": true
       },
       "meta": {
         "ignoreAuth": false
@@ -230,7 +237,8 @@
     {
       "path": "pages/my/business/employee-list",
       "style": {
-        "navigationBarTitleText": "人员管理"
+        "navigationBarTitleText": "人员管理",
+        "disableScroll": true
       },
       "meta": {
         "ignoreAuth": false
@@ -248,7 +256,8 @@
     {
       "path": "pages/my/business/employee-withdrawals",
       "style": {
-        "navigationBarTitleText": "财务管理"
+        "navigationBarTitleText": "财务管理",
+        "disableScroll": true
       },
       "meta": {
         "ignoreAuth": false
@@ -257,7 +266,8 @@
     {
       "path": "pages/my/business/order-list",
       "style": {
-        "navigationBarTitleText": "订单"
+        "navigationBarTitleText": "订单",
+        "disableScroll": true
       },
       "meta": {
         "ignoreAuth": false

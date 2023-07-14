@@ -1,7 +1,7 @@
 <template>
     <tm-app>
         <tm-sheet :margin="[0,0]" :round="0">
-            <tm-grid :col="5">
+            <tm-grid :col="4" :width="702">
                 <tm-grid-item :height="0" v-for="businessTypeItem in businessType.type_list" :key="businessTypeItem.id"
                               @click="businessTypeItemAc = businessTypeItem.id"
                 >
@@ -16,7 +16,7 @@
                      :label="useLocationStore().location.address.address || '获取当前位置'"
                      class="mt-10" @click="useLocationStore().setAuthorize"/>
         </tm-sheet>
-        <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
+        <tm-scrolly v-model="pull" @refresh="reload" :width="750" :height="scrollHeight"
                     translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
             <tm-result v-if="pageList.length === 0 && loading === false" status="empty" :show-btn="false"></tm-result>
             <view class="mt-20"></view>
@@ -40,18 +40,6 @@
                     <tm-text :label="`距您${pageListItem.translate}km`" :font-size="24"/>
                 </template>
             </tm-coupon>
-
-            <!--                <tm-row :height="160" :width="0">-->
-            <!--                    <tm-col :height="0" :col="3" align="start">-->
-            <!--                        <tm-image :width="160" :height="150" :src="pageListItem.image" :round="4"/>-->
-            <!--                    </tm-col>-->
-            <!--                    <tm-col :height="160" :col="9" align="start">-->
-            <!--                        <tm-text _class="text-overflow-2 text-align-left" :label="pageListItem.title"/>-->
-            <!--                        <tm-text :label="pageListItem.mail" color="grey"/>-->
-            <!--                        <tm-text :label="pageListItem.phone" color="grey"/>-->
-            <!--                        <tm-text :label="pageListItem.date" color="grey"/>-->
-            <!--                    </tm-col>-->
-            <!--                </tm-row>-->
             <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
         </tm-scrolly>
 
@@ -77,7 +65,7 @@ const proxy = getCurrentInstance()?.proxy ?? null;
 onReady(() => {
     const query = uni.createSelectorQuery().in(proxy);
     query.select('.hei').boundingClientRect((result: any) => {
-        scrollHeight.value = torpx(getWindow().height - result.top);
+        scrollHeight.value = torpx(getWindow().height - result.top - 1);
     }).exec();
 });
 

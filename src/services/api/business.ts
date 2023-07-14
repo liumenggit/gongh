@@ -41,8 +41,8 @@ export function getBusinessTyoe() {
  * 支付页信息
  * @returns {any}
  */
-export function getBusinessPayInfo(id: number) {
-    return request.Get<BusinessPayInfo>('pay_info', {params: {id}});
+export function getBusinessPayInfo(business_id: number) {
+    return request.Get<BusinessPayInfo>('pay_info', {params: {business_id}});
 }
 
 
