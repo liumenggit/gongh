@@ -7,19 +7,19 @@
                         <tm-col :col="4">
                             <view class="flex-row flex-row-top-center">
                                 <tm-text label="收入:" color="grey" class="mr-10"/>
-                                <tm-text label="2" color="decolor"/>
+                                <tm-text :label="integralStatistics.increase" color="decolor"/>
                             </view>
                         </tm-col>
                         <tm-col :col="4">
                             <view class="flex-row flex-row-top-center">
                                 <tm-text label="支出:" color="grey" class="mr-10"/>
-                                <tm-text label="2" color="decolor"/>
+                                <tm-text :label="integralStatistics.reduce" color="decolor"/>
                             </view>
                         </tm-col>
                         <tm-col :col="4">
                             <view class="flex-row flex-row-top-center">
                                 <tm-text label="当前积分:" color="grey" class="mr-10"/>
-                                <tm-text label="2" color="decolor"/>
+                                <tm-text :label="useUserStore().$state.integral" color="decolor"/>
                             </view>
                         </tm-col>
                     </tm-row>
@@ -36,18 +36,18 @@
                           :padding="[32,12]" :margin="[0]" :border="1" :width="0" :height="0">
                     <tm-row :width="0">
                         <tm-col :col="6" align="start">
-                            <tm-text label="日常签到" color="grey"/>
+                            <tm-text :label="IntegralType[pageListItem.type]" color="grey"/>
                         </tm-col>
                         <tm-col :col="6" align="end">
-                            <tm-text label="2" color="decolor"/>
+                            <tm-text :label="pageListItem.integral" color="decolor"/>
                         </tm-col>
                         <tm-col :col="6" align="start">
-                            <tm-text label="日常签到" color="grey"/>
+                            <tm-text :label="pageListItem.time" color="grey"/>
                         </tm-col>
                         <tm-col :col="6" align="end">
                             <view class="flex-row flex-row-top-center">
                                 <tm-text label="余额" color="grey" class="mr-10"/>
-                                <tm-text label="2" color="decolor"/>
+                                <tm-text :label="pageListItem.integral_balance" color="decolor"/>
                             </view>
                         </tm-col>
                     </tm-row>
@@ -65,9 +65,11 @@ import {onReady} from '@dcloudio/uni-app';
 import {getWindow, torpx} from '@/tmui/tool/function/util';
 import {getCouponList} from '@/services/api/coupon';
 import {enumToArr} from '@/utils/common/enum-to-arr';
-import {CouponStateEnum} from '@/enums/couponEnum';
+import {IntegralRecordTabs, IntegralType} from '@/enums/integralEnum';
+import {getIntegralRecord} from '@/services/api/integral';
+import {useUserStore} from '@/state/modules/user';
 
-const tabsTitle = enumToArr(CouponStateEnum);
+const tabsTitle = [{key: '', title: '全部'}, ...enumToArr(IntegralRecordTabs)];
 
 const tabsActice = ref(tabsTitle[0].key);
 
@@ -81,7 +83,11 @@ onReady(() => {
     }).exec();
 });
 
-const clsName = ref(null);
+const integralStatistics = ref({
+    total: 0,
+    increase: 0,
+    reduce: 0
+});
 
 const {
     loading,
@@ -93,7 +99,7 @@ const {
     onSuccess
 } = usePagination(
     (page: number, limit: number) =>
-        getCouponList({page, limit, type: tabsActice.value}),
+        getIntegralRecord({page, limit, type: tabsActice.value}),
     {
         watchingStates: [tabsActice],
         preloadPreviousPage: false,
@@ -103,8 +109,9 @@ const {
         initialPageSize: 10
     }
 );
-onSuccess(() => {
+onSuccess((data) => {
     pull.value = false;
+    integralStatistics.value = {total: data.data.total, increase: data.data.increase, reduce: data.data.reduce};
 });
 
 </script>

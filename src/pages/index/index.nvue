@@ -94,13 +94,13 @@
                 </tm-scrollx>
             </template>
         </tm-card>
-        <tm-adsorb :offset="[left,top-200]" :adsorb="false" :width="120" :height="120">
+        <tm-adsorb :offset="[left,top-200]" :width="120" :height="120">
             <tm-translate name="zoom">
                 <tm-image src="https://pic.pimg.tw/bamboo333/1678450019-3016922529-g_l.jpg" :height="120"
                           :width="120" @click="useRouter().go('/pages/integral/integral-raffle')"></tm-image>
             </tm-translate>
         </tm-adsorb>
-        <tm-adsorb :offset="[left,top]" :width="120" :height="120">
+        <tm-adsorb :offset="[left,top]" width="120" :height="120">
             <tm-translate name="zoom">
                 <tm-image src="https://pic.pimg.tw/bamboo333/1678450019-3016922529-g_l.jpg" :height="120"
                           :width="120" @click="useRouter().go('/pages/coupon/happy')"></tm-image>
@@ -116,7 +116,7 @@ import {useRouter} from '@/hooks/router';
 import {getHome} from '@/services/api/home';
 import {useSettingStore} from '@/state/modules/setting';
 import _ from 'lodash';
-import {getWindow} from '../../tmui/tool/function/util';
+import {getWindow} from '@/tmui/tool/function/util';
 import {getCouponWxList} from '@/services/api/coupon';
 
 const showWin = ref(false);

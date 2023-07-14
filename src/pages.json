@@ -26,6 +26,16 @@
       }
     },
     {
+      "path": "pages/shop/shop-info",
+      "style": {
+        "navigationBarTitleText": "商品详情",
+        "navigationStyle": "custom"
+      },
+      "meta": {
+        "ignoreAuth": true
+      }
+    },
+    {
       "path": "pages/businesses/businesses-list",
       "style": {
         "navigationBarTitleText": "商户中心"

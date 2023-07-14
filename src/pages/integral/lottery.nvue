@@ -36,7 +36,7 @@ import {usePagination} from '@alova/scene-vue';
 import {getCouponList} from '@/services/api/coupon';
 import {getIntegralShopList, getMyIntegralShop} from '@/services/api/integral';
 import _ from 'lodash';
-import {IntegralStartType} from '@/enums/integral';
+import {IntegralStartType} from '@/enums/integralEnum';
 import {enumToArr} from '@/utils/common/enum-to-arr';
 
 const integralAllType = enumToArr(IntegralStartType);

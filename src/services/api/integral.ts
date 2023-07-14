@@ -1,4 +1,5 @@
 import {request} from '@/utils/http';
+import {IntegralRecord} from '@/services/model/integral';
 
 /**
  * 积分商品列表
@@ -33,4 +34,22 @@ export function applyIntegralShop(products_id: number, points: number) {
  */
 export function getMyIntegralShop(pageParams: PageParams) {
     return request.Get<[IntegralShop]>('getProductsInfo', {params: pageParams});
+}
+
+
+/**
+ * 积分签到
+ * @returns {any}
+ */
+export function applyIntegralSignIn() {
+    return request.Get<any>('signIn');
+}
+
+
+/**
+ * 积分明细
+ * @returns {any}
+ */
+export function getIntegralRecord(pageParams: PageParams) {
+    return request.Get<[IntegralRecord]>('getSignList', {params: pageParams});
 }

@@ -23,7 +23,8 @@
             <tm-result v-if="pageList.length === 0 && loading === false" status="empty" :show-btn="false"></tm-result>
             <view class="mt-20"></view>
             <tm-waterfall ref="wall" :width="686" class="mx-32">
-                <tm-waterfall-item :img="pageItem.img" v-for="(pageItem,index) in pageList" :key="pageItem.id">
+                <tm-waterfall-item @click="useRouter().go('/pages/shop/shop-info?id=' + pageItem.id)"
+                                   :img="pageItem.img" v-for="(pageItem,index) in pageList" :key="pageItem.id">
                     <view class="pt-12 pb-12 px-12">
                         <tm-text :label="pageItem.name" _class="text-overflow-2"></tm-text>
                         <view class="flex flex-row flex-row-bottom-start mt-24">

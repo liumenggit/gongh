@@ -6,6 +6,7 @@ import {Coupon} from '@/services/model/coupon';
 declare interface Business {
     coupon_list: [Coupon];
     info: BusinessInfo;
+    goods_list:[ShopGoodsInfo]
 }
 
 

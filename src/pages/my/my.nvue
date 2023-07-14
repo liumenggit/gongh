@@ -26,36 +26,21 @@
             <template v-slot:content>
                 <tm-grid :width="638" :col="4">
                     <tm-grid-item :height="120" url="/pages/my/card-pack?type=2">
-                        <tm-icon name="td-archive" :font-size="60"></tm-icon>
-                        <view class="flex-row flex-row-center-between">
-                            <tm-text _class="pt-10" :font-size="22" label="已核销"></tm-text>
-                            <tm-text _class="pt-10 pl-5" :font-size="22" :label="`${useUserInfo.writeOffCouponCount}张`"
-                                     color="decolor"></tm-text>
-                        </view>
+                        <tm-text :font-size="50" :label="useUserInfo.integral" color="decolor"></tm-text>
+                        <tm-text _class="pt-10" :font-size="22" label="积分"></tm-text>
                     </tm-grid-item>
-                    <tm-grid-item :height="120">
-                        <tm-icon name="td-box" :font-size="60"></tm-icon>
-                        <view class="flex-row flex-row-center-between">
-                            <tm-text _class="pt-10" :font-size="22" label="已优惠"></tm-text>
-                            <tm-text _class="pt-10 pl-5" :font-size="22" :label="`${useUserInfo.discountAmount || 0}元`"
-                                     color="decolor"></tm-text>
-                        </view>
+                    <tm-grid-item :height="120" @click="showBalance = !showBalance">
+                        <tm-text v-if="showBalance" :font-size="50" :label="useUserInfo.integral" color="decolor"/>
+                        <tm-icon v-else name="tmicon-eye" :font-size="64"/>
+                        <tm-text _class="pt-10" :font-size="22" label="余额"></tm-text>
                     </tm-grid-item>
-                    <tm-grid-item :height="120" url="/pages/my/card-pack?type=1">
-                        <tm-icon name="td-clipboard" :font-size="60"></tm-icon>
-                        <view class="flex-row flex-row-center-between">
-                            <tm-text _class="pt-10" :font-size="22" label="可使用"></tm-text>
-                            <tm-text _class="pt-10 pl-5" :font-size="22" :label="`${useUserInfo.couponCount}张`"
-                                     color="decolor"></tm-text>
-                        </view>
+                    <tm-grid-item :height="120" url="/pages/my/card-pack?type=2">
+                        <tm-text :font-size="50" :label="useUserInfo.couponCount || '--'" color="decolor"></tm-text>
+                        <tm-text _class="pt-10" :font-size="22" label="优惠券"></tm-text>
                     </tm-grid-item>
-                    <tm-grid-item :height="120" url="/pages/my/card-pack?type=1">
-                        <tm-icon name="td-clipboard" :font-size="60"></tm-icon>
-                        <view class="flex-row flex-row-center-between">
-                            <tm-text _class="pt-10" :font-size="22" label="可使用"></tm-text>
-                            <tm-text _class="pt-10 pl-5" :font-size="22" :label="`${useUserInfo.couponCount}张`"
-                                     color="decolor"></tm-text>
-                        </view>
+                    <tm-grid-item :height="120" url="/pages/my/card-pack?type=2">
+                        <tm-text :font-size="50" :label="useUserInfo.integral" color="decolor"></tm-text>
+                        <tm-text _class="pt-10" :font-size="22" label="本月订单"></tm-text>
                     </tm-grid-item>
                 </tm-grid>
             </template>
@@ -67,7 +52,7 @@
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="积分商城"></tm-text>
                     </tm-grid-item>
-                    <tm-grid-item :height="120"  @click="useRouter().go('/pages/integral/integral-signIn')">
+                    <tm-grid-item :height="120" @click="useRouter().go('/pages/integral/integral-signIn')">
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="签到得积分"></tm-text>
                     </tm-grid-item>
@@ -119,6 +104,12 @@
         <!--            </template>-->
         <!--        </tm-card>-->
         <tm-card title="管理员" :round="3">
+            <template v-slot:title>
+                <view class="flex-row flex-row-center-start">
+                    <tm-text label="管理员" _class="text-weight-b"/>
+                    <tm-text :label="`账户余额：${useUserInfo.integral}`" class="ml-40"/>
+                </view>
+            </template>
             <template v-slot:content>
                 <tm-grid :width="638" :col="4">
                     <tm-grid-item :height="120" @click="useRouter().go('/pages/my/business/employee-list')">
@@ -161,6 +152,7 @@ import {useAuthStore} from '@/state/modules/auth';
 import TdText from '@/components/td-text/td-text.vue';
 
 const useUserInfo = useUserStore().$state;
+const showBalance = ref(false);
 const alertContent = ref([
     {
         icon: 'tmicon-alert',

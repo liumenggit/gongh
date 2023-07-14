@@ -23,8 +23,27 @@
             </view>
         </tm-sheet>
         <tm-tabs :width="750" align="around" :swiper="true" :item-width="210" color="grey-3" activeColor="white"
-                 item-model="card" :height="getWindow().height * 2" default-name="shangpin">
-            <tm-tabs-pane name="shangpin" title="优惠">
+                 item-model="card" :height="getWindow().height * 2" default-name="goods_list">
+            <tm-tabs-pane name="goods_list" title="商品">
+                <tm-waterfall ref="wall" :width="686" class="mx-32">
+                    <tm-waterfall-item @click="useRouter().go('/pages/shop/shop-info?id=' + goodsItem.id)"
+                                       :img="goodsItem.img" v-for="(goodsItem,index) in businessInfo.goods_list" :key="goodsItem.id">
+                        <view class="pt-12 pb-12 px-12">
+                            <tm-text :label="goodsItem.name" _class="text-overflow-2"></tm-text>
+                            <view class="flex flex-row flex-row-bottom-start mt-24">
+                                <tm-text color="orange" _class="px-10" :font-size="36" :label='goodsItem.price'></tm-text>
+                                <tm-text color="grey" :font-size="24" :label='goodsItem.num'></tm-text>
+                            </view>
+                        </view>
+                    </tm-waterfall-item>
+                </tm-waterfall>
+            </tm-tabs-pane>
+            <tm-tabs-pane name="jieshao" title="介绍">
+                <view class="fulled fulled-height pa-32">
+                    <tm-html :content="businessInfo.info.content"></tm-html>
+                </view>
+            </tm-tabs-pane>
+            <tm-tabs-pane name="coupon_list" title="优惠">
                 <view class="fulled fulled-height">
                     <view class="mb-16"/>
                     <tm-coupon v-for="couponItem in businessInfo.coupon_list" color="pink" linear="right"
@@ -39,17 +58,6 @@
                             <tm-text :font-size="22" _class="opacity-7" :label="couponItem.remark"></tm-text>
                         </template>
                     </tm-coupon>
-                </view>
-
-            </tm-tabs-pane>
-            <tm-tabs-pane name="jieshao" title="介绍">
-                <view class="fulled fulled-height pa-32">
-                    <tm-html :content="businessInfo.info.content"></tm-html>
-                </view>
-            </tm-tabs-pane>
-            <tm-tabs-pane name="youhui" title="优惠">
-                <view class="fulled fulled-height pa-32">
-                    <tm-html :content="businessInfo.info.content"></tm-html>
                 </view>
             </tm-tabs-pane>
         </tm-tabs>

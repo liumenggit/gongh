@@ -1,3 +1,5 @@
+import {getIntegralRecord} from '@/services/api/integral';
+
 declare interface IntegralCate {
     id: number,
     name: string,
@@ -105,5 +107,55 @@ declare interface IntegralShop {
      * 使用开始时间
      */
     use_start_time: string;
+}
+
+
+
+declare interface IntegralRecord{
+    /**
+     * 操作内容
+     */
+    content: string;
+    /**
+     * 积分商品分类id
+     */
+    goca_id: number;
+    /**
+     * 积分商品id
+     */
+    goods_id: number;
+    id: number;
+    /**
+     * 积分数
+     */
+    integral: number;
+    /**
+     * 积分余额
+     */
+    integral_balance: number;
+    /**
+     * 积分变更类型 1增加 2减少
+     */
+    integral_type: number;
+    /**
+     * 已结算年度
+     */
+    settlement_year: number;
+    /**
+     * 时间
+     */
+    time: string;
+    /**
+     * 类型 1签到2核销3后台|4 积分抽奖
+     */
+    type: number;
+    /**
+     * 用户姓名
+     */
+    user: string;
+    /**
+     * 用户ID
+     */
+    user_id: number;
 }
 

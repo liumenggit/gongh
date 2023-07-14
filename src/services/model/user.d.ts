@@ -51,6 +51,10 @@ export declare interface UserInfoState {
      */
     integral: number;
     /**
+     * 判断今天是否签到
+     */
+    isIntegralCheck: number;
+    /**
      * 真是姓名
      */
     name: string;
@@ -87,6 +91,7 @@ export declare interface UserInfoState {
      */
     zuzhi: number;
 }
+
 
 /**
  * 完善用户参数

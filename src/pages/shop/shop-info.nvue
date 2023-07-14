@@ -1,0 +1,50 @@
+<template>
+    <tm-app>
+        <tm-image :src="shopGoodsInfo.info.img" extra :width="750" :height="500">
+            <template v-slot:extra>
+                <view class="fulled pa-20 flex-row flex-row-center-between black opacity-4">
+                    <tm-text :label="shopGoodsInfo.info.name" class="flex-1" color="white"/>
+                    <tm-divider vertical></tm-divider>
+                    <tm-text :label="`￥${shopGoodsInfo.info.price}`" color="white"/>
+                </view>
+            </template>
+        </tm-image>
+        <tm-sheet :margin="[0,24]">
+            <td-text prefix-icon="td-bug" :label="shopGoodsInfo.info.title"/>
+            <td-text prefix-icon="td-bug" :label="shopGoodsInfo.info.phone"/>
+            <td-text prefix-icon="td-bug" :label="shopGoodsInfo.info.address"/>
+        </tm-sheet>
+        <tm-sheet :margin="[0,0]">
+            <tm-text :font-size="24" _class="font-weight-b" label="商品详情"></tm-text>
+            <tm-divider></tm-divider>
+            <tm-html :content="shopGoodsInfo.info.remark"/>
+        </tm-sheet>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+
+import {onLoad} from '@dcloudio/uni-app';
+import {getShopGoodsInfo} from '@/services/api/shop';
+import {useRequest} from 'alova';
+import TdText from '@/components/td-text/td-text.vue';
+
+const {
+    loading,
+    data: shopGoodsInfo,
+    send
+} = useRequest((id) => getShopGoodsInfo(id), {
+    initialData: {},
+    immediate: false,
+});
+
+onLoad((option) => {
+    send(option?.id);
+});
+
+
+</script>
+
+<style scoped>
+
+</style>
