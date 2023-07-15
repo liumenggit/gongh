@@ -4,7 +4,6 @@ import {
     BusinessInfo,
     BusinessListParams,
     BusinessParams, BusinessPayInfo,
-    BusinessType,
     BusinessTypeRes, BusinessUserInfo, BusinessWithdrawalInfo
 } from '@/services/model/business';
 
@@ -97,4 +96,13 @@ export function applyBusinessWithdrawal(money: number) {
  */
 export function getBusinessOrderList(pageParams: PageParams) {
     return request.Get<[any]>('order_list', {params: pageParams});
+}
+
+
+/**
+ * 获取商户二维码
+ * @returns {any}
+ */
+export function getBusinessQrcode() {
+    return request.Get<{ src: string }>('business_code');
 }

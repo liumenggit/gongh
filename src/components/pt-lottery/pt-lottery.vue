@@ -108,6 +108,7 @@
 			},
 			// 开始旋转
 			init(index){
+          console.log('init',index);
 				let _this = this
 				if(this.is_lottery){
 					console.log('正在抽奖中，请等待本轮抽奖结束再进行下次抽奖')
@@ -124,12 +125,15 @@
 						})
 					}
 				}
-				var awardIndex = 0;
-				if(index){
-					awardIndex = index
-				}else{
-					awardIndex = Math.ceil(Math.random()*this.showPrizeList.length-1)
-				}
+//				var awardIndex = 0;
+				var awardIndex = index
+//				if(index){
+//					console.log('有',index);
+//					awardIndex = index
+//				}else{
+//					console.log('没有',index);
+//					awardIndex = Math.ceil(Math.random()*this.showPrizeList.length-1)
+//				}
 				this.runDegs = this.runDegs || 0
 				this.runDegs = this.runDegs + (360 - this.runDegs % 360) + (360 * this.showPrizeList.length - awardIndex * (360 / this.showPrizeList.length))
 				var animationRun = uni.createAnimation({

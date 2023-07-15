@@ -1,73 +1,67 @@
 <template>
-    <tm-app>
-        <view class="mt-n20">
+    <tm-app :bg-img="integralLotteryInfo.background_image">
+        <!--        {{ integralLotteryInfo }}-->
+        <view style="margin-top: 15vh">
             <pt-lottery
+                v-if="integralLotteryInfo?.goods?.length"
                 ref="pt-lottery"
                 lotteryBg="../../static/lotteryBg.png"
                 lotteryBtn="../../static/lotteryBtn.png"
-                :times="3"
-                :prizeList="prizeList"
+                :times="10"
+                :prizeList="integralLotteryInfo.goods"
                 :showTimes="false"
                 @start="start"
                 @end="end">
             </pt-lottery>
         </view>
-        <view class="fulled flex flex-center flex-col mt-n20">
+        <view class="fulled flex flex-center flex-col" style="margin-top: 10vh">
             <tm-text _class="mt-15" label="抽奖规则" color="black"></tm-text>
-            <tm-text _class="mt-15" label="每人每天抽奖最多：5次" color="black"></tm-text>
-            <tm-text _class="mt-15" label="每次消耗积分：5积分" color="black"></tm-text>
-            <tm-text _class="mt-n20" label="呼伦贝尔总会" color="black"></tm-text>
+            <tm-text _class="mt-15" :label="`每人每天抽奖最多：${integralLotteryInfo.daily_frequency}次`"
+                     color="black"></tm-text>
+            <tm-text _class="mt-15" :label="`每次消耗：${integralLotteryInfo.use_integral}积分`" color="black"></tm-text>
         </view>
     </tm-app>
 </template>
 <script lang="ts" setup>
 import {getCurrentInstance, Ref, ref} from 'vue';
 import PtLottery from '../../components/pt-lottery/pt-lottery.vue';
-import {useUserStore} from '../../state/modules/user';
+import {useRequest} from 'alova';
+import {aoolyIntegralLotteryDraw, getIntegralLotteryInfo} from '@/services/api/integral';
+import _ from 'lodash';
+import {toast} from '@/tmui/tool/function/util';
 
 const {proxy} = getCurrentInstance();
 const prizeIndex: Ref<number> = ref(0);
 
-interface Prize {
-    prizeName: string;
-    prizeIcon: string;
-}
+const {
+    data: integralLotteryInfo,
+    onSuccess
+} = useRequest(() => getIntegralLotteryInfo(), {
+    initialData: {},
+    immediate: true,
+});
 
-const prizeList: Prize[] = [
-    {
-        prizeName: 'iphone 12',
-        prizeIcon: useUserStore().avatar,
-    },
-    {
-        prizeName: 'iphone 11',
-        prizeIcon: useUserStore().avatar,
-    },
-    // 省略其他奖品数据项
-];
+
+const {
+    data: prizeInfo,
+    send
+} = useRequest((id) => aoolyIntegralLotteryDraw(id), {
+    initialData: {},
+    immediate: false,
+});
 
 const start = (): void => {
-
-    prizeIndex.value = Math.ceil(Math.random() * 1);
-    const ptLottery: any = proxy.$refs['pt-lottery'];
-    ptLottery.init(prizeIndex.value);
+    send(integralLotteryInfo.value.id).then((prize) => {
+        console.log('奖品', prize);
+        const index = _.findIndex(integralLotteryInfo.value.goods, {id: prize.id});
+        console.log('index', prize, index);
+        const ptLottery: any = proxy.$refs['pt-lottery'];
+        ptLottery.init(index);
+    });
 };
 
 const end = (): void => {
-    switch (prizeIndex.value) {
-        case 1:
-            uni.showToast({
-                icon: 'none',
-                title: '未中奖，再接再厉!',
-            });
-            break;
-        default:
-            uni.showToast({
-                icon: 'none',
-                title: '恭喜您获取' + prizeList[prizeIndex.value].prizeName,
-            });
-            console.log(prizeIndex.value);
-            break;
-    }
+    // toast(prizeInfo.value.id);
 };
 
 </script>

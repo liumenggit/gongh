@@ -46,6 +46,25 @@
       }
     },
     {
+      "path": "pages/my/business/goods-list",
+      "style": {
+        "navigationBarTitleText": "商品管理",
+        "disableScroll": true
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/my/business/goods-add",
+      "style": {
+        "navigationBarTitleText": "添加商品"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
       "path": "pages/businesses/businesses-info",
       "style": {
         "navigationBarTitleText": "商户信息",
@@ -59,6 +78,15 @@
       "path": "pages/qrcode/pay",
       "style": {
         "navigationBarTitleText": "扫码商家"
+      },
+      "meta": {
+        "ignoreAuth": false
+      }
+    },
+    {
+      "path": "pages/qrcode/qrcode-down",
+      "style": {
+        "navigationBarTitleText": "下载二维码"
       },
       "meta": {
         "ignoreAuth": false
@@ -213,7 +241,7 @@
         "navigationBarTitleText": "绑定用户信息"
       },
       "meta": {
-        "ignoreAuth": false
+        "ignoreAuth": true
       }
     },
     {

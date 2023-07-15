@@ -100,4 +100,9 @@
     <tree path="/src/services/model/integral.d.ts" title="积分"/>
     <tree path="/src/pages/my/feedback.nvue" title="反馈"/>
     <tree path="/src/pages/my/message.nvue" title="消息通知"/>
+    <tree path="/src/services/api/integral.ts" title="积分"/>
+    <tree path="/src/pages/businesses/businesses-goods.nvue" title="商品管理"/>
+    <tree path="/src/pages/my/business/business-goods.nvue" title="商品管理"/>
+    <tree path="/src/pages/my/business/goods-list.nvue" title="商品管理"/>
+    <tree path="/src/pages/my/business/goods-add.nvue" title="添加商品"/>
 </trees>

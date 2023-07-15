@@ -53,6 +53,8 @@ import {useCaptcha} from '@alova/scene-vue';
 import {onLoad} from '@dcloudio/uni-app';
 import {useUserStore} from '../../state/modules/user';
 import {useSettingStore} from '@/state/modules/setting';
+import {useRouter} from '@/hooks/router';
+import {useAuthStore} from '@/state/modules/auth';
 
 const bindUserParams: Ref<BindUserParams> = ref({
     phone: null,
@@ -114,8 +116,11 @@ onLoad((option) => {
 const confirm = (e: any) => {
     if (e.validate) {
         console.log(bindUserParams.value);
-        useUserStore().bind(bindUserParams.value).then(() => {
+        useUserStore().bind(bindUserParams.value).then((userInfo) => {
             console.log('完善成功');
+            useAuthStore().setToken(userInfo.token);
+            useUserStore().updateUserInfo();
+            useRouter().go('/pages/my/my')
         });
         // useUserStore().setPhone(e.data).then(() => {
         //     setTimeout(() => {

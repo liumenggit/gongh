@@ -159,3 +159,137 @@ declare interface IntegralRecord{
     user_id: number;
 }
 
+
+
+
+declare interface IntegralLotterySetting{
+    /**
+     * 规则设置
+     */
+    archive: string;
+    /**
+     * 转盘背景图
+     */
+    background_image: string;
+    /**
+     * 每日抽奖次数
+     */
+    daily_frequency: number;
+    /**
+     * 结束时间
+     */
+    end_time: string;
+    /**
+     * 奖品列表
+     */
+    goods: [IntegralLotteryGood];
+    /**
+     * 活动ID
+     */
+    id: number;
+    /**
+     * 活动名称
+     */
+    name: string;
+    /**
+     * 指针图
+     */
+    pointer_image: string;
+    /**
+     * 奖品设置
+     */
+    prize: null;
+    /**
+     * 开始时间
+     */
+    start_time: string;
+    /**
+     * 状态(1开启 0禁用)
+     */
+    status: string;
+    /**
+     * 总抽奖次数
+     */
+    total_degree: number;
+    /**
+     * 转盘图
+     */
+    turntable_image: string;
+    /**
+     * 消耗积分
+     */
+    use_integral: number;
+}
+
+export interface IntegralLotteryGood {
+    /**
+     * 活动ID
+     */
+    activity_id?: number;
+    /**
+     * 商家ID
+     */
+    business_id?: number;
+    created_at?: string;
+    /**
+     * 使用须知
+     */
+    detail?: null;
+    /**
+     * 使用结束时间
+     */
+    end_time?: string;
+    /**
+     * 奖品Id
+     */
+    id?: number;
+    /**
+     * 奖品图片
+     */
+    image?: null;
+    /**
+     * 奖励积分
+     */
+    integral?: number;
+    /**
+     * 奖品名称
+     */
+    name?: string;
+    /**
+     * 奖品数量
+     */
+    number?: number;
+    /**
+     * 支付现金
+     */
+    pay?: number;
+    /**
+     * 到店支付(1 是 0 否)
+     */
+    pay_type?: number;
+    /**
+     * 中奖概率 百分比
+     */
+    probability?: string;
+    /**
+     * 市场参考价
+     */
+    reference_price?: null;
+    /**
+     * 排序
+     */
+    sort?: number;
+    /**
+     * 使用开始时间
+     */
+    start_time?: string;
+    /**
+     * 奖品副标题
+     */
+    subtitle?: string;
+    /**
+     * 类型（1积分 2奖品）
+     */
+    type?: number;
+    updated_at?: string;
+}

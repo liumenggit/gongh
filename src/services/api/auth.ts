@@ -10,7 +10,7 @@ const REFRESH_TOKEN = 'refreshToken';
  * @param code
  */
 export function userWxlogin(code: WxLoginParams) {
-    return request.Post<UserInfoState>(LOGIN, {code: code});
+    return request.Post<{ token: string }>(LOGIN, {code: code});
 }
 
 export function userPhonelogin(params: PhoneLoginParams) {

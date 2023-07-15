@@ -1,5 +1,11 @@
 import {request} from '@/utils/http';
-import {IntegralRecord} from '@/services/model/integral';
+import {
+    IntegralLotteryGood,
+    IntegralLotteryInfo,
+    IntegralLotterySetting,
+    IntegralRecord,
+    IntegralShop
+} from '@/services/model/integral';
 
 /**
  * 积分商品列表
@@ -52,4 +58,33 @@ export function applyIntegralSignIn() {
  */
 export function getIntegralRecord(pageParams: PageParams) {
     return request.Get<[IntegralRecord]>('getSignList', {params: pageParams});
+}
+
+
+/**
+ * 积分抽奖设置
+ * @returns {any}
+ */
+export function getIntegralLotteryInfo() {
+    return request.Get<IntegralLotterySetting>('getIntegralActivity', {
+        transformData(rawData) {
+            // @ts-ignore
+            return {
+                ...rawData,
+                goods: rawData.goods.map((item: any) => {
+                    // eslint-disable-next-line camelcase
+                    return {...item, prizeName: item.name, prizeIcon: item.image};
+                })
+            };
+        }
+    });
+}
+
+
+/**
+ * 抽奖
+ * @returns {any}
+ */
+export function aoolyIntegralLotteryDraw(id: number) {
+    return request.Get<IntegralLotteryGood>('lotteryDraw', {params: {id}});
 }

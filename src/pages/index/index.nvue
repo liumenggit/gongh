@@ -77,7 +77,7 @@
         </tm-card>
         <tm-card title="热门商家" :round="3" status-color="grey" v-if="homeData?.business_list?.length">
             <template v-slot:status>
-                <tm-text label="更多>" color="grey" @click="useRouter().go('/pages/businesses/businesses')"/>
+                <tm-text label="更多>" color="grey" @click="useRouter().go('/pages/businesses/businesses-list')"/>
             </template>
             <template v-slot:content>
                 <tm-scrollx :width="686" :height="300" :show-bar="false">

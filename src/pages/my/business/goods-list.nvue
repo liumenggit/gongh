@@ -1,0 +1,97 @@
+<template>
+    <tm-app>
+        <view class="fulled pa-20 flex-row flex-row-center-center nowrap">
+            <tm-input @search="search" v-model.lazy="searchLazy" searchLabel="搜索"
+                      placeholder="商品名称" class="flex-1"
+                      color="red"/>
+            <td-text @click="useRouter().go('/pages/my/business/goods-add')" prefix-icon="tmicon-plus-circle-fill"
+                     label="添加商品" class="ml-30"/>
+        </view>
+        <tm-scrolly v-model="pull" :round="3" @refresh="reload" :width="0" :height="scrollHeight"
+                    translate="yes" @bottom="()=>{if(!isLastPage) page++;}" :bottom-value="loading" class="hei">
+            <tm-result v-if="pageList.length === 0 && loading === false" status="empty" :show-btn="false"></tm-result>
+            <view class="ma-25">
+                <tm-waterfall ref="wall" :width="700">
+                    <tm-waterfall-item @click="useRouter().go('/pages/integral/integral-shop-info?id=' + pageItem.id)"
+                                       :img="pageItem.image" v-for="(pageItem,index) in pageList">
+                        <view class="pt-12 pb-12 px-12">
+                            <tm-text :label="pageItem.name" _class="text-overflow-2"></tm-text>
+                            <view class="flex flex-row flex-row-bottom-start mt-24">
+                                <tm-text color="orange" _class="px-10" :font-size="36"
+                                         :label='pageItem.points'></tm-text>
+                                <tm-text color="grey" :font-size="24" :label='pageItem.stock'></tm-text>
+                            </view>
+                        </view>
+                    </tm-waterfall-item>
+                </tm-waterfall>
+            </view>
+            <tm-divider v-if="isLastPage" align="center" label="没有更多数据"/>
+        </tm-scrolly>
+    </tm-app>
+</template>
+
+<script setup lang="ts">
+import {getCurrentInstance, ref} from 'vue';
+import {useSettingStore} from '../../../state/modules/setting';
+import {useUserStore} from '../../../state/modules/user';
+import {useRouter} from '../../../hooks/router';
+import {onReady} from '@dcloudio/uni-app';
+import {getWindow, torpx} from '../../../tmui/tool/function/util';
+import {usePagination} from '@alova/scene-vue';
+import {getCouponList} from '../../../services/api/coupon';
+import {getIntegralShopList, getMyIntegralShop} from '../../../services/api/integral';
+import _ from 'lodash';
+import {IntegralStartType} from '../../../enums/integralEnum';
+import {enumToArr} from '../../../utils/common/enum-to-arr';
+import TdText from '../../../components/td-text/td-text.vue';
+
+const searchLazy = ref('');
+let searchText = ref('');
+
+const pull = ref(false);
+const scrollHeight = ref(400);
+const proxy = getCurrentInstance()?.proxy ?? null;
+onReady(() => {
+    const query = uni.createSelectorQuery().in(proxy);
+    query.select('.hei').boundingClientRect((result: any) => {
+        scrollHeight.value = torpx(getWindow().height - result.top);
+    }).exec();
+});
+
+
+const {
+    loading,
+    data: pageList,
+    isLastPage,
+    pageSize: limit,
+    page,
+    reload,
+    onSuccess
+} = usePagination(
+    (page: number, limit: number) =>
+        getMyIntegralShop({
+            page,
+            limit
+        }),
+    {
+        preloadPreviousPage: false,
+        preloadNextPage: false,
+        debounce: [500],
+        append: true,
+        initialPageSize: 10,
+        immediate: true
+    }
+);
+onSuccess(() => {
+    console.log('onSuccess', pageList.value);
+    pull.value = false;
+});
+
+const search = () => {
+    searchText.value = searchLazy.value;
+};
+</script>
+
+<style scoped>
+
+</style>

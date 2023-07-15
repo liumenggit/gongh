@@ -9,11 +9,12 @@ import {getBaseUrl, getPlatformId, getUploadUrl} from "@/utils/env";
  * @returns {boolean}
  */
 const isUploadSuccess = (item: file) => {
+    console.log('item',item);
     const d = item.response;
     let isOk = true;
     try {
         const p = JSON.parse(d);
-        if (p?.code !== ResultEnum.SUCCESS) {
+        if (p?.state !== ResultEnum.SUCCESS) {
             isOk = false;
         }
     } catch (e) {

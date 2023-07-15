@@ -1,0 +1,63 @@
+<template>
+    <tm-app ref="app">
+        {{ formData }}
+        <tm-form @submit="confirm" ref="form" v-model="formData" :label-width="190" :border="false" layout="vertical">
+            <tm-form-item field="name"
+                          :rules="[{required:true,message:'请输入商品名称',validator:(val)=>isChina(val)}]"
+                          required
+            >
+                <tm-input prefixLabel="商品名称" placeholder="请输入商品名称" :inputPadding="[12,0]"
+                          v-model.lazy="formData.name"
+                          :showBottomBotder="false"></tm-input>
+            </tm-form-item>
+            <tm-form-item field="price"
+                          :rules="[{required:true,message:'请输入商品价格'}]"
+                          required
+            >
+                <tm-input prefixLabel="商品价格" type="number" placeholder="请输入商品价格" :inputPadding="[12,0]"
+                          v-model.lazy="formData.price"
+                          :showBottomBotder="false"></tm-input>
+            </tm-form-item>
+            <tm-form-item required label="商品主图" field="images"
+            >
+                <tm-upload :rows="5" :width="636" :defaultValue="formData.images"
+                           v-model:model-value="formData.images"
+                           :url="getBaseUrl() + '/uploadFiles'"
+                           :on-success-after="isUploadSuccess"
+                ></tm-upload>
+            </tm-form-item>
+            <tm-form-item label="商品信息" required field="content"
+                          :rules="[{required:true,message:'请输入商品信息',validator:(val)=>isChina(val)}]">
+                <tm-input placeholder="文本域，输入自动增高。" confirm-hold confirm-type="换行"
+                          :height="200" showCharNumber :maxlength="500" :border="1" color="grey-5" type="textarea"
+                          :inputPadding="[12,0]" v-model.lazy="formData.content" :showBottomBotder="false"></tm-input>
+            </tm-form-item>
+            <tm-form-item :border="false">
+                <tm-button form-type="submit" label="提交表单" block></tm-button>
+            </tm-form-item>
+        </tm-form>
+    </tm-app>
+</template>
+<script lang="ts" setup>
+import {getCurrentInstance, ref} from 'vue';
+import {isChina, toast} from '@/tmui/tool/function/util';
+import {getBaseUrl, getPlatformId, getUploadUrl} from '@/utils/env';
+import {isUploadSuccess} from '@/utils/common/upload-file';
+import tmSignBoard from '@/tmui/components/tm-sign-board/tm-sign-board.vue';
+
+const {proxy} = getCurrentInstance();
+
+const formData = ref({
+    name: null,
+    price: 0,
+    content: null,
+    images: [],
+});
+
+const confirm = (e: any) => {
+    if (e.validate) {
+        toast('已经提交');
+        console.log('confirm', e);
+    }
+};
+</script>

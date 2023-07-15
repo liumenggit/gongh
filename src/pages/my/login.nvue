@@ -2,21 +2,44 @@
     <tm-app ref="app" :bg-img="useSettingStore().bgimg">
         <tm-text label="工会服务" :font-size="40" style="margin-top: 50vh" color="decolor"
                  class="fulled fulled-height text-align-center " _class="fulled fulled-height text-align-center"/>
-        <tm-button label="确认授权" @click="login" block :margin="[24,24]" style="margin-top: 30vh"></tm-button>
+        <tm-button label="确认授权" @click="login" :loading="loading" block :margin="[24,24]"
+                   style="margin-top: 30vh"></tm-button>
     </tm-app>
 </template>
 <script lang="ts" setup>
-import {useUserStore} from '@/state/modules/user';
 import {useSettingStore} from '@/state/modules/setting';
 import {useRouter} from '@/hooks/router';
+import {userWxlogin} from '@/services/api/auth';
+import {useAuthStore} from '@/state/modules/auth';
+import {useRequest} from 'alova';
+import {useUserStore} from '@/state/modules/user';
+import {toast} from '@/tmui/tool/function/util';
+
+const {
+    loading,
+    send
+} = useRequest((code) => userWxlogin(code), {
+    immediate: false,
+});
+
 
 const login = () => {
-    useUserStore().login().then(() => {
-        useRouter().back();
-    }).catch((err) => {
-        if (err.state === 5) {
-            useRouter().go('/pages/my/bind?openid=' + err.data.openid);
-        }
+    uni.login({
+        provider: 'weixin', // 使用微信登录
+        success: (loginRes) => {
+            console.log('loginRes', loginRes);
+            send(loginRes.code).then((userInfo) => {
+                useAuthStore().setToken(userInfo.token);
+                useUserStore().updateUserInfo();
+                toast('登录成功');
+                useRouter().back()
+            }).catch((err) => {
+                console.log('去完善');
+                if (err.state === 5) {
+                    useRouter().go('/pages/my/bind?openid=' + err.data.openid);
+                }
+            });
+        },
     });
 };
 </script>
