@@ -4,14 +4,14 @@ export function toCoupon(coupon: Coupon) {
     return {
         ...coupon,
         priceDetail: {
-            price: coupon.price || coupon.discount,
-            subtext: coupon.price,
-            prefix: coupon.price ? '￥' : '',
+            price: coupon.is_discount === 1 ? coupon.price : coupon.discount,
+            subtext: '',
+            prefix: coupon.is_discount === 1 ? '￥' : '',
             suffix: coupon.discount ? '折' : ''
         },
         rightDetail: {
             title: coupon.type_title,
-            subtitle: coupon.type_title,
+            subtitle: coupon.title,
             time: toRecType(coupon),
         }
     };

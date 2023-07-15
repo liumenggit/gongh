@@ -43,8 +43,10 @@
                 <view class="flex-row flex-row-center-start">
                     <tm-text label="可用余额" color="decolor" class="mr-20"/>
                     <!--                    <tm-text :label="businessPayInfo.db"/>-->
-                    <tm-statistic :end-val="businessPayInfo.db" :decimals="2" suffix="元"/>
-                    <!--                    <tm-statistic prefix="￥" :start-val="0" :end-val="20" :decimals="2"></tm-statistic>-->
+<!--                    <tm-statistic :start-val="businessPayInfo.db - 100" :end-val="businessPayInfo.db" :decimals="2"-->
+                    <!--                                  suffix="元"/>-->
+                    <tm-text :label="`${businessPayInfo.db}元`"></tm-text>
+<!--                    <tm-statistic prefix="￥" :start-val="0" :end-val="20" :decimals="2"></tm-statistic>-->
                 </view>
             </template>
             <template v-slot:content>
@@ -56,7 +58,8 @@
                 </view>
             </template>
         </tm-card>
-        <tm-button label="支付" block :margin="[32,32]"></tm-button>
+        <tm-button label="支付" :loading="payLoading" :disabled="payLoading" block :margin="[32,32]"
+                   @click="pay"></tm-button>
         <tm-drawer @ok="payParams.card_id = null" hideCancel okText="不使用" ref="calendarView" placement="bottom"
                    v-model:show="couponShow" :height="800" hideHeader>
             <tm-tabs :width="750" :height="800" item-model="line" align="around" showTabsLine showTabsLineAni>
@@ -67,9 +70,10 @@
                         <view class="mb-16"/>
                         <tm-coupon v-for="couponItem in businessPayInfo.coupon_card" color="pink" linear="right"
                                    linear-deep="accent" mainColor="yellow" font-color="" :key="couponItem.id"
-                                   :price-detail="{price:couponItem.coupon_info.price || couponItem.coupon_info.discount,subtext:'',prefix:'￥',suffix:''}"
-                                   :right-detail="{title:couponItem.coupon_info.title,subtitle:couponItem.coupon_info.type_title,time:couponItem.add_time}"
-                                   @click="payParams.card_id = couponItem.id;couponShow = false"
+                                   :price-detail="toCoupon(couponItem.coupon_info).priceDetail"
+                                   :right-detail="toCoupon(couponItem.coupon_info).rightDetail"
+
+                                   @click="selectCoupon(couponItem)"
                                    extra
                                    btn-label="立即使用"
                         >
@@ -89,7 +93,7 @@
                                    linear-deep="accent" mainColor="yellow" font-color="" :key="integralItem.id"
                                    :price-detail="{price:integralItem.coupon_info.price,subtext:'',prefix:'￥',suffix:''}"
                                    :right-detail="{title:integralItem.coupon_info.title,subtitle:'副标题',time:integralItem.eff_range}"
-                                   @click="payParams.card_id = integralItem.id;couponShow = false"
+                                   @click="selectIntegral(integralItem)"
                                    extra
                                    btn-label="立即使用"
                         >
@@ -106,17 +110,23 @@
 </template>
 
 
-<!--满减 折扣 兑换{订单}-->
+<!--满减 折扣 兑换{订单} market_price-->
 
 <script setup lang="ts">
 import {onLoad} from '@dcloudio/uni-app';
 import {useRequest} from 'alova';
 import {getBusinessInfo, getBusinessPayInfo} from '@/services/api/business';
 import {useUserStore} from '@/state/modules/user';
-import {computed, Ref, ref} from 'vue';
-import {useRouter} from '@/hooks/router';
+import {computed, Ref, ref, watch} from 'vue';
+import {useRoute, useRouter} from '@/hooks/router';
 import _ from 'lodash';
 import {CouponList} from '@/services/model/business';
+import {Coupon} from '@/services/model/coupon';
+import {IntegralShop} from '@/services/model/integral';
+import {payBusiness} from '@/services/api/pay';
+import {getQueryString, toast} from '@/tmui/tool/function/util';
+import {toCoupon} from '@/utils/common/conversion';
+import {NOT_FOUND_PAGE} from '@/enums/routerEnum';
 
 useUserStore().updateUserInfo();
 const couponShow = ref(false);
@@ -141,11 +151,63 @@ const activeCoupon: Ref<CouponList> = computed(() => {
 });
 
 
-onLoad((option) => {
-    option = {id: 2};
-    payParams.value.business_id = option?.id;
-    send(option?.id);
+function selectCoupon(coupon: CouponList) {
+    console.log('market_price', coupon, coupon.coupon_info.market_price);
+    if (!payParams.value.total) payParams.value.total = coupon.coupon_info.market_price;
+    payParams.value.card_id = coupon.id;
+    payParams.value.db = coupon.coupon_info.is_discount === 1 ? (payParams.value.total - coupon.coupon_info.price) : (payParams.value.total * (coupon.coupon_info.discount / 10));
+    couponShow.value = false;
+}
+
+function selectIntegral(integral: IntegralShop) {
+    payParams.value.total = integral.market_price;
+    payParams.value.integral_id = integral.id;
+    couponShow.value = false;
+}
+
+
+const {
+    loading: payLoading,
+    send: sendPay
+} = useRequest((payParams) => payBusiness(payParams), {
+    immediate: false,
 });
+
+
+onLoad((option) => {
+    // // option = {id: 2};
+    // console.log(getQueryString(option?.scene, 'id'));
+    // console.log('option', option?.scene, getQueryString('https://localhost?' + option?.scene, 'id'));
+
+    try {
+        const id = decodeURIComponent(option?.scene).match(/id=(\d+)/)[1];
+        payParams.value.business_id = id;
+        send(id);
+    } catch (error) {
+        useRouter().go(NOT_FOUND_PAGE);
+    }
+
+});
+
+watch([() => payParams.value.total], () => {
+    console.log('total', payParams.value.total);
+    payParams.value.db = payParams.value.total;
+    payParams.value.card_id = null;
+    payParams.value.integral_id = null;
+});
+
+function pay() {
+    console.log(payParams.value);
+    if (payParams.value.total || payParams.value.db) {
+        sendPay(payParams.value).then(() => {
+            toast('支付成功');
+        });
+    } else {
+        toast('商品价格与支付金额必须输入其中之一');
+        return;
+    }
+
+}
 </script>
 
 <style scoped>

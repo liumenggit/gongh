@@ -26,20 +26,20 @@
             <template v-slot:content>
                 <tm-grid :width="638" :col="4">
                     <tm-grid-item :height="120" url="/pages/my/card-pack?type=2">
-                        <tm-text :font-size="50" :label="useUserInfo.integral" color="decolor"></tm-text>
+                        <tm-text :font-size="50" :label="useUserInfo.integral" color="decolor" _style="font-size: clamp(20px, 3vw, 24px)"></tm-text>
                         <tm-text _class="pt-10" :font-size="22" label="积分"></tm-text>
                     </tm-grid-item>
                     <tm-grid-item :height="120" @click="showBalance = !showBalance">
-                        <tm-text v-if="showBalance" :font-size="50" :label="useUserInfo.integral" color="decolor"/>
+                        <tm-text v-if="showBalance" :font-size="50" :label="useUserInfo.integral" color="decolor" _style="font-size: clamp(20px, 3vw, 24px)"/>
                         <tm-icon v-else name="tmicon-eye" :font-size="64"/>
                         <tm-text _class="pt-10" :font-size="22" label="余额"></tm-text>
                     </tm-grid-item>
                     <tm-grid-item :height="120" url="/pages/my/card-pack?type=2">
-                        <tm-text :font-size="50" :label="useUserInfo.couponCount || '--'" color="decolor"></tm-text>
+                        <tm-text :font-size="50" :label="useUserInfo.couponCount || '--'" color="decolor" _style="font-size: clamp(20px, 3vw, 24px)"></tm-text>
                         <tm-text _class="pt-10" :font-size="22" label="优惠券"></tm-text>
                     </tm-grid-item>
                     <tm-grid-item :height="120" url="/pages/my/card-pack?type=2">
-                        <tm-text :font-size="50" :label="useUserInfo.integral" color="decolor"></tm-text>
+                        <tm-text :font-size="50" :label="useUserInfo.integral" color="decolor" _style="font-size: clamp(20px, 3vw, 24px)"></tm-text>
                         <tm-text _class="pt-10" :font-size="22" label="本月订单"></tm-text>
                     </tm-grid-item>
                 </tm-grid>
@@ -124,11 +124,11 @@
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="财务管理"></tm-text>
                     </tm-grid-item>
-                    <tm-grid-item :height="120" @click="useRouter().go('/pages/index/index')">
+                    <tm-grid-item :height="120" @click="useRouter().go('/pages/my/business/goods-list')">
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="商品管理"></tm-text>
                     </tm-grid-item>
-                    <tm-grid-item :height="120" @click="useRouter().go('/pages/index/index')">
+                    <tm-grid-item :height="120" @click="useRouter().go('/pages/qrcode/qrcode-down')">
                         <tm-icon name="td-archive" :font-size="60"></tm-icon>
                         <tm-text _class="pt-10" :font-size="22" label="收款码"></tm-text>
                     </tm-grid-item>

@@ -1,10 +1,7 @@
 <template>
     <tm-app>
-        <canvas style="width: 100vw;height: 100vh" canvas-id="myCanvas" id="myCanvas"></canvas>
-        <view class="fixed b-40 l-0 fulled flex-row flex-row-center-between px-50">
-            <tm-button label="微信分享" open-type="share" color="white" font-color="#25C89D" :round="10"></tm-button>
-            <tm-button @click="saveImage" label="保存到相册" color="white" outlined :round="10"></tm-button>
-        </view>
+        <canvas style="width: 100vw;height: 80vh" canvas-id="myCanvas" id="myCanvas"></canvas>
+        <tm-button icon="tmicon-download" :margin="[32,32]" @click="saveImage" label="下载" block :round="10"></tm-button>
     </tm-app>
 </template>
 
@@ -22,91 +19,51 @@ const tempFilePath = ref('');
 onReady(() => {
     const ctx = uni.createCanvasContext('myCanvas', this);
     const width = uni.upx2px(650);
-    const height = uni.upx2px(1100);
     const x = uni.upx2px(50);
-    const y = uni.upx2px(50);
-    const radius = uni.upx2px(16);
-    const y1 = uni.upx2px(150);
-    const y2 = uni.upx2px(430);
-    const avatarRadius = uni.upx2px(64);
     const qrcodeRadius = uni.upx2px(200);
-    const avatarY = uni.upx2px(200);
 
-    var left = 15;
-    var top1 = 15;
-    var width1 = 345;
-    var height1 = 20;
-    var borderRadius1 = 10;
-
-    ctx.beginPath();
-    ctx.moveTo(left + borderRadius1, top1);
-    ctx.lineTo(left + width1 - borderRadius1, top1);
-    ctx.quadraticCurveTo(left + width1, top1, left + width1, top1 + borderRadius1);
-    ctx.lineTo(left + width1, top1 + height1 - borderRadius1);
-    ctx.quadraticCurveTo(left + width1, top1 + height1, left + width1 - borderRadius1, top1 + height1);
-    ctx.lineTo(left + borderRadius1, top1 + height1);
-    ctx.quadraticCurveTo(left, top1 + height1, left, top1 + height1 - borderRadius1);
-    ctx.lineTo(left, top1 + borderRadius1);
-    ctx.quadraticCurveTo(left, top1, left + borderRadius1, top1);
-    ctx.fillStyle = 'rgba(20, 133, 103, 1)';
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
-    ctx.shadowBlur = 4;
-    ctx.fill();
-    ctx.closePath();
 
     ctx.save();
     ctx.fillStyle = '#FFFFFF';
-    ctx.fillRect(x, y, width, height);
+    ctx.fillRect(uni.upx2px(50), uni.upx2px(50), width, uni.upx2px(220));
 
 
-    // 缺口1
     ctx.save();
-    ctx.beginPath();
-    ctx.arc(x, y1, radius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.clip();
-    ctx.clearRect(x, y, width, height);
-    ctx.restore();
-    // 缺口2
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(x + width, y1, radius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.clip();
-    ctx.clearRect(x, y, width, height);
-    ctx.restore();
-    // 缺口3
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(x, y2, radius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.clip();
-    ctx.clearRect(x, y, width, height);
-    ctx.restore();
-    // 缺口3
-    ctx.save();
-    ctx.beginPath();
-    ctx.arc(x + width, y2, radius, 0, 2 * Math.PI);
-    ctx.closePath();
-    ctx.clip();
-    ctx.clearRect(x, y, width, height);
-    ctx.restore();
-    // 横线
-    ctx.beginPath();
-    ctx.moveTo(x + radius, y1);
-    ctx.lineTo(x + width - radius, y1);
-    ctx.strokeStyle = 'rgba(37, 200, 157, 1)';
-    ctx.setLineDash([5, 3]);
-    ctx.stroke();
-    ctx.closePath();
-    // 横线
-    ctx.beginPath();
-    ctx.moveTo(x + radius, y2);
-    ctx.lineTo(x + width - radius, y2);
-    ctx.strokeStyle = 'rgba(37, 200, 157, 1)';
-    ctx.setLineDash([5, 3]);
-    ctx.stroke();
-    ctx.closePath();
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(uni.upx2px(50), uni.upx2px(280), width, uni.upx2px(800));
+
+
+    // 第一行文字（红色，字体大小为15）
+    ctx.setFontSize(15);
+    ctx.setFillStyle('red');
+    ctx.setTextAlign('center');
+    ctx.setTextBaseline('middle');
+    ctx.fillText('商家名称', 75, 50);
+
+    // 第二行文字（黑色，字体大小为18）
+
+    ctx.setFillStyle('black');
+    ctx.setTextAlign('center');
+    ctx.setTextBaseline('middle');
+
+    const wightx = 170;  // 水平位置
+    const highty = uni.upx2px(150);    // 垂直位置
+    const lineHeight = 28;  // 行高
+
+    const text = '所有的习惯不可见的程度积聚起来如百溪汇于川百川流于海!';
+    const maxLength = 15;  // 每行最大字符数
+
+    let startIndex = 0;
+    let endIndex = maxLength;
+
+    while (startIndex < text.length) {
+        const lineText = text.substring(startIndex, endIndex);
+        ctx.fillText(lineText, wightx, highty + lineHeight * (startIndex / maxLength));
+
+        startIndex += maxLength;
+        endIndex = startIndex + maxLength;
+    }
+
 
     getBusinessQrcode().send().then((res) => {
         console.log('getShareQrcode');

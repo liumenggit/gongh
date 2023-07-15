@@ -102,7 +102,7 @@ export interface Coupon {
     /**
      * 折扣
      */
-    discount?: null;
+    discount: number;
     /**
      * 有效结束时间
      */
@@ -143,7 +143,7 @@ export interface Coupon {
     /**
      * 减免金额
      */
-    price: string;
+    price: number;
     /**
      * 投放结束时间
      */
@@ -180,6 +180,10 @@ export interface Coupon {
      * 卡券类型名称
      */
     type_title?: string;
+    /**
+     * 金额
+     */
+    market_price: number;
 }
 
 /**

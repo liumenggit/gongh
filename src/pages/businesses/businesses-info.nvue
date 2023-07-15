@@ -48,8 +48,8 @@
                     <view class="mb-16"/>
                     <tm-coupon v-for="couponItem in businessInfo.coupon_list" color="pink" linear="right"
                                linear-deep="accent" mainColor="yellow" font-color=""
-                               :price-detail="{price:couponItem.price,subtext:'',prefix:'￥',suffix:''}"
-                               :right-detail="{title:couponItem.title,subtitle:'副标题',time:couponItem.eff_range}"
+                               :price-detail="toCoupon(couponItem).priceDetail"
+                               :right-detail="toCoupon(couponItem).rightDetail"
                                @click="useRouter().go('/pages/coupon/coupon-info?id=' + couponItem.id)"
                                extra
                                btn-label="立即使用"
@@ -73,6 +73,7 @@ import {useRequest} from 'alova';
 import {useLocationStore} from '@/state/modules/location';
 import {useRoute, useRouter} from '@/hooks/router';
 import {getAppid} from '@/utils/env';
+import {toCoupon} from '@/utils/common/conversion';
 
 
 const {

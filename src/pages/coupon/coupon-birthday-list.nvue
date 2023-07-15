@@ -93,8 +93,8 @@
             <view class="mt-20"/>
             <tm-coupon v-for="pageItem in pageList" :key="pageItem.id" :color="pageItem.code" linear="right"
                        linear-deep="accent" mainColor="yellow" font-color=""
-                       :price-detail="{price:pageItem.price,subtext:'',prefix:'￥',suffix:''}"
-                       :right-detail="{title:pageItem.title,subtitle:'副标题',time:pageItem.eff_range}"
+                       :price-detail="toCoupon(pageItem).priceDetail"
+                       :right-detail="toCoupon(pageItem).rightDetail"
                        @click="useRouter().go('/pages/coupon/coupon-info?id=' + pageItem.id)"
                        extra
                        btn-label="立即使用"
@@ -118,6 +118,7 @@ import _ from 'lodash';
 import {getCouponBirthdayList, getCouponList, getMyCoupon} from '@/services/api/coupon';
 import {useSettingStore} from '@/state/modules/setting';
 import {useRouter} from '@/hooks/router';
+import {toCoupon} from '@/utils/common/conversion';
 
 const filter = ref<InstanceType<typeof tmFilterMenu | null>>(null);
 // 商家类型

@@ -105,4 +105,6 @@
     <tree path="/src/pages/my/business/business-goods.nvue" title="商品管理"/>
     <tree path="/src/pages/my/business/goods-list.nvue" title="商品管理"/>
     <tree path="/src/pages/my/business/goods-add.nvue" title="添加商品"/>
+    <tree path="/src/pages/qrcode/qrcode-down.nvue" title="下载商家二维码"/>
+    <tree path="/src/utils/common/conversion.ts" title="优惠券翻译"/>
 </trees>

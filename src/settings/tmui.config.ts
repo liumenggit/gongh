@@ -20,15 +20,15 @@ export const config: Tmui.tmuiConfig = {
         },
         useTmRouterAfter(arg) {
             console.log('tmui.config.route.useTmRouterAfter', arg);
-            const isIgnore = isIgnoreAuth(arg.path);
-            if (isIgnore) {
-                return true;
-            }
-            const authStore = useAuthStore();
-            if (authStore.isLogin) {
-                return true;
-            }
-            jumpLogin(arg.path);
+            // const isIgnore = isIgnoreAuth(arg.path);
+            // if (isIgnore) {
+            //     return true;
+            // }
+            // const authStore = useAuthStore();
+            // if (authStore.isLogin) {
+            //     return true;
+            // }
+            // jumpLogin(arg.path);
         },
     },
 };
